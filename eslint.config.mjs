@@ -74,6 +74,7 @@ export default ts.config(
                 'error',
                 'always'
             ],
+            '@typescript-eslint/no-unused-vars': 'off',
             'react/react-in-jsx-scope': 'off',
             'react/jsx-one-expression-per-line': 'error',
         },

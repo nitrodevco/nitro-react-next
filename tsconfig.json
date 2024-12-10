@@ -33,6 +33,12 @@
             "#assets/*": [
                 "../assets/*"
             ],
+            "#hooks": [
+                "hooks"
+            ],
+            "#hooks/*": [
+                "hooks/*"
+            ],
         }
     },
     "exclude": [

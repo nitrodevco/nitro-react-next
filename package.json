@@ -42,6 +42,12 @@
         ],
         "#assets/*": [
             "./assets/*"
+        ],
+        "#hooks": [
+            "./src/hooks"
+        ],
+        "#hooks/*": [
+            "./src/hooks/*"
         ]
     }
 }
