@@ -1,0 +1,49 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "target": "ES2022",
+        "lib": [
+            "ES2022",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "strict": false,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": false,
+        "paths": {
+            "#layout": [
+                "layout"
+            ],
+            "#layout/*": [
+                "layout/*"
+            ],
+            "#assets": [
+                "../assets"
+            ],
+            "#assets/*": [
+                "../assets/*"
+            ],
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "eslint.config.mjs",
+        "postcss.config.mjs",
+        "tailwind.config.mjs",
+        "vite.config.mts"
+    ],
+    "include": [
+        "src",
+        "node_modules/@nitrots/nitro-renderer/src/**/*.ts"
+    ]
+}
