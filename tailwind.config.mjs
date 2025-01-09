@@ -135,7 +135,6 @@ module.exports = {
                 '4xl': '2.441rem',
                 '5xl': '3.052rem',
             },
-          
             fontFamily: {
                 sans: [ 'Ubuntu' ],
             },
@@ -153,14 +152,12 @@ module.exports = {
                 'inventory-h': '320px'
             },
             borderRadius: {
-               
                 '3': '0.3rem',
-             
             },
             zIndex: {
                 'toolbar': '',
                 'loading': '100',
-                'chat-zindex': '20'
+                'chat': '20'
             },
             dropShadow: {
                 'hover': '2px 2px 0 rgba(0,0,0,0.8)'

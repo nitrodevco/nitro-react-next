@@ -18,7 +18,9 @@ export default {
         chunkSizeWarningLimit: 200000,
         rollupOptions: {
             output: {
-                assetFileNames: 'src/assets/[name].[ext]',
+                entryFileNames: 'assets/[name].[hash][extname]',
+                chunkFileNames: 'assets/[name].[hash][extname]',
+                assetFileNames: 'assets/[name].[hash][extname]',
                 manualChunks: id => {
                     if (id.includes('node_modules')) {
                         if (id.includes('@nitrots/nitro-renderer')) return 'nitro-renderer';

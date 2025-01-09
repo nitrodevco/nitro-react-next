@@ -21,28 +21,17 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": false,
         "paths": {
-            "#layout": [
-                "layout"
-            ],
-            "#layout/*": [
-                "layout/*"
-            ],
-            "#assets": [
-                "../assets"
-            ],
             "#assets/*": [
-                "../assets/*"
+                "../public/assets/*"
             ],
-            "#hooks": [
-                "hooks"
-            ],
-            "#hooks/*": [
-                "hooks/*"
+            "#base/*": [
+                "*"
             ],
         }
     },
     "exclude": [
         "node_modules",
+        "public",
         "eslint.config.mjs",
         "postcss.config.mjs",
         "tailwind.config.mjs",

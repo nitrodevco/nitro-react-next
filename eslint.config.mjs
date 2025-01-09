@@ -15,7 +15,7 @@ export default ts.config(
             ...tailwind.configs['flat/recommended']
         ],
         files: ['**/*.jsx', '**/*.js', '**/*.tsx', '**/*.ts'],
-        ignores: [ 'node_modules', 'dist', 'public', 'assets' ],
+        ignores: [ 'node_modules', 'dist', 'public' ],
         languageOptions: {
             ecmaVersion: 'latest'
         },
@@ -74,6 +74,7 @@ export default ts.config(
                 'error',
                 'always'
             ],
+            'no-unused-vars': 'off',
             '@typescript-eslint/no-unused-vars': 'off',
             'react/react-in-jsx-scope': 'off',
             'react/jsx-one-expression-per-line': 'error',

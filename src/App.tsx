@@ -1,8 +1,9 @@
-import { classNames } from '#layout';
+import { classNames } from '#base/layout';
 import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, HabboWebTools, LegacyExternalInterface, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
 import { LoadingView } from './components';
+import { Main } from './Main';
 
 export const App: FC = () =>
 {
@@ -82,11 +83,16 @@ export const App: FC = () =>
             !(window.devicePixelRatio % 1) && '[image-rendering:pixelated]',
         )}>
             <AnimatePresence>
-                { !isReady && <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <LoadingView />
-                </motion.div> }
+                { !isReady &&
+                    <motion.div
+                        key="loading"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}>
+                        <LoadingView />
+                    </motion.div> }
             </AnimatePresence>
-            { !isReady && <LoadingView /> }
+            { isReady && <Main /> }
         </div>
     );
 };
