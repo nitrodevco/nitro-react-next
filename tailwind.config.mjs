@@ -67,7 +67,7 @@ const generateShades = (colors) =>
 };
 
 const colors = {
-    'toolbar': '#555555',
+    'toolbar': '#1C1C20',
     'card-header': '#1E7295',
     'card-close': '#921911',
     'card-tabs': '#185D79',

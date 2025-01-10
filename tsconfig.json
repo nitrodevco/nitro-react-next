@@ -21,12 +21,9 @@
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": false,
         "paths": {
-            "#assets/*": [
-                "../public/assets/*"
-            ],
             "#base/*": [
                 "*"
-            ],
+            ]
         }
     },
     "exclude": [
