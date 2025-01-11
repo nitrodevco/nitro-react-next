@@ -17,6 +17,12 @@ interface NavigatorSlice
     doorData: { roomInfo: RoomDataParser, state: number };
     searchResult: NavigatorSearchResultSet;
     navigatorData: INavigatorData;
+    isReady: boolean,
+    isLoading: boolean,
+    isCreatorOpen: boolean,
+    needsInit: boolean,
+    needsSearch: boolean,
+    pendingResult: boolean,
     setCategories: (categories: NavigatorCategoryDataParser[]) => void;
     setEventCategories: (eventCategories: NavigatorEventCategoryDataParser[]) => void;
     setTopLevelContext: (topLevelContext: NavigatorTopLevelContext) => void;
@@ -50,6 +56,12 @@ export const useNavigatorStore = create<NavigatorSlice>(set => ({
         currentRoomRating: 0,
         canRate: true
     },
+    isReady: false,
+    isLoading: false,
+    isCreatorOpen: false,
+    needsInit: true,
+    needsSearch: false,
+    pendingResult: false,
     setCategories: (categories: NavigatorCategoryDataParser[]) => set({ categories }),
     setEventCategories: (eventCategories: NavigatorEventCategoryDataParser[]) => set({ eventCategories }),
     setTopLevelContext: (topLevelContext: NavigatorTopLevelContext) => set({ topLevelContext }),

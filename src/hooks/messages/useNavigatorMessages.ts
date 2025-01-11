@@ -2,11 +2,11 @@ import { CreateRoomSession, DoorStateType, GetConfigurationValue, SendMessageCom
 import { useNavigatorStore } from '#base/stores';
 import { CanCreateRoomEventEvent, CantConnectMessageParser, CreateLinkEvent, DoorbellMessageEvent, FlatAccessDeniedMessageEvent, FlatCreatedEvent, FollowFriendMessageComposer, GenericErrorEvent, GetGuestRoomMessageComposer, GetGuestRoomResultEvent, GetSessionDataManager, GetUserEventCatsMessageComposer, GetUserFlatCatsMessageComposer, NavigatorHomeRoomEvent, NavigatorMetadataEvent, NavigatorOpenRoomCreatorEvent, NavigatorSearchEvent, RoomDataParser, RoomDoorbellAcceptedEvent, RoomEnterErrorEvent, RoomEntryInfoMessageEvent, RoomForwardEvent, RoomScoreEvent, RoomSettingsUpdatedEvent, SecurityLevel, UserEventCatsEvent, UserFlatCatsEvent, UserInfoEvent, UserPermissionsEvent } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
-import { useMessageEvent } from './events';
+import { useMessageEvent } from '../events';
 
 let HOMEROOM_RECEIVED = false;
 
-export const useNavigator = () =>
+export const useNavigatorMessages = () =>
 {
     const [
         setCategories,
