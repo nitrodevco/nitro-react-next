@@ -1,5 +1,5 @@
 import { classNames } from '#base/layout';
-import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, HabboWebTools, LegacyExternalInterface, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
+import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
 import { LoadingView } from './components';
@@ -52,20 +52,14 @@ export const App: FC = () =>
 
                 // new GameMessageHandler();
 
-                if(LegacyExternalInterface.available) LegacyExternalInterface.call('legacyTrack', 'authentication', 'authok', []);
-
-                HabboWebTools.sendHeartBeat();
-
-                setInterval(() => HabboWebTools.sendHeartBeat(), 10000);
-
-                GetTicker().add(ticker => GetRoomEngine().update(ticker));
-                GetTicker().add(() => renderer.render(GetStage()));
-                GetTicker().add(() => GetTexturePool().run());
+                GetTicker().add(ticker =>
+                {
+                    GetRoomEngine().update(ticker);
+                    GetRenderer().render(GetStage());
+                    GetTexturePool().run();
+                });
 
                 setIsReady(true);
-
-                // handle socket close
-                //canvas.addEventListener('webglcontextlost', () => instance.events.dispatchEvent(new NitroEvent(Nitro.WEBGL_CONTEXT_LOST)));
             }
 
             catch(err)
@@ -93,6 +87,7 @@ export const App: FC = () =>
                     </motion.div> }
             </AnimatePresence>
             { isReady && <Main /> }
+            <div id="draggable-windows-container" className="pointer-events-none absolute left-0 top-0 size-full overflow-hidden" />
         </div>
     );
 };
