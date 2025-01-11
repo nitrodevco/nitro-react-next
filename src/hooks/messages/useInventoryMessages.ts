@@ -1,7 +1,7 @@
 import { MergeFragments } from '#base/api';
 import { useMessageEvent } from '#base/hooks';
 import { useInventoryStore } from '#base/stores';
-import { FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory } from '@nitrots/nitro-renderer';
+import { BadgeReceivedEvent, BadgesEvent, BotAddedToInventoryEvent, BotInventoryMessageEvent, BotRemovedFromInventoryEvent, FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 
 let furniMsgFragments: Map<number, FurnitureListItemParser>[] = null;
@@ -16,7 +16,12 @@ export const useInventoryMessages = () =>
         setFurniNeedsUpdate,
         addPetItem,
         processPetItems,
-        removePetItem
+        removePetItem,
+        processBadges,
+        addBadge,
+        processBotItems,
+        addBotItem,
+        removeBotItem
     ] = useInventoryStore(
         useShallow(state => [
             state.addOrUpdateFurniItems,
@@ -25,7 +30,13 @@ export const useInventoryMessages = () =>
             state.setFurniNeedsUpdate,
             state.addPetItem,
             state.processPetItems,
-            state.removePetItem]));
+            state.removePetItem,
+            state.processBadges,
+            state.addBadge,
+            state.processBotItems,
+            state.addBotItem,
+            state.removeBotItem
+        ]));
 
     useMessageEvent<FurnitureListAddOrUpdateEvent>(FurnitureListAddOrUpdateEvent, event =>
     {
@@ -85,5 +96,32 @@ export const useInventoryMessages = () =>
     useMessageEvent<PetRemovedFromInventory>(PetRemovedFromInventory, event =>
     {
         removePetItem(event?.getParser()?.petId);
+    });
+
+    useMessageEvent<BadgesEvent>(BadgesEvent, event =>
+    {
+        processBadges(event.getParser());
+    });
+
+    useMessageEvent<BadgeReceivedEvent>(BadgeReceivedEvent, event =>
+    {
+        const parser = event.getParser();
+
+        addBadge(parser.badgeId, parser.badgeCode);
+    });
+
+    useMessageEvent<BotInventoryMessageEvent>(BotInventoryMessageEvent, event =>
+    {
+        processBotItems(event?.getParser().items);
+    });
+
+    useMessageEvent<BotAddedToInventoryEvent>(BotAddedToInventoryEvent, event =>
+    {
+        addBotItem(event?.getParser()?.item);
+    });
+
+    useMessageEvent<BotRemovedFromInventoryEvent>(BotRemovedFromInventoryEvent, event =>
+    {
+        removeBotItem(event?.getParser()?.itemId);
     });
 };

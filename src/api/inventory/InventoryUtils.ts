@@ -1,4 +1,4 @@
-import { FurnitureItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { FurnitureItem, IBotItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
 import { FurniturePlacePaintComposer, GetRoomEngine, RoomObjectCategory, RoomObjectPlacementSource } from '@nitrots/nitro-renderer';
 import { FurniCategory } from './FurniCategory';
 import { IGroupItem } from './IGroupItem';
@@ -286,6 +286,34 @@ export const RemovePetIdFromGroup = (groupItem: IPetItem[], petId: number) =>
             groupItem.splice(index, 1);
 
             return petItem;
+        }
+
+        index++;
+    }
+
+    return null;
+};
+
+export const RemoveBotIdFromGroup = (groupItem: IBotItem[], botId: number) =>
+{
+    let index = 0;
+
+    while (index < groupItem.length)
+    {
+        const botItem = groupItem[index];
+
+        if (botItem && (botItem.botData.id === botId))
+        {
+            if (GetPlacingItemId() === botItem.botData.id)
+            {
+                CancelRoomObjectPlacement();
+
+                // TODO CreateLinkEvent('inventory/open');
+            }
+
+            groupItem.splice(index, 1);
+
+            return botItem;
         }
 
         index++;

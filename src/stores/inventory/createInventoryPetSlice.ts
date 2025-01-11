@@ -19,13 +19,14 @@ export const createInventoryPetSlice: StateCreator<
 > = set =>
     ({
         petItems: [],
-        furniNeedsUpdate: false,
         addPetItem: (petData: PetData) => set(state =>
         {
             if (!petData) return state;
 
             const petItems = [...state.petItems];
             const isUnseen = state.isUnseen(UnseenItemCategory.PET, petData.id);
+
+            if (petItems.filter(item => item.petData.id === petData.id).length > 0) return state;
 
             const petItem: IPetItem = {
                 petData: petData,
