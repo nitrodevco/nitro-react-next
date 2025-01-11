@@ -1,65 +1,71 @@
-import { AdvancedMap, GetSessionDataManager, IObjectData, ItemDataStructure, StringDataType } from '@nitrots/nitro-renderer';
+import { PushItemIntoGroup } from '#base/api';
+import { GetSessionDataManager, IObjectData, ItemDataStructure, StringDataType } from '@nitrots/nitro-renderer';
 import { FurniCategory } from './FurniCategory';
 import { FurnitureItem } from './FurnitureItem';
-import { createGroupItem } from './FurnitureUtilities';
-import { GroupItem } from './GroupItem';
+import { IGroupItem } from './IGroupItem';
 
 const isExternalImage = (spriteId: number) => GetSessionDataManager().getWallItemData(spriteId)?.isExternalImage || false;
 
-export const parseTradeItems = (items: ItemDataStructure[]) =>
+export const ParseTradeItems = (items: ItemDataStructure[]) =>
 {
-    const existingItems = new AdvancedMap<string, GroupItem>();
+    const groupItems = new Map<string, IGroupItem>();
     const totalItems = items.length;
 
-    if(totalItems)
+    if (totalItems)
     {
-        for(const item of items)
+        for (const item of items)
         {
             const spriteId = item.spriteId;
             const category = item.category;
 
             let name = (item.furniType + spriteId);
 
-            if(!item.isGroupable || isExternalImage(spriteId))
+            if (!item.isGroupable || isExternalImage(spriteId)) name = ('itemid' + item.itemId);
+
+            if (item.category === FurniCategory.POSTER) name = (item.itemId + 'poster' + item.stuffData.getLegacyString());
+
+            else if (item.category === FurniCategory.GUILD_FURNI) name = '';
+
+            let groupItem = ((item.isGroupable && !isExternalImage(item.spriteId)) ? groupItems.get(name) : null);
+
+            if (!groupItem)
             {
-                name = ('itemid' + item.itemId);
+                groupItem = {
+                    type: spriteId,
+                    category: category,
+                    stuffData: item.stuffData,
+                    extra: item.extra ?? null,
+                    iconUrl: '',
+                    name: '',
+                    description: '',
+                    hasUnseenItems: false,
+                    locked: false,
+                    selected: false,
+                    isWallItem: false,
+                    isGroupable: false,
+                    isSellable: false,
+                    items: []
+                };
+
+                groupItems.set(name, groupItem);
             }
 
-            if(item.category === FurniCategory.POSTER)
-            {
-                name = (item.itemId + 'poster' + item.stuffData.getLegacyString());
-            }
-
-            else if(item.category === FurniCategory.GUILD_FURNI)
-            {
-                name = '';
-            }
-
-            let groupItem = ((item.isGroupable && !isExternalImage(item.spriteId)) ? existingItems.getValue(name) : null);
-
-            if(!groupItem)
-            {
-                groupItem = createGroupItem(spriteId, category, item.stuffData);
-
-                existingItems.add(name, groupItem);
-            }
-
-            groupItem.push(new FurnitureItem(item));
+            PushItemIntoGroup(groupItem, new FurnitureItem(item));
         }
     }
 
-    return existingItems;
+    return groupItems;
 };
 
-export const getGuildFurniType = (spriteId: number, stuffData: IObjectData) =>
+export const GetGuildFurniType = (spriteId: number, stuffData: IObjectData) =>
 {
     let type = spriteId.toString();
 
-    if(!(stuffData instanceof StringDataType)) return type;
+    if (!(stuffData instanceof StringDataType)) return type;
 
     let i = 1;
 
-    while(i < 5)
+    while (i < 5)
     {
         type = (type + (',' + stuffData.getValue(i)));
 
