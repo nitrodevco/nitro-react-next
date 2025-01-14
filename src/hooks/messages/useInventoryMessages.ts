@@ -1,7 +1,7 @@
-import { MergeFragments } from '#base/api';
-import { useMessageEvent } from '#base/hooks';
-import { useInventoryStore } from '#base/stores';
-import { BadgeReceivedEvent, BadgesEvent, BotAddedToInventoryEvent, BotInventoryMessageEvent, BotRemovedFromInventoryEvent, FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory } from '@nitrots/nitro-renderer';
+import { IsObjectMoverRequested, MergeFragments, SetObjectMoverRequested } from '#base/api';
+import { useMessageEvent, useNitroEvent } from '#base/hooks';
+import { useInventoryStore, useVisibilityStore } from '#base/stores';
+import { BadgeReceivedEvent, BadgesEvent, BotAddedToInventoryEvent, BotInventoryMessageEvent, BotRemovedFromInventoryEvent, FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, UnseenItemsEvent } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 
 let furniMsgFragments: Map<number, FurnitureListItemParser>[] = null;
@@ -21,7 +21,8 @@ export const useInventoryMessages = () =>
         addBadge,
         processBotItems,
         addBotItem,
-        removeBotItem
+        removeBotItem,
+        processUnseenItems
     ] = useInventoryStore(
         useShallow(state => [
             state.addOrUpdateFurniItems,
@@ -35,13 +36,20 @@ export const useInventoryMessages = () =>
             state.addBadge,
             state.processBotItems,
             state.addBotItem,
-            state.removeBotItem
+            state.removeBotItem,
+            state.processUnseenItems
         ]));
 
-    useMessageEvent<FurnitureListAddOrUpdateEvent>(FurnitureListAddOrUpdateEvent, event =>
+    useNitroEvent<RoomEngineObjectPlacedEvent>(RoomEngineObjectEvent.PLACED, event =>
     {
-        addOrUpdateFurniItems(event?.getParser()?.items ?? null);
+        if (!IsObjectMoverRequested()) return;
+
+        SetObjectMoverRequested(false);
+
+        if (!event.placedInRoom) useVisibilityStore.setState({ inventoryVisible: true });
     });
+
+    useMessageEvent<FurnitureListAddOrUpdateEvent>(FurnitureListAddOrUpdateEvent, event => addOrUpdateFurniItems(event?.getParser()?.items ?? null));
 
     useMessageEvent<FurnitureListEvent>(FurnitureListEvent, event =>
     {
@@ -58,15 +66,9 @@ export const useInventoryMessages = () =>
         furniMsgFragments = null;
     });
 
-    useMessageEvent<FurnitureListInvalidateEvent>(FurnitureListInvalidateEvent, event =>
-    {
-        setFurniNeedsUpdate(true);
-    });
+    useMessageEvent<FurnitureListInvalidateEvent>(FurnitureListInvalidateEvent, event => setFurniNeedsUpdate(true));
 
-    useMessageEvent<FurnitureListRemovedEvent>(FurnitureListRemovedEvent, event =>
-    {
-        removeFurniItem(event?.getParser()?.itemId);
-    });
+    useMessageEvent<FurnitureListRemovedEvent>(FurnitureListRemovedEvent, event => removeFurniItem(event?.getParser()?.itemId));
 
     useMessageEvent<FurniturePostItPlacedEvent>(FurniturePostItPlacedEvent, event =>
     {
@@ -88,20 +90,11 @@ export const useInventoryMessages = () =>
         petMsgFragments = null;
     });
 
-    useMessageEvent<PetAddedToInventoryEvent>(PetAddedToInventoryEvent, event =>
-    {
-        addPetItem(event?.getParser()?.pet);
-    });
+    useMessageEvent<PetAddedToInventoryEvent>(PetAddedToInventoryEvent, event => addPetItem(event?.getParser()?.pet));
 
-    useMessageEvent<PetRemovedFromInventory>(PetRemovedFromInventory, event =>
-    {
-        removePetItem(event?.getParser()?.petId);
-    });
+    useMessageEvent<PetRemovedFromInventory>(PetRemovedFromInventory, event => removePetItem(event?.getParser()?.petId));
 
-    useMessageEvent<BadgesEvent>(BadgesEvent, event =>
-    {
-        processBadges(event.getParser());
-    });
+    useMessageEvent<BadgesEvent>(BadgesEvent, event => processBadges(event.getParser()));
 
     useMessageEvent<BadgeReceivedEvent>(BadgeReceivedEvent, event =>
     {
@@ -110,18 +103,11 @@ export const useInventoryMessages = () =>
         addBadge(parser.badgeId, parser.badgeCode);
     });
 
-    useMessageEvent<BotInventoryMessageEvent>(BotInventoryMessageEvent, event =>
-    {
-        processBotItems(event?.getParser().items);
-    });
+    useMessageEvent<BotInventoryMessageEvent>(BotInventoryMessageEvent, event => processBotItems(event?.getParser().items));
 
-    useMessageEvent<BotAddedToInventoryEvent>(BotAddedToInventoryEvent, event =>
-    {
-        addBotItem(event?.getParser()?.item);
-    });
+    useMessageEvent<BotAddedToInventoryEvent>(BotAddedToInventoryEvent, event => addBotItem(event?.getParser()?.item));
 
-    useMessageEvent<BotRemovedFromInventoryEvent>(BotRemovedFromInventoryEvent, event =>
-    {
-        removeBotItem(event?.getParser()?.itemId);
-    });
+    useMessageEvent<BotRemovedFromInventoryEvent>(BotRemovedFromInventoryEvent, event => removeBotItem(event?.getParser()?.itemId));
+
+    useMessageEvent<UnseenItemsEvent>(UnseenItemsEvent, event => processUnseenItems(event?.getParser()));
 };

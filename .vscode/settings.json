@@ -1,6 +1,9 @@
 {
     "typescript.tsdk": "node_modules\\typescript\\lib",
-    "typescript.preferences.importModuleSpecifier": "non-relative",
+    "typescript.preferences.importModuleSpecifier": "shortest",
+    "javascript.preferences.importModuleSpecifier": "shortest",
+    "typescript.preferences.importModuleSpecifierEnding": "index",
+    "javascript.preferences.importModuleSpecifierEnding": "index",
     "typescript.preferences.quoteStyle": "single",
     "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
     "typescript.format.placeOpenBraceOnNewLineForFunctions": true,
@@ -20,11 +23,6 @@
     "eslint.validate": [
         "javascript",
         "typescript"
-    ],
-    "eslint.workingDirectories": [
-        {
-            "pattern": "./src"
-        }
     ],
     "javascript.format.enable": false,
     "editor.linkedEditing": false,

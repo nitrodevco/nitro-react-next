@@ -1,4 +1,5 @@
 import { CancelRoomObjectPlacement, GetPlacingItemId, IBotItem, RemoveBotIdFromGroup, UnseenItemCategory } from '#base/api';
+import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
 import { BotData } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
@@ -70,7 +71,7 @@ export const createInventoryBotSlice: StateCreator<
                 {
                     CancelRoomObjectPlacement();
 
-                    // TODO CreateLinkEvent('inventory/open');
+                    useVisibilityStore.setState({ inventoryVisible: true });
                 }
 
                 botItems.splice(index, 1);

@@ -1,10 +1,8 @@
-import { DraggableWindow, DraggableWindowProps } from '#base/layout';
+import { classNames, DraggableWindow, DraggableWindowProps } from '#base/utils';
 import { DetailedHTMLProps, FC, HTMLAttributes, MouseEvent } from 'react';
-import { classNames } from './classNames';
 import { NitroItemCountBadge } from './NitroItemCountBadge';
 
-const NitroCardRoot: FC<{
-} & DraggableWindowProps & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
+const NitroCardRoot: FC<DraggableWindowProps & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { uniqueKey = null, handleSelector = '.drag-handler', defaultPosition = 'center', className = null, ref = null, ...rest } = props;
 
@@ -70,8 +68,7 @@ const NitroCardContent: FC<{
     );
 };
 
-const NitroCardTabs: FC<{
-} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
+const NitroCardTabs: FC<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { className = null, ref = null, ...rest } = props;
 

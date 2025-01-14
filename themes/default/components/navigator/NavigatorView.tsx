@@ -1,14 +1,13 @@
 import { LocalizeText, SendMessageComposer } from '#base/api';
 import { useNitroEvent } from '#base/hooks';
-import { NitroCard } from '#base/layout';
 import { useNavigatorStore, useVisibilityStore } from '#base/stores';
+import { NitroCard } from '#themes/default/layout';
 import { ConvertGlobalRoomIdMessageComposer, HabboWebTools, LegacyExternalInterface, NavigatorInitComposer, NavigatorSearchComposer, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 export const NavigatorView: FC = () =>
 {
-    console.log('render');
     const isVisible = useVisibilityStore(state => state.navigationVisible);
     const [
         topLevelContext,

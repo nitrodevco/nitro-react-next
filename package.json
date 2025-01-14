@@ -17,7 +17,6 @@
         "eslint-plugin-react": "^7.37.2",
         "eslint-plugin-react-compiler": "^19.0.0-beta-63e3235-20250105",
         "eslint-plugin-react-hooks": "^5.1.0",
-        "eslint-plugin-react-refresh": "^0.4.16",
         "eslint-plugin-tailwindcss": "^3.17.5",
         "postcss": "^8.4.49",
         "postcss-import": "^16.1.0",
@@ -29,6 +28,7 @@
         "vite-tsconfig-paths": "^5.1.4"
     },
     "dependencies": {
+        "@tanstack/react-virtual": "^3.11.2",
         "motion": "12.0.0-alpha.2",
         "react": "^19.0.0",
         "react-dom": "^19.0.0",
@@ -38,6 +38,9 @@
     "imports": {
         "#base/*": [
             "./src/*"
+        ],
+        "#themes/*": [
+            "./themes/*"
         ]
     }
 }

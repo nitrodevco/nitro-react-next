@@ -142,6 +142,7 @@ module.exports = {
             boxShadow,
             backgroundImage: {
                 'button-gradient-gray': 'linear-gradient(to bottom, #e2e2e2 50%, #c8c8c8 50%)',
+                'rarity-level': 'url("/assets/images/infostand/rarity-level.png")'
             },
             spacing: {
                 'card-header': '33px',
@@ -216,6 +217,7 @@ module.exports = {
     ],
     content: [
         './index.html',
-        './src/**/*.{html,js,jsx,ts,tsx}'
+        './src/**/*.{html,js,jsx,ts,tsx}',
+        './themes/**/*.{html,js,jsx,ts,tsx}'
     ]
 }

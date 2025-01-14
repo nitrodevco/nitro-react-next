@@ -1,15 +1,26 @@
-import { HotelView, NavigatorView, RoomView, ToolbarView } from '#base/components';
 import { useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages } from '#base/hooks';
+import { useVisibilityStore } from '#base/stores';
 import { AddLinkEventTracker, GetCommunication, HabboWebTools, ILinkEventTracker, RemoveLinkEventTracker, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { useShallow } from 'zustand/shallow';
+import { HotelView, InventoryView, NavigatorView, RoomView, ToolbarView } from './components';
 
 export const Main: FC = () =>
 {
-    const [ landingViewVisible, setLandingViewVisible ] = useState(true);
+    const [
+        landingViewVisible,
+        navigationVisible,
+        inventoryVisible
+    ] = useVisibilityStore(
+        useShallow(state => [
+            state.landingViewVisible,
+            state.navigationVisible,
+            state.inventoryVisible,
+        ]));
 
-    useNitroEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event => setLandingViewVisible(false));
-    useNitroEvent<RoomSessionEvent>(RoomSessionEvent.ENDED, event => setLandingViewVisible(event.openLandingView));
+    useNitroEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event => useVisibilityStore.setState({ landingViewVisible: false }));
+    useNitroEvent<RoomSessionEvent>(RoomSessionEvent.ENDED, event => useVisibilityStore.setState({ landingViewVisible: event.openLandingView }));
 
     useInventoryMessages();
     useNavigatorMessages();
@@ -70,6 +81,7 @@ export const Main: FC = () =>
             </AnimatePresence>
             <RoomView />
             <NavigatorView />
+            { inventoryVisible && <InventoryView /> }
             <ToolbarView isInRoom={ !landingViewVisible } />
         </>
     );

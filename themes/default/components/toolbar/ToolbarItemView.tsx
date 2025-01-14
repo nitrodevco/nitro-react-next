@@ -1,4 +1,4 @@
-import { classNames } from '#base/layout';
+import { classNames } from '#base/utils';
 import { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren } from 'react';
 
 export const ToolbarItemView: FC<PropsWithChildren<{ icon: string }> & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>

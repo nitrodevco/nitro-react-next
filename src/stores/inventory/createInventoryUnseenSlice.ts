@@ -1,14 +1,15 @@
 import { SendMessageComposer } from '#base/api';
-import { UnseenResetCategoryComposer, UnseenResetItemsComposer } from '@nitrots/nitro-renderer';
+import { UnseenItemsParser, UnseenResetCategoryComposer, UnseenResetItemsComposer } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 
 export interface InventoryUnseenSlice
 {
     unseenItems: Map<number, number[]>;
-    getCount: (category: number) => number;
-    getFullCount: () => number;
-    resetCategory: (category: number) => boolean;
-    resetItems: (category: number, items: number[]) => boolean;
+    processUnseenItems: (items: UnseenItemsParser) => void;
+    getUnseenCount: (category: number) => number;
+    getUnseenFullCount: () => number;
+    resetUnseenCategory: (category: number) => boolean;
+    resetUnseenItems: (category: number, items: number[]) => boolean;
     isUnseen: (category: number, itemId: number) => boolean;
     removeUnseen: (category: number, itemId: number) => void;
 }
@@ -16,19 +17,35 @@ export interface InventoryUnseenSlice
 export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (set, get) =>
 ({
     unseenItems: new Map(),
-    getCount: (category: number) =>
+    processUnseenItems: (items: UnseenItemsParser) => set(state =>
+    {
+        const unseenItems = new Map(state.unseenItems);
+
+        for (const category of items.categories)
+        {
+            const itemIds = unseenItems.get(category) ?? [];
+            const newItemIds = items.getItemsByCategory(category);
+
+            for (const itemId of newItemIds) itemIds.push(itemId);
+
+            unseenItems.set(category, itemIds);
+        }
+
+        return { unseenItems };
+    }),
+    getUnseenCount: (category: number) =>
     {
         return get().unseenItems.get(category)?.length || 0;
     },
-    getFullCount: () =>
+    getUnseenFullCount: () =>
     {
         let count = 0;
 
-        for (const key of get().unseenItems.keys()) count += get().getCount(key);
+        for (const key of get().unseenItems.keys()) count += get().getUnseenCount(key);
 
         return count;
     },
-    resetCategory: (category: number) =>
+    resetUnseenCategory: (category: number) =>
     {
         let didReset = true;
 
@@ -52,7 +69,7 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return didReset;
     },
-    resetItems: (category: number, itemIds: number[]) =>
+    resetUnseenItems: (category: number, itemIds: number[]) =>
     {
         let didReset = true;
 

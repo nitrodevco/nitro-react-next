@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "target": "ES2022",
         "lib": [
             "ES2022",
@@ -22,9 +22,16 @@
         "noFallthroughCasesInSwitch": false,
         "paths": {
             "#base/*": [
-                "*"
+                "src/*"
+            ],
+            "#themes/*": [
+                "themes/*"
             ]
-        }
+        },
+        "rootDirs": [
+            "src",
+            "themes"
+        ]
     },
     "exclude": [
         "node_modules",
@@ -36,6 +43,7 @@
     ],
     "include": [
         "src",
+        "themes",
         "node_modules/@nitrots/nitro-renderer/src/**/*.ts"
     ]
 }

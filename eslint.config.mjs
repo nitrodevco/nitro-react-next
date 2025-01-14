@@ -2,7 +2,6 @@ import js from '@eslint/js';
 import reactPlugin from 'eslint-plugin-react';
 import reactCompiler from 'eslint-plugin-react-compiler';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
-import { default as reactRefresh, default as reactRefreshPlugin } from 'eslint-plugin-react-refresh';
 import tailwind from 'eslint-plugin-tailwindcss';
 import path from 'path';
 import ts from 'typescript-eslint';
@@ -12,7 +11,6 @@ export default ts.config(
         extends: [ 
             js.configs.recommended,
             ...ts.configs.recommended,
-            reactRefresh.configs.recommended,
             ...tailwind.configs['flat/recommended']
         ],
         files: ['**/*.jsx', '**/*.js', '**/*.tsx', '**/*.ts'],
@@ -39,6 +37,7 @@ export default ts.config(
             ...reactHooksPlugin.configs.recommended.rules,
             ...reactRefreshPlugin.configs.recommended.rules,
             'react-compiler/react-compiler': 'error',
+            'react-hooks/exhaustive-deps': 'warn',
             'indent': [
                 'error',
                 4,
@@ -70,6 +69,10 @@ export default ts.config(
             'brace-style': [
                 'error',
                 'allman'
+            ],
+            'array-bracket-spacing': [
+                'error',
+                'always'
             ],
             'object-curly-spacing': [
                 'error',

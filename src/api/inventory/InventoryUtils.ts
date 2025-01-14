@@ -1,4 +1,5 @@
 import { FurnitureItem, IBotItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
 import { FurniturePlacePaintComposer, GetRoomEngine, RoomObjectCategory, RoomObjectPlacementSource } from '@nitrots/nitro-renderer';
 import { FurniCategory } from './FurniCategory';
 import { IGroupItem } from './IGroupItem';
@@ -42,8 +43,6 @@ export const AttemptItemPlacement = (groupItem: IGroupItem, dontPlacePaint: bool
     }
     else
     {
-        // TODO hide inventory
-
         let category = 0;
         let isMoving = false;
 
@@ -83,7 +82,7 @@ const GetItemByIdForGroup = (groupItem: IGroupItem, itemId: number) =>
     return null;
 }
 
-const GetUnlockedCountForGroup = (groupItem: IGroupItem) =>
+export const GetUnlockedCountForGroup = (groupItem: IGroupItem) =>
 {
     if (!groupItem) return 0;
 
@@ -280,7 +279,7 @@ export const RemovePetIdFromGroup = (groupItem: IPetItem[], petId: number) =>
             {
                 CancelRoomObjectPlacement();
 
-                // TODO CreateLinkEvent('inventory/open');
+                useVisibilityStore.setState({ inventoryVisible: true });
             }
 
             groupItem.splice(index, 1);
@@ -308,7 +307,7 @@ export const RemoveBotIdFromGroup = (groupItem: IBotItem[], botId: number) =>
             {
                 CancelRoomObjectPlacement();
 
-                // TODO CreateLinkEvent('inventory/open');
+                useVisibilityStore.setState({ inventoryVisible: true });
             }
 
             groupItem.splice(index, 1);

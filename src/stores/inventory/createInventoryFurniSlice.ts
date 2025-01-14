@@ -1,4 +1,5 @@
 import { AddFurnitureItem, AttemptItemPlacement, CancelRoomObjectPlacement, FurnitureItem, GetAllItemIdsForGroups, GetPlacingItemId, GetTotalCountForGroup, IGroupItem, RemoveItemIdFromGroup, UnseenItemCategory } from '#base/api';
+import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
 import { FurnitureListItemParser } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
@@ -6,7 +7,9 @@ import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
 export interface InventoryFurniSlice
 {
     furniItems: IGroupItem[];
+    selectedFurniItem: IGroupItem;
     furniNeedsUpdate: boolean;
+    selectFurniItem: (selectedFurniItem?: IGroupItem) => void;
     addOrUpdateFurniItems: (items: FurnitureListItemParser[]) => void;
     processFurniItems: (items: Map<number, FurnitureListItemParser>) => void;
     removeFurniItem: (itemId: number) => void;
@@ -21,7 +24,28 @@ export const createInventoryFurniSlice: StateCreator<
 > = set =>
     ({
         furniItems: [],
-        furniNeedsUpdate: false,
+        selectedFurniItem: null,
+        furniNeedsUpdate: true,
+        selectFurniItem: (selectedFurniItem?: IGroupItem) => set(state =>
+        {
+            selectedFurniItem = !selectedFurniItem ? state.selectedFurniItem : selectedFurniItem;
+
+            if (state.furniItems.length)
+            {
+                if (selectedFurniItem && state.furniItems.indexOf(selectedFurniItem) === -1) selectedFurniItem = null;
+
+                if (!selectedFurniItem) selectedFurniItem = state.furniItems[0];
+            }
+
+            if (selectedFurniItem && selectedFurniItem.hasUnseenItems)
+            {
+                selectedFurniItem.hasUnseenItems = false;
+
+                state.resetUnseenItems(UnseenItemCategory.FURNI, selectedFurniItem.items.map(item => item.id));
+            }
+
+            return { selectedFurniItem };
+        }),
         addOrUpdateFurniItems: (items: FurnitureListItemParser[]) => set(state =>
         {
             if (!items || !items.length) return state;
@@ -111,8 +135,7 @@ export const createInventoryFurniSlice: StateCreator<
 
                         if (!AttemptItemPlacement(group))
                         {
-                            // TODO SHOW INVENTORY
-                            //CreateLinkEvent('inventory/show');
+                            useVisibilityStore.setState({ inventoryVisible: true });
                         }
                     }
 
@@ -163,7 +186,7 @@ export const createInventoryFurniSlice: StateCreator<
 
                     if (!AttemptItemPlacement(group))
                     {
-                        // TODO CreateLinkEvent('inventory/show');
+                        useVisibilityStore.setState({ inventoryVisible: true });
                     }
                 }
 
