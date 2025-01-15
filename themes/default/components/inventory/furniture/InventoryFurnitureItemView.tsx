@@ -1,18 +1,18 @@
 import { AttemptItemPlacement, GetUnlockedCountForGroup, IGroupItem } from '#base/api';
-import { useInventoryStore, useVisibilityStore } from '#base/stores';
+import { useVisibilityStore } from '#base/stores';
 import { classNames, styleNames } from '#base/utils';
 import { NitroInfiniteGridItem, NitroLimitedEditionNumber } from '#themes/default/layout';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 
 export const InventoryFurnitureItemView: FC<{
-    groupItem: IGroupItem
+    groupItem: IGroupItem;
+    selectedFurniItem: IGroupItem;
+    selectFurniItem: (groupItem: IGroupItem) => void;
 }> = props =>
 {
-    const { groupItem = null } = props;
+    const { groupItem = null, selectedFurniItem = null, selectFurniItem = null } = props;
     const [ isMouseDown, setMouseDown ] = useState(false);
-    const selectedFurniItem = useInventoryStore(state => state.selectedFurniItem);
-    const selectFurniItem = useInventoryStore(state => state.selectFurniItem);
 
     const onMouseEvent = (event: MouseEvent) =>
     {
@@ -43,9 +43,9 @@ export const InventoryFurnitureItemView: FC<{
     return (
         <NitroInfiniteGridItem
             gridItemActive={ selectedFurniItem === groupItem }
+            gridItemUnseen={ groupItem.hasUnseenItems }
             className={ classNames(
-                (groupItem.stuffData.uniqueNumber > 0) && 'unique-item',
-                groupItem.hasUnseenItems && 'bg-green-500 bg-opacity-40',
+                (groupItem.stuffData.uniqueNumber > 0) && 'unique-item'
             ) }
             style={ styleNames(
                 imageUrl && imageUrl.length && !(uniqueNumber > 0) && {
@@ -67,5 +67,5 @@ export const InventoryFurnitureItemView: FC<{
                     </div>
                 </> }
         </NitroInfiniteGridItem>
-    )
+    );
 };

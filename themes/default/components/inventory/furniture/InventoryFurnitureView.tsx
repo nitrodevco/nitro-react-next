@@ -95,7 +95,7 @@ export const InventoryFurnitureView: FC<{
 
     useEffect(() =>
     {
-        selectFurniItem(null);
+        selectFurniItem();
     }, [ furniItems ]);
 
     useEffect(() =>
@@ -115,7 +115,7 @@ export const InventoryFurnitureView: FC<{
                 <InventoryFurnitureSearchView groupItems={ furniItems } setGroupItems={ setFilteredGroupItems } />
                 <NitroInfiniteGrid<IGroupItem>
                     items={ filteredGroupItems }
-                    itemRender={ item => <InventoryFurnitureItemView groupItem={ item } /> } />
+                    itemRender={ item => <InventoryFurnitureItemView groupItem={ item } selectedFurniItem={ selectedFurniItem } selectFurniItem={ selectFurniItem } /> } />
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">
@@ -131,8 +131,7 @@ export const InventoryFurnitureView: FC<{
                         <div className="flex flex-col gap-1">
                             { !!roomSession &&
                                 <NitroButton onClick={ event => {
-                                    AttemptItemPlacement(selectedFurniItem);
-                                    useVisibilityStore.setState({ inventoryVisible: false });
+                                    if(AttemptItemPlacement(selectedFurniItem)) useVisibilityStore.setState({ inventoryVisible: false });
                                 } }>
                                     { LocalizeText('inventory.furni.placetoroom') }
                                 </NitroButton> }

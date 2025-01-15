@@ -5,6 +5,7 @@ import { GetRoomEngine, RoomPreviewer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryFurnitureView } from './furniture';
+import { InventoryPetView } from './pet';
 
 const TABS = [
     {
@@ -19,7 +20,7 @@ const TABS = [
     },
     {
         name: 'inventory.furni.tab.pets',
-        component: InventoryFurnitureView,
+        component: InventoryPetView,
         unseenCategory: UnseenItemCategory.PET
     },
     {
@@ -37,13 +38,15 @@ export const InventoryView: FC = props =>
         currentTabIndex,
         tradeState,
         setCurrentTabIndex,
-        getUnseenCount
+        getUnseenCount,
+        resetUnseenCategory
     ] = useInventoryStore(
         useShallow(state => [
             state.currentTabIndex,
             state.tradeState,
             state.setCurrentTabIndex,
-            state.getUnseenCount
+            state.getUnseenCount,
+            state.resetUnseenCategory
         ]));
 
     const onClose = () =>
@@ -65,6 +68,8 @@ export const InventoryView: FC = props =>
 
                 return null;
             });
+
+            resetUnseenCategory(TABS[currentTabIndex]?.unseenCategory);
         }
     }, []);
 
