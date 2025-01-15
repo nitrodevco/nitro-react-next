@@ -13,7 +13,7 @@ export interface InventorySlice extends InventoryUnseenSlice, InventoryBadgesSli
 }
 
 export const useInventoryStore = create<InventorySlice>((set, get, store) => ({
-    currentTabIndex: 2,
+    currentTabIndex: 0,
     setCurrentTabIndex: (index: number) => set({ currentTabIndex: index }),
     ...createInventoryUnseenSlice(set, get, store),
     ...createInventoryBadgesSlice(set, get, store),
