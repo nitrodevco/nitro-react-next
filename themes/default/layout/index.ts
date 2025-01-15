@@ -5,5 +5,6 @@ export * from './NitroInfiniteGridItem';
 export * from './NitroInput';
 export * from './NitroItemCountBadge';
 export * from './NitroLimitedEditionNumber';
+export * from './NitroPetImageView';
 export * from './NitroRarityLevel';
 export * from './NitroRoomPreviewer';
