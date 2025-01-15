@@ -3,6 +3,7 @@ import { DetailedHTMLProps, DOMAttributes, FC, HTMLAttributes, MouseEventHandler
 
 const classes = {
     base: 'flex flex-col items-center justify-center cursor-pointer overflow-hidden relative bg-center bg-no-repeat w-full rounded-md border-2',
+    unseen: 'bg-green-500 bg-opacity-40',
     state: {
         active: 'border-card-grid-item-active bg-card-grid-item-active',
         inactive: 'border-card-grid-item-border bg-card-grid-item'
@@ -11,10 +12,11 @@ const classes = {
 
 export const NitroInfiniteGridItem: FC<{
     gridItemActive?: boolean;
+    gridItemUnseen?: boolean;
     onMouseEvent?: MouseEventHandler<HTMLDivElement>;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
-    const { gridItemActive = false, onDoubleClick = null, onMouseDown = null, onMouseOut = null, onMouseUp = null, onMouseEvent = null, className = null, ref = null, ...rest } = props;
+    const { gridItemActive = false, gridItemUnseen = false, onDoubleClick = null, onMouseDown = null, onMouseOut = null, onMouseUp = null, onMouseEvent = null, className = null, ref = null, ...rest } = props;
 
     const getDomAttributes = () =>
     {
@@ -42,6 +44,7 @@ export const NitroInfiniteGridItem: FC<{
             className={ classNames(
                 classes.base,
                 gridItemActive ? classes.state.active : classes.state.inactive,
+                gridItemUnseen && classes.unseen,
                 className
             ) }
             { ...getDomAttributes() }
