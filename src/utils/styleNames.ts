@@ -1,4 +1,6 @@
-export const styleNames = (...styles: object[]) =>
+import { CSSProperties } from 'react';
+
+export const styleNames = (...styles: CSSProperties[]) =>
 {
     let mergedStyle = {};
 
