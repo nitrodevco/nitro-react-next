@@ -6,9 +6,13 @@ import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
 export interface InventoryPetSlice
 {
     petItems: IPetItem[];
+    selectedPetItem: IPetItem;
+    petNeedsUpdate: boolean;
+    selectPetItem: (selectedPetItem?: IPetItem) => void;
     addPetItem: (petData: PetData) => void;
     processPetItems: (items: Map<number, PetData>) => void;
     removePetItem: (itemId: number) => void;
+    setPetNeedsUpdate: (flag: boolean) => void;
 }
 
 export const createInventoryPetSlice: StateCreator<
@@ -19,6 +23,26 @@ export const createInventoryPetSlice: StateCreator<
 > = set =>
     ({
         petItems: [],
+        selectedPetItem: null,
+        petNeedsUpdate: true,
+        selectPetItem: (selectedPetItem: IPetItem = null) => set(state =>
+        {
+            selectedPetItem = !selectedPetItem ? state.selectedPetItem : selectedPetItem;
+
+            if (state.petItems.length)
+            {
+                if (selectedPetItem && state.petItems.indexOf(selectedPetItem) === -1) selectedPetItem = null;
+
+                if (!selectedPetItem) selectedPetItem = state.petItems[0];
+            }
+
+            if (selectedPetItem)
+            {
+                state.removeUnseenItems(UnseenItemCategory.PET, selectedPetItem.petData.id);
+            }
+
+            return { selectedPetItem };
+        }),
         addPetItem: (petData: PetData) => set(state =>
         {
             if (!petData) return state;
@@ -80,5 +104,6 @@ export const createInventoryPetSlice: StateCreator<
             RemovePetIdFromGroup(petItems, itemId);
 
             return { petItems };
-        })
+        }),
+        setPetNeedsUpdate: (flag: boolean) => set({ petNeedsUpdate: flag }),
     });

@@ -1,6 +1,6 @@
 import { FurnitureItem, IBotItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
 import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
-import { FurniturePlacePaintComposer, GetRoomEngine, RoomObjectCategory, RoomObjectPlacementSource } from '@nitrots/nitro-renderer';
+import { FurniturePlacePaintComposer, GetRoomEngine, GetRoomSessionManager, RoomObjectCategory, RoomObjectPlacementSource, RoomObjectType } from '@nitrots/nitro-renderer';
 import { FurniCategory } from './FurniCategory';
 import { IGroupItem } from './IGroupItem';
 
@@ -63,6 +63,25 @@ export const AttemptItemPlacement = (groupItem: IGroupItem, dontPlacePaint: bool
             SetPlacingItemId(item.ref);
             SetObjectMoverRequested(true);
         }
+    }
+
+    return true;
+};
+
+export const AttemptPetPlacement = (petItem: IPetItem, flag: boolean = false) =>
+{
+    const petData = petItem.petData;
+
+    if (!petData) return false;
+
+    const session = GetRoomSessionManager().getSession(1);
+
+    if (!session || (!session.isRoomOwner && !session.allowPets)) return false;
+
+    if (GetRoomEngine().processRoomObjectPlacement(RoomObjectPlacementSource.INVENTORY, -(petData.id), RoomObjectCategory.UNIT, RoomObjectType.PET, petData.figureData.figuredata))
+    {
+        SetPlacingItemId(petData.id);
+        SetObjectMoverRequested(true);
     }
 
     return true;

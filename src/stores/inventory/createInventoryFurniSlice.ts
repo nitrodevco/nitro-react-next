@@ -26,7 +26,7 @@ export const createInventoryFurniSlice: StateCreator<
         furniItems: [],
         selectedFurniItem: null,
         furniNeedsUpdate: true,
-        selectFurniItem: (selectedFurniItem?: IGroupItem) => set(state =>
+        selectFurniItem: (selectedFurniItem: IGroupItem = null) => set(state =>
         {
             selectedFurniItem = !selectedFurniItem ? state.selectedFurniItem : selectedFurniItem;
 

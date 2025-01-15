@@ -5,18 +5,26 @@ import { StateCreator } from 'zustand';
 export interface InventoryUnseenSlice
 {
     unseenItems: Map<number, number[]>;
+    isUnseen: (category: number, itemId: number) => boolean;
     processUnseenItems: (items: UnseenItemsParser) => void;
     getUnseenCount: (category: number) => number;
     getUnseenFullCount: () => number;
     resetUnseenCategory: (category: number) => boolean;
     resetUnseenItems: (category: number, items: number[]) => boolean;
-    isUnseen: (category: number, itemId: number) => boolean;
-    removeUnseen: (category: number, itemId: number) => void;
+    removeUnseenItems: (category: number, ...itemIds: number[]) => void;
 }
 
 export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (set, get) =>
 ({
     unseenItems: new Map(),
+    isUnseen: (category: number, itemId: number) =>
+    {
+        const unseenItems = get().unseenItems;
+
+        if (!unseenItems.has(category)) return false;
+
+        return unseenItems.get(category)?.indexOf(itemId) >= 0;
+    },
     processUnseenItems: (items: UnseenItemsParser) => set(state =>
     {
         const unseenItems = new Map(state.unseenItems);
@@ -99,24 +107,28 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return didReset;
     },
-    isUnseen: (category: number, itemId: number) =>
-    {
-        const unseenItems = get().unseenItems;
-
-        if (!unseenItems.has(category)) return false;
-
-        return unseenItems.get(category)?.indexOf(itemId) >= 0;
-    },
-    removeUnseen: (category: number, itemId: number) => set(state =>
+    removeUnseenItems: (category: number, ...itemIds: number[]) => set(state =>
     {
         if (!state.unseenItems.has(category)) return state;
 
+        if (!Array.isArray) itemIds = [...itemIds];
+
         const unseenItems = new Map(state.unseenItems);
-        const items = unseenItems.get(category);
-        const index = items.indexOf(itemId);
+        const existingItemIds = unseenItems.get(category);
 
-        if (index >= 0) items.splice(index, 1);
+        let hasChanges = false;
 
-        return { unseenItems };
+        for (const itemId of itemIds)
+        {
+            const index = existingItemIds.indexOf(itemId);
+
+            if (index === -1) continue;
+
+            existingItemIds.splice(index, 1);
+
+            hasChanges = true;
+        }
+
+        return hasChanges ? { unseenItems } : state;
     })
 });
