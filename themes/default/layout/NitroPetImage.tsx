@@ -2,7 +2,7 @@ import { classNames, styleNames } from '#base/utils';
 import { GetRoomEngine, IImageResult, IPetCustomPart, PetFigureData, TextureUtils, Vector3d } from '@nitrots/nitro-renderer';
 import { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
 
-export const NitroPetImageView: FC<PropsWithChildren<{
+export const NitroPetImage: FC<PropsWithChildren<{
     petFigure?: string;
     petTypeId?: number;
     petPaletteId?: number;
