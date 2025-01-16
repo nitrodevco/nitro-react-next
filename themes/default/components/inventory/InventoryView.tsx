@@ -4,6 +4,7 @@ import { NitroCard } from '#themes/default/layout';
 import { GetRoomEngine, RoomPreviewer } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { InventoryBotView } from './bot';
 import { InventoryFurnitureView } from './furniture';
 import { InventoryPetView } from './pet';
 
@@ -15,7 +16,7 @@ const TABS = [
     },
     {
         name: 'inventory.bots',
-        component: InventoryFurnitureView,
+        component: InventoryBotView,
         unseenCategory: UnseenItemCategory.BOT
     },
     {
@@ -37,17 +38,19 @@ export const InventoryView: FC = props =>
     const [
         currentTabIndex,
         tradeState,
+        unseenItems,
         setCurrentTabIndex,
-        getUnseenCount,
         resetUnseenCategory
     ] = useInventoryStore(
         useShallow(state => [
             state.currentTabIndex,
             state.tradeState,
+            state.unseenItems,
             state.setCurrentTabIndex,
-            state.getUnseenCount,
             state.resetUnseenCategory
         ]));
+
+    const getUnseenCount = (category: number) => unseenItems.get(category)?.length ?? 0;
 
     const onClose = () =>
     {

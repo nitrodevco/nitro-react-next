@@ -45,7 +45,7 @@ export const createInventoryBadgesSlice: StateCreator<
         {
             const badgeCodes = [...state.badgeCodes];
             const badgeIds = new Map(state.badgeIds);
-            const unseen = state.isUnseen(UnseenItemCategory.BADGE, badgeId);
+            const unseen = (state.unseenItems.get(UnseenItemCategory.BADGE)?.indexOf(badgeId) >= 0);
 
             badgeCodes.push(badgeCode);
             badgeIds.set(badgeCode, badgeId);

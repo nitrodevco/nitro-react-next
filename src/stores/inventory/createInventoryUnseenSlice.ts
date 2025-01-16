@@ -5,10 +5,7 @@ import { StateCreator } from 'zustand';
 export interface InventoryUnseenSlice
 {
     unseenItems: Map<number, number[]>;
-    isUnseen: (category: number, itemId: number) => boolean;
     processUnseenItems: (items: UnseenItemsParser) => void;
-    getUnseenCount: (category: number) => number;
-    getUnseenFullCount: () => number;
     resetUnseenCategory: (category: number) => boolean;
     resetUnseenItems: (category: number, items: number[]) => boolean;
     removeUnseenItems: (category: number, ...itemIds: number[]) => void;
@@ -17,14 +14,6 @@ export interface InventoryUnseenSlice
 export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (set, get) =>
 ({
     unseenItems: new Map(),
-    isUnseen: (category: number, itemId: number) =>
-    {
-        const unseenItems = get().unseenItems;
-
-        if (!unseenItems.has(category)) return false;
-
-        return unseenItems.get(category)?.indexOf(itemId) >= 0;
-    },
     processUnseenItems: (items: UnseenItemsParser) => set(state =>
     {
         const unseenItems = new Map(state.unseenItems);
@@ -41,18 +30,6 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return { unseenItems };
     }),
-    getUnseenCount: (category: number) =>
-    {
-        return get().unseenItems.get(category)?.length || 0;
-    },
-    getUnseenFullCount: () =>
-    {
-        let count = 0;
-
-        for (const key of get().unseenItems.keys()) count += get().getUnseenCount(key);
-
-        return count;
-    },
     resetUnseenCategory: (category: number) =>
     {
         let didReset = true;

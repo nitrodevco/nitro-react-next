@@ -48,7 +48,7 @@ export const createInventoryPetSlice: StateCreator<
             if (!petData) return state;
 
             const petItems = [...state.petItems];
-            const isUnseen = state.isUnseen(UnseenItemCategory.PET, petData.id);
+            const isUnseen = (state.unseenItems.get(UnseenItemCategory.PET)?.indexOf(petData.id) >= 0);
 
             if (petItems.filter(item => item.petData.id === petData.id).length > 0) return state;
 
@@ -86,7 +86,7 @@ export const createInventoryPetSlice: StateCreator<
 
                 if (!parser) continue;
 
-                const isUnseen = state.isUnseen(UnseenItemCategory.PET, parser.id);
+                const isUnseen = (state.unseenItems.get(UnseenItemCategory.PET)?.indexOf(parser.id) >= 0);
                 const petItem: IPetItem = {
                     petData: parser,
                 };

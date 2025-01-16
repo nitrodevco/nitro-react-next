@@ -98,7 +98,7 @@ export const createInventoryFurniSlice: StateCreator<
                 {
                     const furniture = new FurnitureItem(item);
 
-                    AddFurnitureItem(groupItems, furniture, state.isUnseen(UnseenItemCategory.FURNI, item.itemId));
+                    AddFurnitureItem(groupItems, furniture, (state.unseenItems.get(UnseenItemCategory.FURNI)?.indexOf(item.itemId) >= 0));
 
                     // TODO DispatchUiEvent(new InventoryFurniAddedEvent(furniture.id, furniture.type, furniture.category));
                 }
@@ -155,7 +155,7 @@ export const createInventoryFurniSlice: StateCreator<
 
                 const item = new FurnitureItem(parser);
 
-                AddFurnitureItem(groupItems, item, state.isUnseen(UnseenItemCategory.FURNI, itemId));
+                AddFurnitureItem(groupItems, item, (state.unseenItems.get(UnseenItemCategory.FURNI)?.indexOf(itemId) >= 0));
 
                 // TODO DispatchUiEvent(new InventoryFurniAddedEvent(item.id, item.type, item.category));
             }

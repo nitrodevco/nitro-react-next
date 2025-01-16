@@ -1,6 +1,6 @@
 import { AttemptPetPlacement, IPetItem, UnseenItemCategory } from '#base/api';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
-import { NitroInfiniteGridItem, NitroPetImageView } from '#themes/default/layout';
+import { NitroInfiniteGridItem, NitroPetImage } from '#themes/default/layout';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 
@@ -12,7 +12,11 @@ export const InventoryPetItemView: FC<{
 {
     const { petItem = null, selectedPetItem = null, selectPetItem = null } = props;
     const [ isMouseDown, setMouseDown ] = useState(false);
-    const isUnseen = useInventoryStore(state => state.isUnseen);
+    const isUnseen = useInventoryStore(state =>
+    {
+        const unseenItems = state.unseenItems;
+        return unseenItems.get(UnseenItemCategory.PET)?.indexOf(petItem.petData.id) >= 0;
+    });
 
     const onMouseEvent = (event: MouseEvent) =>
     {
@@ -39,9 +43,9 @@ export const InventoryPetItemView: FC<{
     return (
         <NitroInfiniteGridItem
             gridItemActive={ petItem === selectedPetItem }
-            gridItemUnseen={ isUnseen(UnseenItemCategory.PET, petItem.petData.id) }
+            gridItemUnseen={ isUnseen }
             onMouseEvent={ onMouseEvent }>
-            <NitroPetImageView direction={ 3 } petFigure={ petItem.petData.figureData.figuredata } headOnly={ true } />
-            </NitroInfiniteGridItem>
+            <NitroPetImage direction={ 3 } petFigure={ petItem.petData.figureData.figuredata } headOnly={ true } />
+        </NitroInfiniteGridItem>
     );
 };
