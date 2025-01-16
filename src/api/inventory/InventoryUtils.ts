@@ -87,6 +87,25 @@ export const AttemptPetPlacement = (petItem: IPetItem, flag: boolean = false) =>
     return true;
 };
 
+export const AttemptBotPlacement = (botItem: IBotItem, flag: boolean = false) =>
+{
+    const botData = botItem.botData;
+
+    if (!botData) return false;
+
+    const session = GetRoomSessionManager().getSession(1);
+
+    if (!session || !session.isRoomOwner) return false;
+
+    if (GetRoomEngine().processRoomObjectPlacement(RoomObjectPlacementSource.INVENTORY, -(botData.id), RoomObjectCategory.UNIT, RoomObjectType.RENTABLE_BOT, botData.figure))
+    {
+        SetPlacingItemId(botData.id);
+        SetObjectMoverRequested(true);
+    }
+
+    return true;
+};
+
 const GetItemByIdForGroup = (groupItem: IGroupItem, itemId: number) =>
 {
     if (!groupItem || !groupItem.items || !groupItem.items.length || itemId < 0) return null;
