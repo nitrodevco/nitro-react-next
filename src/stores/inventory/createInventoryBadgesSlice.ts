@@ -1,15 +1,20 @@
-import { UnseenItemCategory } from '#base/api';
-import { BadgesParser } from '@nitrots/nitro-renderer';
+import { GetConfigurationValue, SendMessageComposer } from '#base/api';
+import { BadgesParser, SetActivatedBadgesComposer } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
 
 export interface InventoryBadgesSlice
 {
-    badgeIds: Map<string, number>;
+    badgeIds: { [key: string]: number };
     badgeCodes: string[];
     activeBadgeCodes: string[];
+    selectedBadgeCode: string;
+    badgeNeedsUpdate: boolean;
+    selectBadgeCode: (badgeCode: string) => void;
+    toggleBadgeCode: (badgeCode: string) => void;
     processBadges: (badges: BadgesParser) => void;
     addBadge: (badgeId: number, badgeCode: string) => void;
+    setBadgeNeedsUpdate: (flag: boolean) => void;
 }
 
 export const createInventoryBadgesSlice: StateCreator<
@@ -19,15 +24,44 @@ export const createInventoryBadgesSlice: StateCreator<
     InventoryBadgesSlice
 > = set =>
     ({
+        badgeIds: {},
         badgeCodes: [],
-        badgeIds: new Map(),
         activeBadgeCodes: [],
+        selectedBadgeCode: null,
+        badgeNeedsUpdate: true,
+        selectBadgeCode: (badgeCode: string) => set(state =>
+        {
+            return { selectedBadgeCode: badgeCode };
+        }),
+        toggleBadgeCode: (badgeCode: string) => set(state =>
+        {
+            const activeBadgeCodes = [...state.activeBadgeCodes];
+            const index = activeBadgeCodes.indexOf(badgeCode);
+            const maxBadgeCount = GetConfigurationValue<number>('user.badges.max.slots', 5);
+
+            if (index === -1)
+            {
+                if (!(activeBadgeCodes.length < maxBadgeCount)) return state;
+
+                activeBadgeCodes.push(badgeCode);
+            }
+            else activeBadgeCodes.splice(index, 1);
+
+            const composer = new SetActivatedBadgesComposer();
+
+            for (let i = 0; i < maxBadgeCount; i++) composer.addActivatedBadge(activeBadgeCodes[i] ?? '');
+
+            SendMessageComposer(composer);
+
+            return { activeBadgeCodes };
+        }),
         processBadges: (badges: BadgesParser) => set(state =>
         {
             if (!badges) return state;
 
-            const badgeIds = new Map(state.badgeIds);
+            const badgeIds = { ...state.badgeIds };
             const badgeCodes = [...state.badgeCodes];
+            const activeBadgeCodes = [...badges.getActiveBadgeCodes()];
 
             badges.getAllBadgeCodes().forEach(badgeCode =>
             {
@@ -35,21 +69,21 @@ export const createInventoryBadgesSlice: StateCreator<
 
                 const badgeId = badges.getBadgeId(badgeCode);
 
-                badgeIds.set(badgeCode, badgeId);
+                badgeIds[badgeCode] = badgeId;
                 badgeCodes.push(badgeCode);
             });
 
-            return { badgeIds, badgeCodes, activeBadgeCodes: badges.getActiveBadgeCodes() };
+            return { badgeIds, badgeCodes, activeBadgeCodes };
         }),
         addBadge: (badgeId: number, badgeCode: string) => set(state =>
         {
+            const badgeIds = { ...state.badgeIds };
             const badgeCodes = [...state.badgeCodes];
-            const badgeIds = new Map(state.badgeIds);
-            const unseen = (state.unseenItems.get(UnseenItemCategory.BADGE)?.indexOf(badgeId) >= 0);
 
+            badgeIds[badgeCode] = badgeId;
             badgeCodes.push(badgeCode);
-            badgeIds.set(badgeCode, badgeId);
 
             return { badgeCodes, badgeIds };
-        })
+        }),
+        setBadgeNeedsUpdate: (flag: boolean) => set({ badgeNeedsUpdate: flag })
     });
