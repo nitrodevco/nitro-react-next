@@ -1,12 +1,16 @@
-import { GetRenderer, GetTicker, NitroTicker, RoomPreviewer, TextureUtils } from '@nitrots/nitro-renderer';
-import { FC, MouseEvent, useEffect, useRef } from 'react';
+import { useResizeObserver } from '#base/hooks';
+import { GetRenderer, GetTexturePool, GetTicker, NitroContainer, NitroTexture, NitroTicker, RoomPreviewer, TextureUtils } from '@nitrots/nitro-renderer';
+import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
 
 export const NitroRoomPreviewer: FC<{
     roomPreviewer: RoomPreviewer;
-    height?: number;
 }> = props =>
 {
-    const { roomPreviewer = null, height = 0 } = props;
+    const { roomPreviewer = null } = props;
+    const [ previewSize, setPreviewSize ] = useState<{ width: number, height: number }>(null);
+    const [ didRender, setDidRender ] = useState(false);
+    const roomCanvas = useRef<NitroContainer>(null);
+    const roomTexture = useRef<NitroTexture>(null);
     const elementRef = useRef<HTMLDivElement>(null);
 
     const onClick = (event: MouseEvent<HTMLDivElement>) =>
@@ -17,71 +21,74 @@ export const NitroRoomPreviewer: FC<{
         else roomPreviewer.changeRoomObjectState();
     };
 
-    useEffect(() =>
+    const updateCanvas = async (ticker: NitroTicker) =>
     {
-        if(!elementRef) return;
+        if(!roomPreviewer || !roomCanvas || !roomCanvas.current || !roomTexture || !roomTexture.current) return;
 
-        const width = elementRef.current.parentElement.clientWidth;
-        const texture = TextureUtils.createRenderTexture(width, height);
+        roomPreviewer.updatePreviewRoomView();
 
-        const update = async (ticker: NitroTicker) =>
-        {
-            if(!roomPreviewer || !elementRef.current) return;
-
-            const canvas = roomPreviewer.getRoomCanvas(width, height);
-            const renderingCanvas = roomPreviewer.getRenderingCanvas();
-
-            if(!renderingCanvas.canvasUpdated) return;
-
-            roomPreviewer.updatePreviewRoomView();
-
-            GetRenderer().render({
-                target: texture,
-                container: canvas,
-                clear: true
-            });
-
-            const url = await TextureUtils.generateImageUrl(texture);
-
-            if(!elementRef || !elementRef.current) return;
-
-            elementRef.current.style.backgroundImage = `url(${ url })`;
-        };
-
-        GetTicker().add(update);
-
-        const resizeObserver = new ResizeObserver(() =>
-        {
-            if(!roomPreviewer || !elementRef.current) return;
-
-            const width = elementRef.current.parentElement.offsetWidth;
-
-            roomPreviewer.modifyRoomCanvas(width, height);
-
-            update(GetTicker());
+        GetRenderer().render({
+            target: roomTexture.current,
+            container: roomCanvas.current,
+            clear: true
         });
 
-        resizeObserver.observe(elementRef.current);
+        const url = await TextureUtils.generateImageUrl(roomTexture.current);
+
+        if(!elementRef || !elementRef.current) return;
+
+        elementRef.current.style.backgroundImage = `url(${ url })`;
+    };
+
+    useResizeObserver({
+        ref: elementRef,
+        onResize: (width, height) => setPreviewSize({ width, height })
+    });
+
+    useEffect(() =>
+    {
+        if (!didRender || !previewSize || !roomPreviewer) return;
+        
+        if (roomTexture?.current)
+        {
+            const previousWidth = roomTexture.current.width;
+            const previousHeight = roomTexture.current.height;
+
+            if ((previousWidth === previewSize.width && previousHeight === previewSize.height)) return;
+
+            GetTexturePool().putTexture(roomTexture.current);
+
+            roomTexture.current = null;
+        }
+
+        if (!roomTexture.current) roomTexture.current = TextureUtils.createRenderTexture(previewSize.width, previewSize.height);
+
+        roomPreviewer.modifyRoomCanvas(previewSize.width, previewSize.height);
+    }, [ didRender, previewSize])
+
+    useEffect(() =>
+    {
+        if(didRender || !previewSize || !roomPreviewer) return;
+
+        roomCanvas.current = roomPreviewer.getRoomCanvas(previewSize.width, previewSize.height);
+
+        setDidRender(true);
+    }, [ didRender, previewSize ]);
+
+    useEffect(() =>
+    {
+        GetTicker().add(updateCanvas);
 
         return () =>
         {
-            GetTicker().remove(update);
-
-            resizeObserver.disconnect();
-
-            texture.destroy(true);
-        };
-    }, [ roomPreviewer, elementRef, height ]);
+            GetTicker().remove(updateCanvas);
+        }
+    }, []);
 
     return (
         <div
             ref={ elementRef }
-            className="relative w-full rounded-md shadow-room-previewer"
-            style={ {
-                height,
-                minHeight: height,
-                maxHeight: height
-            } }
+            className="relative size-full rounded-md shadow-room-previewer bg-no-repeat bg-center bg-black"
             onClick={ onClick } />
     );
 };

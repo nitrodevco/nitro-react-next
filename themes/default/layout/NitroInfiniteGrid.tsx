@@ -1,6 +1,6 @@
 import { useResizeObserver } from '#base/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
+import { Fragment, ReactElement, useMemo, useRef, useState } from 'react';
 
 export const NitroInfiniteGrid = <T,>(props: {
     items: T[];
@@ -9,63 +9,53 @@ export const NitroInfiniteGrid = <T,>(props: {
     itemRender?: (item: T, index?: number) => ReactElement;
 }) =>
 {
-    const { items = [], itemWidth = 42, itemHeight = 42, itemRender = null } = props;
-    const [ elementSize, setElementSize ] = useState({ width: 1, height: 1 });
-    const [ gridSize, setGridSize ] = useState({ columns: 1, rows: 1 });
+    const { items = [], itemWidth = 45, itemHeight = 45, itemRender = null } = props;
+    const [ columnCount, setColumnCount ] = useState(1);
+    const randomKey = useMemo(() => crypto.randomUUID(), []);
     const elementRef = useRef<HTMLDivElement>(null);
 
     const virtualizer = useVirtualizer({
-        count: gridSize.rows,
-        overscan: gridSize.columns,
+        count: Math.max(1, Math.ceil((items?.length ?? 0) / columnCount)),
+        overscan: 1,
         getScrollElement: () => elementRef.current,
         estimateSize: () => itemHeight
     });
 
+    const onResize = (width: number, height: number) => setColumnCount(Math.max(1, Math.ceil(width / itemWidth)));
+
     useResizeObserver({
-        targetRef: elementRef,
-        onResize: (width, height) => setElementSize({ width, height })
+        ref: elementRef,
+        onResize
     });
-
-    useEffect(() =>
-    {
-        if(!items || !elementSize) return;
-
-        const columns = Math.max(1, Math.floor(elementSize.width / itemWidth));
-        const rows = Math.max(1, Math.ceil(items.length / columns));
-
-        setGridSize({ columns, rows });
-    }, [ items, elementSize, itemWidth ]);
 
     const virtualItems = virtualizer.getVirtualItems();
 
     return (
         <div
+            key={ randomKey }
             ref={ elementRef }
             className="overflow-y-auto size-full">
             <div
-                className="flex flex-col w-full *:pb-1 relative"
+                className="flex flex-col w-full *:pb-1 last:*:pb-0 relative"
                 style={ {
-                    height: virtualizer.getTotalSize()
+                    height: `${ virtualizer.getTotalSize() }px`
                 } }>
                 { virtualItems.map(virtualRow => (
                     <div
                         key={ virtualRow.key }
-                        ref={ virtualizer.measureElement }
-                        className={ `grid grid-cols-${ gridSize.columns } gap-1 absolute top-0 left-0 last:pb-0 w-full` }
+                        data-index={ virtualRow.index }
+                        className={ `grid grid-cols-${ columnCount } gap-1 absolute top-0 left-0 w-full` }
                         style={ {
-                            height: virtualRow.size,
+                            height: `${ virtualRow.size }px`,
                             transform: `translateY(${ virtualRow.start }px)`
                         } }>
-                        { Array.from(Array(gridSize.columns)).map((e, i) =>
+                        { Array.from(Array(columnCount)).map((e, i) =>
                         {
-                            const item = items[i + (virtualRow.index * gridSize.columns)];
-
-                            if(!item) return <Fragment
-                                key={ virtualRow.index + i + 'b' } />;
+                            const item = items[i + (virtualRow.index * columnCount)];
 
                             return (
-                                <Fragment key={ i }>
-                                    { itemRender(item, i) }
+                                <Fragment key={ `${ virtualRow.key }-${ i }` }>
+                                    { (item && itemRender(item, i)) ?? null }
                                 </Fragment>
                             );
                         }) }

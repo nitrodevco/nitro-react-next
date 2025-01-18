@@ -1,8 +1,8 @@
 import { classNames, styleNames } from '#base/utils';
 import { GetRoomEngine, IImageResult, IPetCustomPart, PetFigureData, TextureUtils, Vector3d } from '@nitrots/nitro-renderer';
-import { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react';
 
-export const NitroPetImage: FC<PropsWithChildren<{
+export const NitroPetImage: FC<{
     petFigure?: string;
     petTypeId?: number;
     petPaletteId?: number;
@@ -12,9 +12,9 @@ export const NitroPetImage: FC<PropsWithChildren<{
     headOnly?: boolean;
     direction?: number;
     scale?: number;
-}> & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
+} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
-    const { petFigure = '', petTypeId = -1, petPaletteId = -1, petColor = 0xFFFFFF, customParts = [], posture = 'std', headOnly = false, direction = 0, scale = 1, className = null, style = null, children = null, ref = null, ...rest } = props;
+    const { petFigure = '', petTypeId = -1, petPaletteId = -1, petColor = 0xFFFFFF, customParts = [], posture = 'std', headOnly = false, direction = 0, scale = 1, className = null, style = null, ref = null, ...rest } = props;
     const [ imageData, setImageData ] = useState({ url: '', width: 0, height: 0 });
     const isDisposed = useRef(false);
 
@@ -81,13 +81,11 @@ export const NitroPetImage: FC<PropsWithChildren<{
                 imageData?.url?.length && {
                     backgroundImage: `url(${ imageData.url })`,
                 }, {
-                    width: imageData.width,
-                    height: imageData.height
+                    width: `${ imageData.width }px`,
+                    height: `${ imageData.height }px`
                 },
                 { ...style }
             ) }
-            { ...rest }>
-            { children }
-        </div>
+            { ...rest } />
     );
 };

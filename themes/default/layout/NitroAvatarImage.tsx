@@ -1,18 +1,18 @@
 import { classNames, styleNames } from '#base/utils';
 import { AvatarScaleType, AvatarSetType, GetAvatarRenderManager, TextureUtils } from '@nitrots/nitro-renderer';
-import { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 const AVATAR_IMAGE_CACHE: Map<string, string> = new Map();
 
-export const NitroAvatarImage: FC<PropsWithChildren<{
+export const NitroAvatarImage: FC<{
     avatarFigure: string;
     avatarGender?: string;
     avatarHeadOnly?: boolean;
     avatarDirection?: number;
     avatarScale?: number;
-}> & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
+} & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
-    const { avatarFigure = '', avatarGender = 'M', avatarHeadOnly = false, avatarDirection = 0, avatarScale = 1, className = null, style = null, children = null, ref = null, ...rest } = props;
+    const { avatarFigure = '', avatarGender = 'M', avatarHeadOnly = false, avatarDirection = 0, avatarScale = 1, className = null, style = null, ref = null, ...rest } = props;
     const [ imageData, setImageData ] = useState({ url: '', width: 0, height: 0 });
     const isDisposed = useRef(false);
 
@@ -64,13 +64,11 @@ export const NitroAvatarImage: FC<PropsWithChildren<{
                 imageData?.url?.length && {
                     backgroundImage: `url(${ imageData.url })`,
                 }, {
-                    width: imageData.width,
-                    height: imageData.height
+                    width: `${ imageData.width }px`,
+                    height: `${ imageData.height }px`
                 },
                 { ...style }
             ) }
-            { ...rest }>
-            { children }
-        </div>
+            { ...rest } />
     );
 };
