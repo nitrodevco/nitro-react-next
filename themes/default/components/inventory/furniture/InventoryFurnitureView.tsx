@@ -119,7 +119,9 @@ export const InventoryFurnitureView: FC<{
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">
-                    <NitroRoomPreviewer height={ 140 } roomPreviewer={ roomPreviewer } />
+                    <div className="h-[140px] w-full">
+                        <NitroRoomPreviewer roomPreviewer={ roomPreviewer } />
+                    </div>
                     {/* { selectedFurniItem && selectedFurniItem.stuffData.isUnique &&
                         <LayoutLimitedEditionCompactPlateView className="top-2 end-2" position="absolute" uniqueNumber={ selectedFurniItem.stuffData.uniqueNumber } uniqueSeries={ selectedFurniItem.stuffData.uniqueSeries } /> } */}
                     { (selectedFurniItem && selectedFurniItem.stuffData.rarityLevel > -1) &&

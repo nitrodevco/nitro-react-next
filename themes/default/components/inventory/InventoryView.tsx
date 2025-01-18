@@ -1,9 +1,10 @@
 import { LocalizeText, TradeState, UnseenItemCategory } from '#base/api';
+import { useRoomPreviewer } from '#base/hooks/index.ts';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroCard } from '#themes/default/layout';
-import { GetRoomEngine, RoomPreviewer } from '@nitrots/nitro-renderer';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { InventoryBadgeView } from './badge';
 import { InventoryBotView } from './bot';
 import { InventoryFurnitureView } from './furniture';
 import { InventoryPetView } from './pet';
@@ -26,15 +27,13 @@ const TABS = [
     },
     {
         name: 'inventory.badges',
-        component: InventoryFurnitureView,
+        component: InventoryBadgeView,
         unseenCategory: UnseenItemCategory.BADGE
     }
 ];
 
 export const InventoryView: FC = props =>
 {
-    const [ roomPreviewer, setRoomPreviewer ] = useState<RoomPreviewer>(null);
-    const roomSession = useRoomStore(state => state.roomSession);
     const [
         currentTabIndex,
         tradeState,
@@ -49,29 +48,14 @@ export const InventoryView: FC = props =>
             state.setCurrentTabIndex,
             state.resetUnseenCategory
         ]));
-
+    const roomSession = useRoomStore(state => state.roomSession);
+    const { roomPreviewer = null } = useRoomPreviewer();
     const getUnseenCount = (category: number) => unseenItems.get(category)?.length ?? 0;
-
-    const onClose = () =>
-    {
-        // if(isTrading) stopTrading();
-
-        useVisibilityStore.setState({ inventoryVisible: false });
-    }
 
     useEffect(() =>
     {
-        setRoomPreviewer(new RoomPreviewer(GetRoomEngine(), ++RoomPreviewer.PREVIEW_COUNTER));
-
         return () =>
         {
-            setRoomPreviewer(prevValue =>
-            {
-                prevValue.dispose();
-
-                return null;
-            });
-
             resetUnseenCategory(TABS[currentTabIndex]?.unseenCategory);
         }
     }, []);
@@ -91,7 +75,12 @@ export const InventoryView: FC = props =>
             uniqueKey="inventory">
             <NitroCard.Header
                 headerText={ LocalizeText('inventory.title') }
-                onCloseClick={ onClose } />
+                onCloseClick={ event =>
+                    {
+                        // if(isTrading) stopTrading();
+                
+                        useVisibilityStore.setState({ inventoryVisible: false });
+                    } } />
             { (tradeState === TradeState.TRADING_STATE_READY) &&
                 <>
                     <NitroCard.Tabs>

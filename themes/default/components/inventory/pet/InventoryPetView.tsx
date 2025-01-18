@@ -75,7 +75,9 @@ export const InventoryPetView: FC<{
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">
-                    <NitroRoomPreviewer height={ 140 } roomPreviewer={ roomPreviewer } />
+                    <div className="h-[140px] w-full">
+                        <NitroRoomPreviewer roomPreviewer={ roomPreviewer } />
+                    </div>
                 </div>
                 { selectedPetItem && selectedPetItem.petData &&
                     <div className="flex flex-col justify-between gap-2 grow">
