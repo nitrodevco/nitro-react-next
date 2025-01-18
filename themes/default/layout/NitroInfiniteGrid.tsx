@@ -1,6 +1,6 @@
 import { useResizeObserver } from '#base/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Fragment, ReactElement, useMemo, useRef, useState } from 'react';
+import { Fragment, ReactElement, useRef, useState } from 'react';
 
 export const NitroInfiniteGrid = <T,>(props: {
     items: T[];
@@ -10,29 +10,33 @@ export const NitroInfiniteGrid = <T,>(props: {
 }) =>
 {
     const { items = [], itemWidth = 45, itemHeight = 45, itemRender = null } = props;
-    const [ columnCount, setColumnCount ] = useState(1);
-    const randomKey = useMemo(() => crypto.randomUUID(), []);
+    const [ columnCount, setColumnCount ] = useState(0);
+    const [ isReady, setIsReady ] = useState(false);
     const elementRef = useRef<HTMLDivElement>(null);
 
     const virtualizer = useVirtualizer({
-        count: Math.max(1, Math.ceil((items?.length ?? 0) / columnCount)),
+        count: (columnCount > 0) ? Math.max(1, Math.ceil((items?.length ?? 0) / columnCount)) : 0,
         overscan: 1,
         getScrollElement: () => elementRef.current,
         estimateSize: () => itemHeight
     });
 
-    const onResize = (width: number, height: number) => setColumnCount(Math.max(1, Math.ceil(width / itemWidth)));
-
     useResizeObserver({
         ref: elementRef,
-        onResize
+        onResize: (width: number, height: number) =>
+        {
+            setColumnCount(Math.max(1, Math.min(12, Math.ceil(width / (itemWidth + 4)))));
+
+            if(!isReady && columnCount > 0) setIsReady(true);
+        }
     });
 
-    const virtualItems = virtualizer.getVirtualItems();
+    if (!isReady) {
+        return <div ref={elementRef} className="overflow-y-auto size-full" />;
+    }
 
     return (
         <div
-            key={ randomKey }
             ref={ elementRef }
             className="overflow-y-auto size-full">
             <div
@@ -40,7 +44,7 @@ export const NitroInfiniteGrid = <T,>(props: {
                 style={ {
                     height: `${ virtualizer.getTotalSize() }px`
                 } }>
-                { virtualItems.map(virtualRow => (
+                { virtualizer.getVirtualItems().map(virtualRow => (
                     <div
                         key={ virtualRow.key }
                         data-index={ virtualRow.index }

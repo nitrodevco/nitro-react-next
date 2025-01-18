@@ -8,18 +8,39 @@ export const NitroBadgeImage: FC<{
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { badgeCode = null, isGroupBadge = false, className = null, style = null, ref = null, ...rest } = props;
-    const [ imageData, setImageData ] = useState({ url: '', width: 0, height: 0 });
+    const [ imageData, setImageData ] = useState({ url: '', width: 45, height: 45 });
     const isDisposed = useRef(false);
 
     useEffect(() =>
     {
         if(!badgeCode || !badgeCode.length) return;
 
+        if(!isGroupBadge)
+        {
+            const image = new Image();
+
+            image.src = GetSessionDataManager().getBadgeUrl(badgeCode);
+            image.onload = () =>
+            {
+                if(isDisposed.current) return;
+
+                setImageData({
+                    url: image.src,
+                    width: image.width,
+                    height: image.height
+                });
+            }
+
+            return;
+        }
+        
         let didSetBadge = false;
 
         const onBadgeImageReadyEvent = async (event: BadgeImageReadyEvent) =>
         {
             if(isDisposed.current || !event || event.badgeId !== badgeCode) return;
+
+            didSetBadge = true;
 
             const imageUrl = await TextureUtils.generateImageUrl(event.image);
 
@@ -29,18 +50,16 @@ export const NitroBadgeImage: FC<{
                 height: event.image.height
             });
 
-            removeEvent();
+            GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
         };
-
-        const removeEvent = () => GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
-
+            
         GetEventDispatcher().addEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
 
-        const texture = isGroupBadge ? GetSessionDataManager().getGroupBadgeImage(badgeCode) : GetSessionDataManager().getBadgeImage(badgeCode);
+        const texture = GetSessionDataManager().getGroupBadgeImage(badgeCode);
 
         if(texture && !didSetBadge)
         {
-            (async () =>
+            const generateImage = async () =>
             {
                 const imageUrl = await TextureUtils.generateImageUrl(texture);
 
@@ -49,12 +68,15 @@ export const NitroBadgeImage: FC<{
                     width: texture.width,
                     height: texture.height
                 });
+            }
 
-                removeEvent();
-            })();
+            generateImage();
         }
 
-        return () => removeEvent();
+        return () =>
+        {
+            GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
+        }
     }, [ badgeCode, isGroupBadge ]);
 
     useEffect(() =>
@@ -75,13 +97,12 @@ export const NitroBadgeImage: FC<{
                 className
             ) }
             style={ styleNames(
-                imageData?.url?.length && {
-                    backgroundImage: `url(${ imageData.url })`,
-                }, {
+                {
+                    backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url("/assets/images/ui/loading_icon.png")`,
                     width: `${ imageData.width }px`,
-                    height: `${ imageData.height }px`
-                },
-                { ...style }
+                    height: `${ imageData.height }px`,
+                    ...style
+                }
             ) }
             { ...rest } />
     );

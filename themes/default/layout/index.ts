@@ -2,6 +2,7 @@ export * from './NitroAvatarImage';
 export * from './NitroBadgeImage';
 export * from './NitroButton';
 export * from './NitroCard';
+export * from './NitroFurniIconImage';
 export * from './NitroInfiniteGrid';
 export * from './NitroInfiniteGridItem';
 export * from './NitroInput';
