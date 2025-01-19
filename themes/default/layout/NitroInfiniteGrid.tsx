@@ -6,10 +6,11 @@ export const NitroInfiniteGrid = <T,>(props: {
     items: T[];
     itemWidth?: number;
     itemHeight?: number;
+    overrideColumnCount?: number;
     itemRender?: (item: T, index?: number) => ReactElement;
 }) =>
 {
-    const { items = [], itemWidth = 45, itemHeight = 45, itemRender = null } = props;
+    const { items = [], itemWidth = 45, itemHeight = 45, overrideColumnCount = 0, itemRender = null } = props;
     const [ columnCount, setColumnCount ] = useState(0);
     const [ isReady, setIsReady ] = useState(false);
     const elementRef = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ export const NitroInfiniteGrid = <T,>(props: {
         ref: elementRef,
         onResize: (width: number, height: number) =>
         {
-            setColumnCount(Math.max(1, Math.min(12, Math.ceil(width / (itemWidth + 4)))));
+            setColumnCount((overrideColumnCount > 0) ? overrideColumnCount : Math.max(1, Math.min(12, Math.ceil(width / (itemWidth + 4)))));
 
             if(!isReady && columnCount > 0) setIsReady(true);
         }

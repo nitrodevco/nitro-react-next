@@ -13,6 +13,8 @@ export const NitroBadgeImage: FC<{
 
     useEffect(() =>
     {
+        setImageData({ url: '', width: 45, height: 45 });
+
         if(!badgeCode || !badgeCode.length) return;
 
         if(!isGroupBadge)
@@ -93,14 +95,12 @@ export const NitroBadgeImage: FC<{
         <div
             ref={ ref }
             className={ classNames(
-                'flex flex-col items-center justify-center overflow-hidden relative bg-center bg-no-repeat',
+                'flex flex-col items-center justify-center overflow-hidden relative bg-center bg-no-repeat w-[50px] h-[50px]',
                 className
             ) }
             style={ styleNames(
                 {
                     backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url("/assets/images/ui/loading_icon.png")`,
-                    width: `${ imageData.width }px`,
-                    height: `${ imageData.height }px`,
                     ...style
                 }
             ) }
