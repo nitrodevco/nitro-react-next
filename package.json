@@ -28,6 +28,7 @@
         "vite-tsconfig-paths": "^5.1.4"
     },
     "dependencies": {
+        "@nitrots/nitro-renderer": "git+https://github.com/billsonnn/nitro-renderer.git#v2",
         "@tanstack/react-virtual": "^3.11.2",
         "motion": "12.0.0-alpha.2",
         "react": "^19.0.0",
