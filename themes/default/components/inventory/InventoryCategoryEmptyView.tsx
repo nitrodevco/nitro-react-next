@@ -10,18 +10,15 @@ export const InventoryCategoryEmptyView: FC<InventoryCategoryEmptyViewProps> = p
 {
     const { title = '', desc = '', ...rest } = props;
 
-    return null;
-
-    /* return (
-        <Grid { ...rest }>
-            <Column center overflow="hidden" size={ 5 }>
-                <div className="empty-image" />
-            </Column>
-            <Column justifyContent="center" overflow="hidden" size={ 7 }>
-                <Text truncate fontSize={ 5 } fontWeight="bold" overflow="unset">{ title }</Text>
-                <Text overflow="auto">{ desc }</Text>
-            </Column>
-            { children }
-        </Grid>
-    ); */
+    return (
+        <div className="grid h-full grid-cols-12 gap-2">
+            <div className="flex flex-col col-span-5 items-center justify-center gap-1 overflow-hidden">
+                <div className="inventory-empty-image" />
+            </div>
+            <div className="flex flex-col col-span-7 overflow-hidden justify-center">
+                <span className="text-xl font-medium">{ title }</span>
+                <span className="">{ desc }</span>
+            </div>
+        </div>
+    );
 };

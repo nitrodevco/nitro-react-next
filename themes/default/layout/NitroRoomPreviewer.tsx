@@ -104,7 +104,7 @@ export const NitroRoomPreviewer: FC<{
 
             GetTicker().remove(updateCanvas);
         };
-    }, []);
+    }, [ roomPreviewer ]);
 
     return (
         <div
