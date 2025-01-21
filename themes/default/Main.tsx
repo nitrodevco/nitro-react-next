@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { HotelView, InventoryView, NavigatorView, RoomView, ToolbarView } from './components';
+import './index.css';
 
 export const Main: FC = () =>
 {
