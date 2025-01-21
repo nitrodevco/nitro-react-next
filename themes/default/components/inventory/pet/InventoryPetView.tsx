@@ -1,19 +1,19 @@
 import { AttemptPetPlacement, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
-import { useInventoryStore, useVisibilityStore } from '#base/stores';
+import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default/layout';
-import { GetRoomEngine, IRoomSession, RequestPetsComposer, RoomObjectVariable, RoomPreviewer } from '@nitrots/nitro-renderer';
+import { GetRoomEngine, RequestPetsComposer, RoomObjectVariable, RoomPreviewer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryCategoryEmptyView } from '../InventoryCategoryEmptyView';
 import { InventoryPetItemView } from './InventoryPetItemView';
 
 export const InventoryPetView: FC<{
-    roomSession: IRoomSession;
     roomPreviewer: RoomPreviewer;
 }> = props =>
 {
-    const { roomSession = null, roomPreviewer = null } = props;
+    const { roomPreviewer = null } = props;
 
+    const roomSession = useRoomStore(state => state.roomSession);
     const [
         petItems,
         selectedPetItem,
@@ -69,9 +69,11 @@ export const InventoryPetView: FC<{
     return (
         <div className="grid h-full grid-cols-12 gap-2">
             <div className="flex flex-col col-span-7 gap-1 overflow-hidden">
-                <NitroInfiniteGrid<IPetItem>
-                    items={ petItems }
-                    itemRender={ item => <InventoryPetItemView petItem={ item } selectedPetItem={ selectedPetItem} selectPetItem={ selectPetItem } /> } />
+                { (petItems?.length > 0) &&
+                    <NitroInfiniteGrid<IPetItem>
+                        key="inventory-pets"
+                        items={ petItems }
+                        itemRender={ item => <InventoryPetItemView petItem={ item } selectedPetItem={ selectedPetItem} selectPetItem={ selectPetItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">

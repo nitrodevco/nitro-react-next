@@ -1,12 +1,13 @@
 import { LocalizeText, TradeState, UnseenItemCategory } from '#base/api';
 import { useRoomPreviewer } from '#base/hooks/index.ts';
-import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
+import { useInventoryStore, useVisibilityStore } from '#base/stores';
 import { NitroCard } from '#themes/default/layout';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryBadgeView } from './badge';
 import { InventoryBotView } from './bot';
 import { InventoryFurnitureView } from './furniture';
+import { InventoryCurrentTabComponent } from './InventoryCurrentTabView';
 import { InventoryPetView } from './pet';
 
 const TABS = [
@@ -48,9 +49,7 @@ export const InventoryView: FC = props =>
             state.setCurrentTabIndex,
             state.resetUnseenCategory
         ]));
-    const roomSession = useRoomStore(state => state.roomSession);
     const { roomPreviewer = null } = useRoomPreviewer();
-    const getUnseenCount = (category: number) => unseenItems.get(category)?.length ?? 0;
 
     useEffect(() =>
     {
@@ -59,15 +58,6 @@ export const InventoryView: FC = props =>
             resetUnseenCategory(TABS[currentTabIndex]?.unseenCategory);
         }
     }, []);
-
-    const CurrentTabComponent = () =>
-    {
-        const currentTab = TABS[currentTabIndex];
-
-        if(!currentTab || !currentTab.component) return null;
-
-        return <currentTab.component roomSession={ roomSession } roomPreviewer={ roomPreviewer }  />
-    }
 
     return (
         <NitroCard
@@ -89,7 +79,7 @@ export const InventoryView: FC = props =>
                             return (
                                 <NitroCard.TabItem
                                     key={ index }
-                                    count={ getUnseenCount(TABS[index]?.unseenCategory) }
+                                    count={ unseenItems.get(TABS[index]?.unseenCategory)?.length ?? 0 }
                                     isActive={ (currentTabIndex === index) }
                                     onClick={ event => setCurrentTabIndex(index) }>
                                     { LocalizeText(TABS[index]?.name ?? '') }
@@ -98,7 +88,10 @@ export const InventoryView: FC = props =>
                         }) }
                     </NitroCard.Tabs>
                     <NitroCard.Content>
-                        <CurrentTabComponent />
+                        <InventoryCurrentTabComponent
+                            currentTabIndex={ currentTabIndex }
+                            tabs={ TABS }
+                            roomPreviewer={ roomPreviewer } />
                     </NitroCard.Content>
                 </> }
             {/* { isTrading &&

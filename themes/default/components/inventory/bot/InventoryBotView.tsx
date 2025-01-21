@@ -1,19 +1,19 @@
 import { AttemptBotPlacement, IBotItem, LocalizeText, SendMessageComposer } from '#base/api';
-import { useInventoryStore, useVisibilityStore } from '#base/stores';
+import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default/layout';
-import { GetBotInventoryComposer, GetRoomEngine, IRoomSession, RoomObjectVariable, RoomPreviewer } from '@nitrots/nitro-renderer';
+import { GetBotInventoryComposer, GetRoomEngine, RoomObjectVariable, RoomPreviewer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryCategoryEmptyView } from '../InventoryCategoryEmptyView';
 import { InventoryBotItemView } from './InventoryBotItemView';
 
 export const InventoryBotView: FC<{
-    roomSession: IRoomSession;
     roomPreviewer: RoomPreviewer;
 }> = props =>
 {
-    const { roomSession = null, roomPreviewer = null } = props;
+    const { roomPreviewer = null } = props;
 
+    const roomSession = useRoomStore(state => state.roomSession);
     const [
         botItems,
         selectedBotItem,
@@ -70,9 +70,11 @@ export const InventoryBotView: FC<{
     return (
         <div className="grid h-full grid-cols-12 gap-2">
             <div className="flex flex-col col-span-7 gap-1 overflow-hidden">
-                <NitroInfiniteGrid<IBotItem>
-                    items={ botItems }
-                    itemRender={ item => <InventoryBotItemView botItem={ item } selectedBotItem={ selectedBotItem } selectBotItem={ selectBotItem } /> } />
+                { (botItems?.length > 0) &&
+                    <NitroInfiniteGrid<IBotItem>
+                        key="inventory-bots"
+                        items={ botItems }
+                        itemRender={ item => <InventoryBotItemView botItem={ item } selectedBotItem={ selectedBotItem } selectBotItem={ selectBotItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">

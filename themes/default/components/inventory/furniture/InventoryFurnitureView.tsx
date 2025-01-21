@@ -1,7 +1,7 @@
 import { AttemptItemPlacement, FurniCategory, IGroupItem, LocalizeText, SendMessageComposer } from '#base/api';
-import { useInventoryStore, useVisibilityStore } from '#base/stores';
+import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default/layout';
-import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, IRoomSession, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
+import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryCategoryEmptyView } from '../InventoryCategoryEmptyView';
@@ -20,12 +20,12 @@ const attemptPlaceMarketplaceOffer = (groupItem: IGroupItem) =>
 };
 
 export const InventoryFurnitureView: FC<{
-    roomSession: IRoomSession;
     roomPreviewer: RoomPreviewer;
 }> = props =>
 {
-    const { roomSession = null, roomPreviewer = null } = props;
+    const { roomPreviewer = null } = props;
 
+    const roomSession = useRoomStore(state => state.roomSession);
     const [
         furniItems,
         selectedFurniItem,
@@ -113,9 +113,11 @@ export const InventoryFurnitureView: FC<{
         <div className="grid h-full grid-cols-12 gap-2">
             <div className="flex flex-col col-span-7 gap-1 overflow-hidden">
                 <InventoryFurnitureSearchView groupItems={ furniItems } setGroupItems={ setFilteredGroupItems } />
-                <NitroInfiniteGrid<IGroupItem>
-                    items={ filteredGroupItems }
-                    itemRender={ item => <InventoryFurnitureItemView groupItem={ item } selectedFurniItem={ selectedFurniItem } selectFurniItem={ selectFurniItem } /> } />
+                { (filteredGroupItems?.length > 0) &&
+                    <NitroInfiniteGrid<IGroupItem>
+                        key="inventory-furniture"
+                        items={ filteredGroupItems }
+                        itemRender={ item => <InventoryFurnitureItemView groupItem={ item } selectedFurniItem={ selectedFurniItem } selectFurniItem={ selectFurniItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5">
                 <div className="relative flex flex-col">

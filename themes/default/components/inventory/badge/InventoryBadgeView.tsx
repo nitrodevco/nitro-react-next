@@ -43,17 +43,20 @@ export const InventoryBadgeView: FC<{
     return (
         <div className="grid h-full grid-cols-12 gap-2">
             <div className="flex flex-col col-span-7 gap-1 overflow-hidden">
-                <NitroInfiniteGrid<string>
+                { (badgeCodes?.length > 0) &&
+                    <NitroInfiniteGrid<string>
+                    key="inventory-badges"
                     items={ badgeCodes.filter(badgeCode => !activeBadgeCodes.includes(badgeCode)) }
-                    itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } />
+                    itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } /> }
             </div>
             <div className="flex flex-col justify-between col-span-5 overflow-auto">
                 <div className="flex flex-col gap-1 overflow-hidden size-full">
                     <span className="text-base truncate grow">{ LocalizeText('inventory.badges.activebadges') }</span>
-                    <NitroInfiniteGrid<string>
-                        overrideColumnCount={ 3 }
-                        items={ activeBadgeCodes }
-                        itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } />
+                    { (activeBadgeCodes?.length > 0) &&
+                        <NitroInfiniteGrid<string>
+                            overrideColumnCount={ 3 }
+                            items={ activeBadgeCodes }
+                            itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } /> }
                 </div>
                 { !!selectedBadgeCode &&
                     <div className="flex flex-col gap-2 grow">
