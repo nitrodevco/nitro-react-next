@@ -928,10 +928,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-babel-plugin-react-compiler@^19.0.0-beta-63e3235-20250105:
-  version "19.0.0-beta-63e3235-20250105"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-compiler/-/babel-plugin-react-compiler-19.0.0-beta-63e3235-20250105.tgz#25d5c6313722adc82582b21e169dd984e94001c2"
-  integrity sha512-38qEX4e1nNOZ9K7rVAF4VVijcjTHBbRHd+ftYpfim2Oabitd1NGjvrL0bnwFymDTBB4MqswqIHTYjYfuy1OeTQ==
+babel-plugin-react-compiler@^19.0.0-beta-decd7b8-20250118:
+  version "19.0.0-beta-decd7b8-20250118"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-compiler/-/babel-plugin-react-compiler-19.0.0-beta-decd7b8-20250118.tgz#449fe9ca47e2551f30d88e40b0f8510243520d7f"
+  integrity sha512-kymIdd5TmHnq1r2U2n26WI3ukadllV0o19kyrso4kByFE4KPOOXxE3uHibhwW77RPPptPx6ZqNfsZn3L/tm/Ew==
   dependencies:
     "@babel/types" "^7.19.0"
 
@@ -1342,10 +1342,10 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-plugin-react-compiler@^19.0.0-beta-63e3235-20250105:
-  version "19.0.0-beta-63e3235-20250105"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-compiler/-/eslint-plugin-react-compiler-19.0.0-beta-63e3235-20250105.tgz#4846db37edd77e736bcd7ffc65e62e55a9f281a3"
-  integrity sha512-Smts5x+u+rRopr0926jCXFPkS8D8hFJexDvTW41V0Xu/xHgd4pnGWiJQRBsvTEARzOdJ6NdlmYs4n+O4Thn2iA==
+eslint-plugin-react-compiler@^19.0.0-beta-decd7b8-20250118:
+  version "19.0.0-beta-decd7b8-20250118"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-compiler/-/eslint-plugin-react-compiler-19.0.0-beta-decd7b8-20250118.tgz#fd74188136b3e5d87f101e28adb603a436f201b2"
+  integrity sha512-qfs+Xo+VcYPbbVLI2tCP+KBGwm0oksAhjFJO1GwOvP+4b18LLcPZu7xopRhUTOaNd+nn1vOp9EQLZC1wMNxSrQ==
   dependencies:
     "@babel/core" "^7.24.4"
     "@babel/parser" "^7.24.4"

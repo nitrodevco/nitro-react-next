@@ -41,7 +41,7 @@ export default {
                 assetFileNames: 'assets/[name].[hash][extname]',
                 manualChunks: id => {
                     if (id.includes('node_modules')) {
-                        if (id.includes('@nitrots/nitro-renderer')) return 'nitro-renderer';
+                        if (id.includes('nitro-renderer')) return 'nitro-renderer';
 
                         return 'vendor';
                     }

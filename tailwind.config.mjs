@@ -75,10 +75,12 @@ const colors = {
     'card-tab-item': '#B6BEC5',
     'card-tab-item-active': '#DFDFDF',
     'card-content-area': '#DFDFDF',
+
     'card-grid-item': '#CDD3D9',
+    'card-grid-item-border': '#95A7BB',
     'card-grid-item-active': '#ECECEC',
-    'card-grid-item-border': '#B6BEC5',
-    'card-grid-item-border-active': '#FFFFFF',
+    'card-grid-item-active-border': '#FFFFFF',
+
     'loading': '#393A85',
     'muted': 'rgba(182, 190, 197)',
     'blue': '#0d6efd',
