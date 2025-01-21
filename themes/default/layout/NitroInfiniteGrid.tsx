@@ -11,6 +11,7 @@ export const NitroInfiniteGrid = <T,>(props: {
 }) =>
 {
     const { items = [], itemWidth = 45, itemHeight = 45, overrideColumnCount = 0, itemRender = null } = props;
+    const [ elementSize, setElementSize ] = useState({ width: 0, height: 0 });
     const [ columnCount, setColumnCount ] = useState(0);
     const [ isReady, setIsReady ] = useState(false);
     const elementRef = useRef<HTMLDivElement>(null);
@@ -22,14 +23,19 @@ export const NitroInfiniteGrid = <T,>(props: {
         estimateSize: () => itemHeight
     });
 
+    const onResize = (size: { width: number, height: number }) =>
+    {
+        if((size.width === elementSize.width) && (size.height === elementSize.height)) return;
+
+        setElementSize(size);
+        setColumnCount((overrideColumnCount > 0) ? overrideColumnCount : Math.max(1, Math.min(12, Math.ceil(size.width / (itemWidth + 4)))));
+
+        if(!isReady) setIsReady(true);
+    }
+
     useResizeObserver({
         ref: elementRef,
-        onResize: (width: number, height: number) =>
-        {
-            setColumnCount((overrideColumnCount > 0) ? overrideColumnCount : Math.max(1, Math.min(12, Math.ceil(width / (itemWidth + 4)))));
-
-            if(!isReady && columnCount > 0) setIsReady(true);
-        }
+        onResize
     });
 
     if (!isReady) {

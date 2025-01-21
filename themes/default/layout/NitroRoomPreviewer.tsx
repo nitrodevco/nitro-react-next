@@ -1,14 +1,11 @@
-import { useResizeObserver } from '#base/hooks';
 import { GetRenderer, GetTexturePool, GetTicker, NitroContainer, NitroTexture, NitroTicker, RoomPreviewer, TextureUtils } from '@nitrots/nitro-renderer';
-import { FC, MouseEvent, useEffect, useRef, useState } from 'react';
+import { FC, MouseEvent, useEffect, useRef } from 'react';
 
 export const NitroRoomPreviewer: FC<{
     roomPreviewer: RoomPreviewer;
 }> = props =>
 {
     const { roomPreviewer = null } = props;
-    const [ previewSize, setPreviewSize ] = useState<{ width: number, height: number }>(null);
-    const [ didRender, setDidRender ] = useState(false);
     const roomCanvas = useRef<NitroContainer>(null);
     const roomTexture = useRef<NitroTexture>(null);
     const elementRef = useRef<HTMLDivElement>(null);
@@ -23,9 +20,9 @@ export const NitroRoomPreviewer: FC<{
 
     const updateCanvas = async (ticker: NitroTicker) =>
     {
-        if(!roomPreviewer || !roomCanvas || !roomCanvas.current || !roomTexture || !roomTexture.current) return;
+        if(!roomPreviewer || !roomCanvas?.current || !roomTexture?.current) return;
 
-        roomPreviewer.updatePreviewRoomView();
+        if(roomPreviewer) roomPreviewer.updatePreviewRoomView();
 
         GetRenderer().render({
             target: roomTexture.current,
@@ -35,54 +32,78 @@ export const NitroRoomPreviewer: FC<{
 
         const url = await TextureUtils.generateImageUrl(roomTexture.current);
 
-        if(!elementRef || !elementRef.current) return;
-
-        elementRef.current.style.backgroundImage = `url(${ url })`;
-    };
-
-    useResizeObserver({
-        ref: elementRef,
-        onResize: (width, height) => setPreviewSize({ width, height })
-    });
+        if(elementRef?.current) elementRef.current.style.backgroundImage = `url(${ url })`;
+    }
 
     useEffect(() =>
     {
-        if (!didRender || !previewSize || !roomPreviewer) return;
-        
-        if (roomTexture?.current)
+        if (!elementRef?.current || !roomPreviewer) return;
+
+        const previousSize = {
+            width: -1,
+            height: -1
+        };
+
+        let debounceTimeout: ReturnType<typeof setTimeout> = null;
+
+        const setup = () =>
         {
-            const previousWidth = roomTexture.current.width;
-            const previousHeight = roomTexture.current.height;
+            if(roomTexture?.current) GetTexturePool().putTexture(roomTexture.current);
 
-            if ((previousWidth === previewSize.width && previousHeight === previewSize.height)) return;
+            roomTexture.current = GetTexturePool().getTexture(previousSize.width, previousSize.height);
 
-            GetTexturePool().putTexture(roomTexture.current);
-
-            roomTexture.current = null;
+            if(!roomCanvas?.current)
+            {
+                roomCanvas.current = roomPreviewer.getRoomCanvas(previousSize.width, previousSize.height);
+            }
+            else
+            {
+                roomPreviewer.modifyRoomCanvas(previousSize.width, previousSize.height);
+            }
         }
 
-        if (!roomTexture.current) roomTexture.current = TextureUtils.createRenderTexture(previewSize.width, previewSize.height);
+        const resize = (width: number, height: number) =>
+        {
+            if ((width === previousSize.width) && (height === previousSize.height)) return;
 
-        roomPreviewer.modifyRoomCanvas(previewSize.width, previewSize.height);
-    }, [ didRender, previewSize])
+            previousSize.width = width;
+            previousSize.height = height;
 
-    useEffect(() =>
-    {
-        if(didRender || !previewSize || !roomPreviewer) return;
+            if (debounceTimeout) clearTimeout(debounceTimeout);
 
-        roomCanvas.current = roomPreviewer.getRoomCanvas(previewSize.width, previewSize.height);
+            if((previousSize.width === -1) && (previousSize.height === -1))
+            {
+                setup();
+            }
+            else
+            {
+                debounceTimeout = setTimeout(() => setup(), 1);
+            }
+        };
 
-        setDidRender(true);
-    }, [ didRender, previewSize ]);
+        const resizeObserver = new ResizeObserver(entries =>
+        {
+            const entry = entries?.[0];
 
-    useEffect(() =>
-    {
+            if (entry) resize(Math.floor(entry.contentRect.width), Math.floor(entry.contentRect.height));
+        });
+
+        resizeObserver.observe(elementRef.current);
+
+        const initialSize = elementRef.current.getBoundingClientRect();
+
+        if (initialSize) resize(initialSize.width, initialSize.height);
+
         GetTicker().add(updateCanvas);
 
         return () =>
         {
+            if (debounceTimeout) clearTimeout(debounceTimeout);
+
+            resizeObserver.disconnect();
+
             GetTicker().remove(updateCanvas);
-        }
+        };
     }, []);
 
     return (

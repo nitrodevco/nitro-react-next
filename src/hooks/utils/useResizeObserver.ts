@@ -1,10 +1,10 @@
-import { DependencyList, RefObject, useEffect } from 'react';
+import { RefObject, useEffect } from 'react';
 
 export const useResizeObserver = (props: {
     ref: RefObject<HTMLElement>,
-    onResize: (width: number, height: number) => void;
+    onResize: (size: { width: number, height: number }) => void;
     debounceDelay?: number;
-}, deps: DependencyList = []) =>
+}) =>
 {
     const { ref = null, onResize = null, debounceDelay = 1 } = props;
 
@@ -28,7 +28,7 @@ export const useResizeObserver = (props: {
 
             if (debounceTimeout) clearTimeout(debounceTimeout);
 
-            debounceTimeout = setTimeout(() => onResize(width, height), debounceDelay);
+            debounceTimeout = setTimeout(() => onResize({ ...previousSize }), debounceDelay);
         };
 
         const resizeObserver = new ResizeObserver(entries =>
@@ -50,5 +50,5 @@ export const useResizeObserver = (props: {
 
             resizeObserver.disconnect();
         };
-    }, [ref, onResize, debounceDelay, ...deps]);
+    }, [onResize, debounceDelay]);
 };

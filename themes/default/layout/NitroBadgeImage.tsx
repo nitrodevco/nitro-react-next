@@ -8,13 +8,11 @@ export const NitroBadgeImage: FC<{
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { badgeCode = null, isGroupBadge = false, className = null, style = null, ref = null, ...rest } = props;
-    const [ imageData, setImageData ] = useState({ url: '', width: 45, height: 45 });
+    const [ imageUrl, setImageUrl ] = useState('');
     const isDisposed = useRef(false);
 
     useEffect(() =>
     {
-        setImageData({ url: '', width: 45, height: 45 });
-
         if(!badgeCode || !badgeCode.length) return;
 
         if(!isGroupBadge)
@@ -26,11 +24,7 @@ export const NitroBadgeImage: FC<{
             {
                 if(isDisposed.current) return;
 
-                setImageData({
-                    url: image.src,
-                    width: image.width,
-                    height: image.height
-                });
+                setImageUrl(image.src);
             }
 
             return;
@@ -40,17 +34,13 @@ export const NitroBadgeImage: FC<{
 
         const onBadgeImageReadyEvent = async (event: BadgeImageReadyEvent) =>
         {
-            if(isDisposed.current || !event || event.badgeId !== badgeCode) return;
+            if(isDisposed.current || !event || (event.badgeId !== badgeCode)) return;
 
             didSetBadge = true;
 
             const imageUrl = await TextureUtils.generateImageUrl(event.image);
 
-            setImageData({
-                url: imageUrl,
-                width: event.image.width,
-                height: event.image.height
-            });
+            setImageUrl(imageUrl);
 
             GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
         };
@@ -65,11 +55,7 @@ export const NitroBadgeImage: FC<{
             {
                 const imageUrl = await TextureUtils.generateImageUrl(texture);
 
-                setImageData({
-                    url: imageUrl,
-                    width: texture.width,
-                    height: texture.height
-                });
+                setImageUrl(imageUrl);
             }
 
             generateImage();
@@ -100,7 +86,7 @@ export const NitroBadgeImage: FC<{
             ) }
             style={ styleNames(
                 {
-                    backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url("/assets/images/ui/loading_icon.png")`,
+                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url("/assets/images/ui/loading_icon.png")`,
                     ...style
                 }
             ) }
