@@ -16,10 +16,8 @@ export const InventoryFurnitureSearchView: FC<{
     useEffect(() =>
     {
         if(!groupItems) return;
-        
-        let filteredGroupItems = [ ...groupItems ];
 
-        console.log('run this', searchValue);
+        let filteredGroupItems = [ ...groupItems ];
 
         if(searchValue && searchValue.length)
         {
