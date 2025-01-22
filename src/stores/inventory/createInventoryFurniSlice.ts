@@ -8,8 +8,10 @@ export interface InventoryFurniSlice
 {
     furniItems: IGroupItem[];
     selectedFurniItem: IGroupItem;
+    furniSearchValue: string;
     furniNeedsUpdate: boolean;
-    selectFurniItem: (selectedFurniItem?: IGroupItem) => void;
+    selectFurniItem: (selectedFurniItem?: IGroupItem, furniItems?: IGroupItem[]) => void;
+    setFurniSearchValue: (searchValue: string) => void;
     addOrUpdateFurniItems: (items: FurnitureListItemParser[]) => void;
     processFurniItems: (items: Map<number, FurnitureListItemParser>) => void;
     removeFurniItem: (itemId: number) => void;
@@ -25,16 +27,19 @@ export const createInventoryFurniSlice: StateCreator<
     ({
         furniItems: [],
         selectedFurniItem: null,
+        furniSearchValue: '',
         furniNeedsUpdate: true,
-        selectFurniItem: (selectedFurniItem: IGroupItem = null) => set(state =>
+        selectFurniItem: (selectedFurniItem: IGroupItem = null, furniItems: IGroupItem[] = null) => set(state =>
         {
             selectedFurniItem = !selectedFurniItem ? state.selectedFurniItem : selectedFurniItem;
 
-            if (state.furniItems.length)
-            {
-                if (selectedFurniItem && state.furniItems.indexOf(selectedFurniItem) === -1) selectedFurniItem = null;
+            furniItems = furniItems ?? state.furniItems;
 
-                if (!selectedFurniItem) selectedFurniItem = state.furniItems[0];
+            if (furniItems.length)
+            {
+                if (selectedFurniItem && furniItems.indexOf(selectedFurniItem) === -1) selectedFurniItem = null;
+
+                if (!selectedFurniItem) selectedFurniItem = furniItems[0];
             }
 
             if (selectedFurniItem && selectedFurniItem.hasUnseenItems)
@@ -46,6 +51,7 @@ export const createInventoryFurniSlice: StateCreator<
 
             return { selectedFurniItem };
         }),
+        setFurniSearchValue: (searchValue: string) => set({ furniSearchValue: searchValue }),
         addOrUpdateFurniItems: (items: FurnitureListItemParser[]) => set(state =>
         {
             if (!items || !items.length) return state;

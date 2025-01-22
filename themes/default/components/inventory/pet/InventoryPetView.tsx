@@ -64,6 +64,8 @@ export const InventoryPetView: FC<{
         setPetNeedsUpdate(false);
     }, [ petNeedsUpdate ]);
 
+    const attemptPlacement = () => AttemptPetPlacement(selectedPetItem) && useVisibilityStore.setState({ inventoryVisible: false });
+
     if(!petItems || !petItems.length) return <InventoryCategoryEmptyView desc={ LocalizeText('inventory.empty.desc') } title={ LocalizeText('inventory.empty.title') } />;
 
     return (
@@ -86,9 +88,7 @@ export const InventoryPetView: FC<{
                         <span className="text-sm truncate grow">{ selectedPetItem.petData.name }</span>
                         <div className="flex flex-col gap-1">
                             { !!roomSession &&
-                                <NitroButton onClick={ event => {
-                                    if(AttemptPetPlacement(selectedPetItem)) useVisibilityStore.setState({ inventoryVisible: false });
-                                } }>
+                                <NitroButton onClick={ attemptPlacement }>
                                     { LocalizeText('inventory.furni.placetoroom') }
                                 </NitroButton> }
                         </div>

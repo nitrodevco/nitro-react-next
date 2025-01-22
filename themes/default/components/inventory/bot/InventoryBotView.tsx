@@ -65,6 +65,8 @@ export const InventoryBotView: FC<{
         setBotNeedsUpdate(false);
     }, [ botNeedsUpdate ]);
 
+    const attemptPlacement = () => AttemptBotPlacement(selectedBotItem) && useVisibilityStore.setState({ inventoryVisible: false });
+
     if(!botItems || !botItems.length) return <InventoryCategoryEmptyView desc={ LocalizeText('inventory.empty.desc') } title={ LocalizeText('inventory.empty.title') } />;
 
     return (
@@ -87,9 +89,7 @@ export const InventoryBotView: FC<{
                         <span className="text-sm truncate grow">{ selectedBotItem.botData.name }</span>
                         <div className="flex flex-col gap-1">
                             { !!roomSession &&
-                                <NitroButton onClick={ event => {
-                                    if(AttemptBotPlacement(selectedBotItem)) useVisibilityStore.setState({ inventoryVisible: false });
-                                } }>
+                                <NitroButton onClick={ attemptPlacement }>
                                     { LocalizeText('inventory.furni.placetoroom') }
                                 </NitroButton> }
                         </div>

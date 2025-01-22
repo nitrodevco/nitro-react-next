@@ -1,6 +1,7 @@
 import { IGroupItem, LocalizeText } from '#base/api';
+import { useInventoryStore } from '#base/stores/index.ts';
 import { NitroButton, NitroInput } from '#themes/default/layout';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
 export const InventoryFurnitureSearchView: FC<{
@@ -9,11 +10,16 @@ export const InventoryFurnitureSearchView: FC<{
 }> = props =>
 {
     const { groupItems = [], setGroupItems = null } = props;
-    const [ searchValue, setSearchValue ] = useState('');
+    const searchValue = useInventoryStore(state => state.furniSearchValue);
+    const setSearchValue = useInventoryStore(state => state.setFurniSearchValue);
 
     useEffect(() =>
     {
+        if(!groupItems) return;
+        
         let filteredGroupItems = [ ...groupItems ];
+
+        console.log('run this', searchValue);
 
         if(searchValue && searchValue.length)
         {

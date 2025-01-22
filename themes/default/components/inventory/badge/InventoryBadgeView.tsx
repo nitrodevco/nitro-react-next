@@ -40,6 +40,8 @@ export const InventoryBadgeView: FC<{
         setBadgeNeedsUpdate(false);
     }, [ badgeNeedsUpdate ]);
 
+    const toggleBadge = () => toggleBadgeCode(selectedBadgeCode);
+
     return (
         <div className="grid h-full grid-cols-12 gap-2">
             <div className="flex flex-col col-span-7 gap-1 overflow-hidden">
@@ -66,8 +68,8 @@ export const InventoryBadgeView: FC<{
                         </div>
                         <NitroButton
                             disabled={ !isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < GetConfigurationValue<number>('user.badges.max.slots', 5)) }
-                            onClick={ event => toggleBadgeCode(selectedBadgeCode) }>
-                            { LocalizeText(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge') }
+                            onClick={ toggleBadge }>
+                                { LocalizeText(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge') }
                         </NitroButton>
                     </div> }
             </div>

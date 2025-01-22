@@ -41,7 +41,7 @@ export const InventoryFurnitureView: FC<{
             state.setFurniNeedsUpdate
         ]));
 
-    const [ filteredGroupItems, setFilteredGroupItems ] = useState<IGroupItem[]>([]);
+    const [ filteredGroupItems, setFilteredGroupItems ] = useState<IGroupItem[]>(null);
 
     useEffect(() =>
     {
@@ -95,8 +95,10 @@ export const InventoryFurnitureView: FC<{
 
     useEffect(() =>
     {
-        selectFurniItem();
-    }, [ furniItems ]);
+        if(!filteredGroupItems) return;
+        
+        selectFurniItem(null, filteredGroupItems);
+    }, [ filteredGroupItems ]);
 
     useEffect(() =>
     {
