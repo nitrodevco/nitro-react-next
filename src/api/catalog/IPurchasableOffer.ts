@@ -3,23 +3,35 @@ import { IProduct } from './IProduct';
 
 export interface IPurchasableOffer
 {
-    activate(): void;
-    clubLevel: number;
-    page: ICatalogPage;
+    // Basic Identifiers
     offerId: number;
     localizationId: string;
+    localizationName: string;
+    localizationDescription: string;
+
+    // Pricing Information
     priceInCredits: number;
     priceInActivityPoints: number;
     activityPointType: number;
-    giftable: boolean;
-    product: IProduct;
     pricingModel: string;
     priceType: string;
-    bundlePurchaseAllowed: boolean;
-    isRentOffer: boolean;
-    badgeCode: string;
-    localizationName: string;
-    localizationDescription: string;
-    isLazy: boolean;
+
+    // Product Details
+    product: IProduct;
     products: IProduct[];
+
+    // Membership and Permissions
+    clubLevel: number;
+    giftable: boolean;
+    bundlePurchaseAllowed: boolean;
+
+    // Offer Type
+    isRentOffer: boolean;
+    isLazy: boolean;
+
+    // Page Context
+    page: ICatalogPage;
+
+    // Other
+    badgeCode: string;
 }
