@@ -1,3 +1,3 @@
 export * from './classNames';
-export * from './draggable-window';
+export * from './DraggableWindow';
 export * from './styleNames';

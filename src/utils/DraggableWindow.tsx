@@ -1,25 +1,19 @@
-import { CSSProperties, FC, PropsWithChildren, useEffect, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 let WINDOW_Z_INDEX: number = 1000;
-const CURRENT_WINDOWS: Map<HTMLElement, number> = new Map();
+const CACHED_Z_INDEX: Map<string, number> = new Map();
 const CACHED_POSITIONS: Map<string, { x: number, y: number}> = new Map();
+const BOUNDS_VALUE = 10;
 
-export interface DraggableWindowProps
-{
+export const DraggableWindow: FC<PropsWithChildren<{
     uniqueKey?: string;
     handleSelector?: string;
-    windowPosition?: string;
     disableDrag?: boolean;
-    dragStyle?: CSSProperties;
-    offsetLeft?: number;
-    offsetTop?: number;
     defaultPosition?: 'top-left' | 'center' | 'top-right' | 'bottom-left' | 'bottom-right';
-}
-
-export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = props =>
+}>> = props =>
 {
-    const { uniqueKey = null, handleSelector = '.drag-handler', defaultPosition = 'center', children = null } = props;
+    const { uniqueKey = null, handleSelector = '.drag-handler', disableDrag = true, defaultPosition = 'center', children = null } = props;
     const windowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() =>
@@ -35,33 +29,15 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
 
         const bringToFront = () =>
         {
-            const currentZIndex = ++WINDOW_Z_INDEX;
+            const newZIndex = (WINDOW_Z_INDEX + 1);
 
-            CURRENT_WINDOWS.set(element, currentZIndex);
+            if(CACHED_Z_INDEX.get(uniqueKey) === newZIndex) return;
 
-            element.style.zIndex = String(currentZIndex);
-        };
+            WINDOW_Z_INDEX = newZIndex;
 
-        const adjustPositionWithinViewport = () =>
-        {
-            const rect = element.getBoundingClientRect();
-            const position = CACHED_POSITIONS.has(uniqueKey) ? { x: 0, y: 0 } : getDefaultPosition();
+            CACHED_Z_INDEX.set(uniqueKey, newZIndex);
 
-            const viewportWidth = window.innerWidth;
-            const viewportHeight = window.innerHeight;
-
-            let newX = position.x;
-            let newY = position.y;
-
-            // Adjust if off-screen
-            if (rect.right > viewportWidth) newX = Math.max(0, viewportWidth - rect.width);
-            if (rect.bottom > viewportHeight) newY = Math.max(0, viewportHeight - rect.height);
-            if (rect.left < 0) newX = 0;
-            if (rect.top < 0) newY = 0;
-
-            element.style.transform = `translate(${newX}px, ${newY}px)`;
-
-            CACHED_POSITIONS.set(uniqueKey, { x: newX, y: newY });
+            element.style.zIndex = String(newZIndex);
         };
 
         const getDefaultPosition = () =>
@@ -75,18 +51,67 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
                 case 'center':
                     return { x: Math.trunc((viewportWidth - rect.width) / 2), y: Math.trunc((viewportHeight - rect.height) / 2) };
                 case 'top-right':
-                    return { x: Math.trunc(viewportWidth - rect.width - 10), y: 10 };
+                    return { x: Math.trunc(viewportWidth - rect.width - BOUNDS_VALUE), y: BOUNDS_VALUE };
                 case 'bottom-left':
-                    return { x: 10, y: Math.trunc(viewportHeight - rect.height - 10) };
+                    return { x: 10, y: Math.trunc(viewportHeight - rect.height - BOUNDS_VALUE) };
                 case 'bottom-right':
-                    return { x: Math.trunc(viewportWidth - rect.width - 10), y: Math.trunc(viewportHeight - rect.height - 10) };
+                    return { x: Math.trunc(viewportWidth - rect.width - BOUNDS_VALUE), y: Math.trunc(viewportHeight - rect.height - BOUNDS_VALUE) };
                 case 'top-left':
                 default:
-                    return { x: 10, y: 10 };
+                    return { x: BOUNDS_VALUE, y: BOUNDS_VALUE };
             }
         };
 
-        const onResize = () => adjustPositionWithinViewport();
+        const adjustPositionWithinViewport = () =>
+        {
+            const rect = element.getBoundingClientRect();
+            const position = CACHED_POSITIONS.get(uniqueKey) ?? getDefaultPosition();
+
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+
+            let newX = position.x;
+            let newY = position.y;
+
+            // Adjust if off-screen
+            if (rect.right > viewportWidth) newX = Math.max(0, viewportWidth - rect.width);
+            if (rect.bottom > viewportHeight) newY = Math.max(0, viewportHeight - rect.height);
+            if (rect.left < 0) newX = 0;
+            if (rect.top < 0) newY = 0;
+
+            element.style.transform = `translate(${ newX }px, ${ newY }px)`;
+
+            CACHED_POSITIONS.set(uniqueKey, { x: newX, y: newY });
+        };
+
+        const startDrag = (clientX: number, clientY: number) =>
+        {
+            startX = clientX;
+            startY = clientY;
+
+            const rect = element.getBoundingClientRect();
+
+            initialX = rect.left;
+            initialY = rect.top;
+
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('touchmove', onTouchMove);
+            document.addEventListener('mouseup', onMouseUp);
+            document.addEventListener('touchend', onMouseUp);
+        };
+
+        const drag = (clientX: number, clientY: number) =>
+        {
+            const deltaX = clientX - startX;
+            const deltaY = clientY - startY;
+
+            const newX = initialX + deltaX;
+            const newY = initialY + deltaY;
+
+            element.style.transform = `translate(${newX}px, ${newY}px)`;
+
+            CACHED_POSITIONS.set(uniqueKey, { x: newX, y: newY });
+        };
 
         const onMouseDown = (event: MouseEvent) =>
         {
@@ -104,41 +129,12 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
             startDrag(touch.clientX, touch.clientY);
         };
 
-        const startDrag = (clientX: number, clientY: number) =>
-        {
-            bringToFront();
-
-            startX = clientX;
-            startY = clientY;
-            const rect = element.getBoundingClientRect();
-            initialX = rect.left;
-            initialY = rect.top;
-
-            document.addEventListener('mousemove', onMouseMove);
-            document.addEventListener('touchmove', onTouchMove);
-            document.addEventListener('mouseup', onMouseUp);
-            document.addEventListener('touchend', onMouseUp);
-        };
-
         const onMouseMove = (event: MouseEvent) => drag(event.clientX, event.clientY);
         const onTouchMove = (event: TouchEvent) =>
         {
             const touch = event.touches[0];
 
             drag(touch.clientX, touch.clientY);
-        };
-
-        const drag = (clientX: number, clientY: number) =>
-        {
-            const deltaX = clientX - startX;
-            const deltaY = clientY - startY;
-
-            const newX = initialX + deltaX;
-            const newY = initialY + deltaY;
-
-            element.style.transform = `translate(${newX}px, ${newY}px)`;
-
-            CACHED_POSITIONS.set(uniqueKey, { x: newX, y: newY });
         };
 
         const onMouseUp = () =>
@@ -154,16 +150,12 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
 
         dragTarget?.addEventListener('mousedown', onMouseDown);
         dragTarget?.addEventListener('touchstart', onTouchStart);
-        window.addEventListener('resize', onResize);
+        element.addEventListener('mousedown', bringToFront);
+        element.addEventListener('touchstart', bringToFront);
+        window.addEventListener('resize', adjustPositionWithinViewport);
 
-        // Restore position
-        if (CACHED_POSITIONS.has(uniqueKey))
-        {
-            const { x, y } = CACHED_POSITIONS.get(uniqueKey);
-
-            element.style.transform = `translate(${x}px, ${y}px)`;
-        }
-        else adjustPositionWithinViewport();
+        adjustPositionWithinViewport();
+        bringToFront();
 
         element.style.visibility = 'visible';
 
@@ -172,36 +164,15 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
         {
             dragTarget?.removeEventListener('mousedown', onMouseDown);
             dragTarget?.removeEventListener('touchstart', onTouchStart);
+            element.removeEventListener('mousedown', bringToFront);
+            element.removeEventListener('touchstart', bringToFront);
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('mouseup', onMouseUp);
             document.removeEventListener('touchend', onMouseUp);
-            window.removeEventListener('resize', onResize);
+            window.removeEventListener('resize', adjustPositionWithinViewport);
         };
     }, [ handleSelector, uniqueKey, defaultPosition ]);
-
-    useEffect(() =>
-    {
-        const element = windowRef.current;
-
-        if (!element) return;
-
-        const bringToFront = () =>
-        {
-            const currentZIndex = ++WINDOW_Z_INDEX;
-
-            CURRENT_WINDOWS.set(element, currentZIndex);
-
-            element.style.zIndex = String(currentZIndex);
-        };
-
-        bringToFront();
-
-        return () =>
-        {
-            CURRENT_WINDOWS.delete(element);
-        };
-    }, []);
 
     return (
         createPortal(
