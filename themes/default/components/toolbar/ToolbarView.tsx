@@ -18,6 +18,7 @@ export const ToolbarView: FC<{ isInRoom: boolean }> = props =>
                         <ToolbarItemView icon="house" onClick={ event => CreateLinkEvent('navigator/goto/home') } /> }
                     <ToolbarItemView icon="rooms" onClick={ event => useVisibilityStore.setState({ navigationVisible: true }) } />
                     <ToolbarItemView icon="inventory" onClick={ event => useVisibilityStore.setState({ inventoryVisible: true }) } />
+                    <ToolbarItemView icon="catalog" onClick={ event => useVisibilityStore.setState({ catalogVisible: true }) } />
                 </div>
                 chat container
             </div>

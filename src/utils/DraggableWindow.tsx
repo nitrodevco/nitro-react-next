@@ -6,12 +6,15 @@ const CACHED_Z_INDEX: Map<string, number> = new Map();
 const CACHED_POSITIONS: Map<string, { x: number, y: number}> = new Map();
 const BOUNDS_VALUE = 10;
 
-export const DraggableWindow: FC<PropsWithChildren<{
+export interface DraggableWindowProps
+{
     uniqueKey?: string;
     handleSelector?: string;
     disableDrag?: boolean;
     defaultPosition?: 'top-left' | 'center' | 'top-right' | 'bottom-left' | 'bottom-right';
-}>> = props =>
+};
+
+export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = props =>
 {
     const { uniqueKey = null, handleSelector = '.drag-handler', disableDrag = true, defaultPosition = 'center', children = null } = props;
     const windowRef = useRef<HTMLDivElement>(null);

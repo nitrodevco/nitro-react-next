@@ -1,10 +1,11 @@
-import { useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages } from '#base/hooks';
+import { CatalogType } from '#base/api/index.ts';
+import { useCatalogMessages, useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages } from '#base/hooks';
 import { useVisibilityStore } from '#base/stores';
 import { AddLinkEventTracker, GetCommunication, HabboWebTools, ILinkEventTracker, RemoveLinkEventTracker, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { HotelView, InventoryView, NavigatorView, RoomView, ToolbarView } from './components';
+import { CatalogView, HotelView, InventoryView, NavigatorView, RoomView, ToolbarView } from './components';
 import './index.css';
 
 export const Main: FC = () =>
@@ -12,12 +13,14 @@ export const Main: FC = () =>
     const [
         landingViewVisible,
         navigationVisible,
-        inventoryVisible
+        inventoryVisible,
+        catalogVisible
     ] = useVisibilityStore(
         useShallow(state => [
             state.landingViewVisible,
             state.navigationVisible,
             state.inventoryVisible,
+            state.catalogVisible
         ]));
 
     useNitroEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event => useVisibilityStore.setState({ landingViewVisible: false }));
@@ -25,6 +28,7 @@ export const Main: FC = () =>
 
     useInventoryMessages();
     useNavigatorMessages();
+    useCatalogMessages();
     useRoomMessages();
 
     useEffect(() =>
@@ -83,6 +87,7 @@ export const Main: FC = () =>
             <RoomView />
             <NavigatorView />
             { inventoryVisible && <InventoryView /> }
+            { catalogVisible && <CatalogView catalogType={ CatalogType.NORMAL } />}
             <ToolbarView isInRoom={ !landingViewVisible } />
         </>
     );

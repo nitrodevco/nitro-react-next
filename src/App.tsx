@@ -1,5 +1,5 @@
 import { classNames } from '#base/utils';
-import { Main } from '#themes/default/Main';
+import { LoadingView, Main } from '#themes/default';
 import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
@@ -82,7 +82,7 @@ export const App: FC = () =>
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}>
-                        {/* <LoadingView /> */}
+                        <LoadingView />
                     </motion.div> }
             </AnimatePresence>
             { isReady && <Main /> }

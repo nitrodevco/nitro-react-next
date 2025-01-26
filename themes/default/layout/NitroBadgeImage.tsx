@@ -81,7 +81,7 @@ export const NitroBadgeImage: FC<{
         <div
             ref={ ref }
             className={ classNames(
-                'flex flex-col items-center justify-center overflow-hidden relative bg-center bg-no-repeat w-[50px] h-[50px]',
+                'overflow-hidden relative bg-center bg-no-repeat bg-auto w-[50px] h-[50px]',
                 className
             ) }
             style={ styleNames(
