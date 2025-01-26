@@ -9,4 +9,5 @@ export interface ICatalogNode
     offerIds: number[];
     parent: ICatalogNode;
     isVisible: boolean;
+    element?: HTMLDivElement;
 }

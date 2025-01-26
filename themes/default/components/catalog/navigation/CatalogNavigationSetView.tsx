@@ -5,12 +5,12 @@ import { CatalogNavigationItemView } from './CatalogNavigationItemView';
 export const CatalogNavigationSetView: FC<{
     node: ICatalogNode;
     isChild?: boolean;
-    isNodeActive: (node: ICatalogNode) => boolean;
-    isNodeExpanded: (node: ICatalogNode) => boolean;
+    activeNodes?: ICatalogNode[];
+    expandedNodes?: ICatalogNode[];
     selectNode: (targetNode: ICatalogNode) => void;
 }> = props =>
 {
-    const { node = null, isChild = false, isNodeActive = null, isNodeExpanded = null, selectNode = null } = props;
+    const { node = null, isChild = false, activeNodes = null, expandedNodes = null, selectNode = null } = props;
     
     return (
         <>
@@ -18,7 +18,7 @@ export const CatalogNavigationSetView: FC<{
             {
                 if(!child.isVisible) return null;
                     
-                return <CatalogNavigationItemView key={ index } node={ child } isChild={ isChild } isNodeActive={ isNodeActive } isNodeExpanded={ isNodeExpanded } selectNode={ selectNode } />
+                return <CatalogNavigationItemView key={ index } node={ child } isChild={ isChild } activeNodes={ activeNodes } expandedNodes={ expandedNodes } selectNode={ selectNode } />
             }) }
         </>
     );

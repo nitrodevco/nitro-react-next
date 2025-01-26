@@ -90,27 +90,42 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
             }
         }
 
-        const previouslyActive = (state.activeNodes.indexOf(targetNode) >= 0);
-        const activeNodes: ICatalogNode[] = [];
-        const expandedNodes: ICatalogNode[] = [];
+        let activeNodes = state.activeNodes;
+        let expandedNodes = state.expandedNodes;
 
-        let node = targetNode;
-
-        while (node && (node !== state.rootNode))
+        if (activeNodes?.[activeNodes.length - 1] !== targetNode)
         {
-            activeNodes.push(node);
+            activeNodes = [];
 
-            node = node.parent;
+            let node = targetNode;
+
+            while (node && (node !== state.rootNode))
+            {
+                activeNodes.push(node);
+
+                node = node.parent;
+            }
+
+            activeNodes.reverse();
         }
 
-        activeNodes.reverse();
+        const index = expandedNodes?.indexOf(targetNode);
 
-        activeNodes.forEach(node =>
+        if (index >= 0)
         {
-            if (!node.children?.length) return;
+            expandedNodes = expandedNodes.slice(0, index);
+        }
+        else
+        {
+            expandedNodes = [];
 
-            expandedNodes.push(node);
-        });
+            activeNodes.forEach(node =>
+            {
+                if (!node.children?.length) return;
+
+                expandedNodes.push(node);
+            });
+        }
 
         return { activeNodes, expandedNodes };
     }),
