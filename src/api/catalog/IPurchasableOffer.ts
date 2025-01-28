@@ -6,8 +6,8 @@ export interface IPurchasableOffer
     // Basic Identifiers
     offerId: number;
     localizationId: string;
-    localizationName: string;
-    localizationDescription: string;
+    localizationName?: string;
+    localizationDescription?: string;
 
     // Pricing Information
     priceInCredits: number;

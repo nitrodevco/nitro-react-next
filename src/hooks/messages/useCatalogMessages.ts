@@ -1,15 +1,24 @@
+import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api/index.ts';
 import { useMessageEvent } from '#base/hooks';
 import { useCatalogStore } from '#base/stores';
-import { CatalogPagesListEvent } from '@nitrots/nitro-renderer';
+import { CatalogPageMessageEvent, CatalogPagesListEvent } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 
 export const useCatalogMessages = () =>
 {
     const [
-        processNodeData
+        catalogType,
+        currentPageId,
+        processNodeData,
+        setCurrentPage,
+        setFrontPageItems
     ] = useCatalogStore(
         useShallow(state => [
-            state.processNodeData
+            state.catalogType,
+            state.currentPageId,
+            state.processNodeData,
+            state.setCurrentPage,
+            state.setFrontPageItems
         ]));
 
     useMessageEvent<CatalogPagesListEvent>(CatalogPagesListEvent, event =>
@@ -19,11 +28,11 @@ export const useCatalogMessages = () =>
         if (parser.root) processNodeData(parser.root);
     });
 
-    /* useMessageEvent<CatalogPageMessageEvent>(CatalogPageMessageEvent, event =>
+    useMessageEvent<CatalogPageMessageEvent>(CatalogPageMessageEvent, event =>
     {
         const parser = event.getParser();
 
-        if (parser.catalogType !== currentType) return;
+        if (parser.catalogType !== catalogType) return;
 
         const purchasableOffers: IPurchasableOffer[] = [];
 
@@ -32,31 +41,66 @@ export const useCatalogMessages = () =>
             const products: IProduct[] = [];
             const productData = GetProductDataForLocalization(offer.localizationId);
 
-            for (const product of offer.products)
-            {
-                const furnitureData = GetFurnitureData(product.furniClassId, product.productType);
-
-                products.push(new Product(product.productType, product.furniClassId, product.extraParam, product.productCount, productData, furnitureData, product.uniqueLimitedItem, product.uniqueLimitedSeriesSize, product.uniqueLimitedItemsLeft));
-            }
+            for (const product of offer.products) products.push({
+                productType: product.productType.toLowerCase(),
+                productClassId: product.furniClassId,
+                extraParam: product.extraParam,
+                productCount: product.productCount,
+                productData,
+                furnitureData: GetFurnitureData(product.furniClassId, product.productType),
+                isUniqueLimitedItem: product.uniqueLimitedItem,
+                uniqueLimitedItemSeriesSize: product.uniqueLimitedSeriesSize,
+                uniqueLimitedItemsLeft: product.uniqueLimitedItemsLeft
+            });
 
             if (!products.length) continue;
 
-            const purchasableOffer = new Offer(offer.offerId, offer.localizationId, offer.rent, offer.priceCredits, offer.priceActivityPoints, offer.priceActivityPointsType, offer.giftable, offer.clubLevel, products, offer.bundlePurchaseAllowed);
+            const badgeCode = products.find(product => product.productType === ProductTypeEnum.BADGE)?.extraParam ?? null;
+            const product = products.length === 1 ? products[0] : products.filter(product => ((product.productType !== ProductTypeEnum.BADGE) && (product.productType !== ProductTypeEnum.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)))?.[0] ?? null;
 
-            if ((currentType === CatalogType.NORMAL) || ((purchasableOffer.pricingModel !== Offer.PRICING_MODEL_BUNDLE) && (purchasableOffer.pricingModel !== Offer.PRICING_MODEL_MULTI))) purchasableOffers.push(purchasableOffer);
+            const purchasableOffer: IPurchasableOffer = {
+                offerId: offer.offerId,
+                localizationId: offer.localizationId,
+                priceInCredits: offer.priceCredits,
+                priceInActivityPoints: offer.priceActivityPoints,
+                activityPointType: offer.priceActivityPointsType,
+                pricingModel: GetPricingModelForProducts(products),
+                priceType: GetPricingType(offer.priceCredits, offer.priceActivityPoints),
+                product,
+                products,
+                clubLevel: offer.clubLevel,
+                giftable: offer.giftable,
+                bundlePurchaseAllowed: offer.bundlePurchaseAllowed,
+                isRentOffer: offer.rent,
+                isLazy: false,
+                page: null, // need still
+                badgeCode
+            };
+
+            if ((catalogType === CatalogType.NORMAL) || ((purchasableOffer.pricingModel !== CatalogPricingModelType.PRICING_MODEL_BUNDLE) && (purchasableOffer.pricingModel !== CatalogPricingModelType.PRICING_MODEL_MULTI))) purchasableOffers.push(purchasableOffer);
         }
 
         if (parser.frontPageItems && parser.frontPageItems.length) setFrontPageItems(parser.frontPageItems);
 
-        setIsBusy(false);
-
-        if (pageId === parser.pageId)
+        if (currentPageId === parser.pageId)
         {
-            showCatalogPage(parser.pageId, parser.layoutCode, new PageLocalization(parser.localization.images.concat(), parser.localization.texts.concat()), purchasableOffers, parser.offerId, parser.acceptSeasonCurrencyAsCredits);
+            const catalogPage: ICatalogPage = {
+                pageId: parser.pageId,
+                layoutCode: parser.layoutCode,
+                localization: {
+                    texts: parser.localization.texts,
+                    images: parser.localization.images
+                },
+                offers: purchasableOffers,
+                acceptSeasonCurrencyAsCredits: parser.acceptSeasonCurrencyAsCredits,
+                mode: 0
+            };
+
+            setCurrentPage(catalogPage);
         }
     });
 
-    useMessageEvent<PurchaseOKMessageEvent>(PurchaseOKMessageEvent, event =>
+    /* useMessageEvent<PurchaseOKMessageEvent>(PurchaseOKMessageEvent, event =>
     {
         const parser = event.getParser();
 

@@ -1,9 +1,14 @@
-import { GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
+import { GetRoomEngine, GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
+import { GetConfigurationValue } from '../renderer';
 import { CatalogPricingModelType } from './CatalogPricingModelType';
+import { CatalogPricingType } from './CatalogPricingType';
 import { CatalogType } from './CatalogType';
 import { ICatalogNode } from './ICatalogNode';
 import { IProduct } from './IProduct';
 import { IPurchasableOffer } from './IPurchasableOffer';
+import { ProductTypeEnum } from './ProductTypeEnum';
+
+export const EFFECT_CLASSID_NINJA_DISAPPEAR: number = 108;
 
 export const GetNodesForOfferIds = (offerNodes: { [key: string]: ICatalogNode[] }, ...offerIds: number[]) =>
 {
@@ -134,4 +139,90 @@ export const ProcessSearchWithFurnitureData = (searchValue: string, catalogType:
         offers,
         nodes
     };
+}
+
+export const GetPricingType = (priceInCredits: number, priceInActivityPoints: number) =>
+{
+    if ((priceInCredits > 0) && (priceInActivityPoints > 0)) return CatalogPricingType.PRICE_TYPE_CREDITS_ACTIVITYPOINTS;
+
+    if (priceInCredits > 0) return CatalogPricingType.PRICE_TYPE_CREDITS;
+
+    if (priceInActivityPoints > 0) return CatalogPricingType.PRICE_TYPE_ACTIVITYPOINTS;
+
+    return CatalogPricingType.PRICE_TYPE_NONE;
+}
+
+export const GetPricingModelForProducts = (products: IProduct[]) =>
+{
+    products = products.filter(product => ((product.productType !== ProductTypeEnum.BADGE) && (product.productType !== ProductTypeEnum.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)));
+
+    if (products.length === 1)
+    {
+        if (products[0].productCount === 1) return CatalogPricingModelType.PRICING_MODEL_SINGLE;
+
+        return CatalogPricingModelType.PRICING_MODEL_MULTI;
+    }
+
+    if (products.length > 1) return CatalogPricingModelType.PRICING_MODEL_BUNDLE;
+
+    return CatalogPricingModelType.PRICING_MODEL_UNKNOWN;
+}
+
+export const GetPixelEffectIcon = (id: number) =>
+{
+    return '';
+};
+
+export const GetSubscriptionProductIcon = (id: number) =>
+{
+    return '';
+};
+
+export const GetIconUrlForProduct = (product: IProduct, offer: IPurchasableOffer = null) =>
+{
+    if (!product) return null;
+
+    switch (product.productType)
+    {
+        case ProductTypeEnum.FLOOR:
+            return GetRoomEngine().getFurnitureFloorIconUrl(product.productClassId);
+        case ProductTypeEnum.WALL: {
+            if (offer && product.furnitureData)
+            {
+                let iconName = '';
+
+                switch (product.furnitureData.className)
+                {
+                    case 'floor':
+                        iconName = ['th', product.furnitureData.className, offer.product.extraParam].join('_');
+                        break;
+                    case 'wallpaper':
+                        iconName = ['th', 'wall', offer.product.extraParam].join('_');
+                        break;
+                    case 'landscape':
+                        iconName = ['th', product.furnitureData.className, (offer.product.extraParam || '').replace('.', '_'), '001'].join('_');
+                        break;
+                }
+
+                if (iconName !== '')
+                {
+                    const assetUrl = GetConfigurationValue<string>('catalog.asset.url');
+
+                    return `${assetUrl}/${iconName}.png`;
+                }
+            }
+
+            return GetRoomEngine().getFurnitureWallIconUrl(product.productClassId, product.extraParam);
+        }
+        case ProductTypeEnum.EFFECT:
+            return GetPixelEffectIcon(product.productClassId);
+        case ProductTypeEnum.HABBO_CLUB:
+            return GetSubscriptionProductIcon(product.productClassId);
+        case ProductTypeEnum.BADGE:
+            return GetSessionDataManager().getBadgeUrl(product.extraParam);
+        case ProductTypeEnum.ROBOT:
+            return null;
+    }
+
+    return null;
 }

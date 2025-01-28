@@ -42,16 +42,7 @@ export const CatalogNavigationView: FC<{
         }
         else
         {
-            if(targetNode.parent?.element)
-            {
-                targetNode.parent.element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start',
-                    inline: 'nearest'
-                });
-            }
-
-            targetNode.element.scrollIntoView({
+           targetNode.element.scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
                 inline: 'nearest'

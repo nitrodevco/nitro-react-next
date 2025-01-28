@@ -1,5 +1,5 @@
-import { CatalogType, ICatalogNode, IPurchasableOffer } from '#base/api/index.ts';
-import { NodeData } from '@nitrots/nitro-renderer';
+import { CatalogType, ICatalogNode, ICatalogPage, IPurchasableOffer, SendMessageComposer } from '#base/api/index.ts';
+import { FrontPageItem, GetCatalogPageComposer, NodeData } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 
 interface CatalogSlice
@@ -10,11 +10,18 @@ interface CatalogSlice
     expandedNodes: ICatalogNode[];
     offerNodes: { [key: string]: ICatalogNode[] };
     searchResult: { searchValue: string; offers: IPurchasableOffer[]; filteredNodes: ICatalogNode[] };
+    currentPage: ICatalogPage;
+    currentPageId: number;
+    currentOffer: IPurchasableOffer;
+    frontPageItems: FrontPageItem[];
     navigationVisible: boolean;
     catalogNeedsUpdate: boolean;
     processNodeData: (nodeData: NodeData) => void;
-    selectNode: (targetNode: ICatalogNode) => void;
+    selectNode: (targetNode: ICatalogNode, offerId?: number) => void;
     setSearchResult: (searchValue: string, offers: IPurchasableOffer[], filteredNodes: ICatalogNode[]) => void;
+    setCurrentPage: (currentPage: ICatalogPage) => void;
+    setCurrentOffer: (currentOffer: IPurchasableOffer) => void;
+    setFrontPageItems: (frontPageItems: FrontPageItem[]) => void;
     setCatalogNeedsUpdate: (flag: boolean) => void;
 }
 
@@ -25,6 +32,10 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
     expandedNodes: [],
     offerNodes: {},
     searchResult: { searchValue: '', offers: [], filteredNodes: [] },
+    currentPage: null,
+    currentPageId: -1,
+    currentOffer: null,
+    frontPageItems: [],
     navigationVisible: true,
     catalogNeedsUpdate: true,
     processNodeData: (nodeData: NodeData) => set(state =>
@@ -71,7 +82,7 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
 
         return { rootNode, offerNodes };
     }),
-    selectNode: (targetNode: ICatalogNode) => set(state =>
+    selectNode: (targetNode: ICatalogNode, offerId: number = -1) => set(state =>
     {
         //cancelObjectMover();
 
@@ -127,7 +138,16 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
             });
         }
 
-        return { activeNodes, expandedNodes };
+        const newState: Partial<CatalogSlice> = { activeNodes, expandedNodes };
+
+        if (targetNode.pageId > -1)
+        {
+            newState.currentPageId = targetNode.pageId;
+
+            SendMessageComposer(new GetCatalogPageComposer(targetNode.pageId, offerId, state.catalogType));
+        }
+
+        return newState;
     }),
     setSearchResult: (searchValue: string, offers: IPurchasableOffer[], filteredNodes: ICatalogNode[]) => set(state =>
     {
@@ -139,5 +159,8 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
 
         return { searchResult };
     }),
+    setCurrentPage: (currentPage: ICatalogPage) => set({ currentPage, currentOffer: null }),
+    setCurrentOffer: (currentOffer: IPurchasableOffer) => set({ currentOffer }),
+    setFrontPageItems: (frontPageItems: FrontPageItem[]) => set({ frontPageItems }),
     setCatalogNeedsUpdate: (flag: boolean) => set({ catalogNeedsUpdate: flag })
 }));

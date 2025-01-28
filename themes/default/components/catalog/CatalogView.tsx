@@ -6,6 +6,7 @@ import { NitroCard, NitroCatalogIcon } from '#themes/default/layout';
 import { BuildersClubQueryFurniCountMessageComposer, GetCatalogIndexComposer, GetClubGiftInfo, GetGiftWrappingConfigurationComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { CatalogPageView } from './CatalogPageView';
 import { CatalogNavigationView, CatalogSearchView } from './navigation';
 
 export const CatalogView: FC<{
@@ -17,6 +18,7 @@ export const CatalogView: FC<{
     const [
         rootNode,
         activeNodes,
+        currentPage,
         navigationVisible,
         catalogNeedsUpdate,
         selectNode,
@@ -25,6 +27,7 @@ export const CatalogView: FC<{
         useShallow(state => [
             state.rootNode,
             state.activeNodes,
+            state.currentPage,
             state.navigationVisible,
             state.catalogNeedsUpdate,
             state.selectNode,
@@ -77,8 +80,8 @@ export const CatalogView: FC<{
                             <CatalogSearchView />
                             <CatalogNavigationView node={ activeNodes?.[0] } />
                         </div> }
-                    <div className={ classNames("flex flex-col", navigationVisible ? 'col-span-9' : 'col-span-12') }>
-                        right
+                    <div className={ classNames("flex flex-col overflow-hidden", navigationVisible ? 'col-span-9' : 'col-span-12') }>
+                        <CatalogPageView page={ currentPage } roomPreviewer={ roomPreviewer } />
                     </div>
                 </div>
             </NitroCard.Content>
