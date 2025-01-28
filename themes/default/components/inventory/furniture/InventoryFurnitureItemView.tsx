@@ -26,7 +26,7 @@ export const InventoryFurnitureItemView: FC<{
                 setMouseDown(false);
                 return;
             case MouseEventType.ROLL_OUT:
-                if(!isMouseDown || !(groupItem === selectedFurniItem)) return;
+                if(!isMouseDown || (groupItem !== selectedFurniItem)) return;
 
                 if(AttemptItemPlacement(groupItem)) useVisibilityStore.setState({ inventoryVisible: false });
                 return;

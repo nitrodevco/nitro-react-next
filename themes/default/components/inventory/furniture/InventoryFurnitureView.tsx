@@ -96,7 +96,7 @@ export const InventoryFurnitureView: FC<{
     useEffect(() =>
     {
         if(!filteredGroupItems) return;
-        
+
         selectFurniItem(null, filteredGroupItems);
     }, [ filteredGroupItems ]);
 
@@ -121,7 +121,7 @@ export const InventoryFurnitureView: FC<{
                         items={ filteredGroupItems }
                         itemRender={ item => <InventoryFurnitureItemView groupItem={ item } selectedFurniItem={ selectedFurniItem } selectFurniItem={ selectFurniItem } /> } /> }
             </div>
-            <div className="flex flex-col col-span-5">
+            <div className="flex flex-col col-span-5 overflow-hidden">
                 <div className="relative flex flex-col">
                     <div className="h-[140px] w-full">
                         <NitroRoomPreviewer roomPreviewer={ roomPreviewer } />
