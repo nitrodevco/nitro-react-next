@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useEffect, useRef } from 'react';
+import { FC, PropsWithChildren, useEffect, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 let WINDOW_Z_INDEX: number = 1000;
@@ -32,15 +32,18 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
 
         const bringToFront = () =>
         {
-            const newZIndex = (WINDOW_Z_INDEX + 1);
+            let zIndex = CACHED_Z_INDEX.get(uniqueKey);
 
-            if(CACHED_Z_INDEX.get(uniqueKey) === newZIndex) return;
+            if(zIndex !== WINDOW_Z_INDEX)
+            {
+                zIndex = (WINDOW_Z_INDEX + 1);
 
-            WINDOW_Z_INDEX = newZIndex;
+                CACHED_Z_INDEX.set(uniqueKey, zIndex);
 
-            CACHED_Z_INDEX.set(uniqueKey, newZIndex);
+                WINDOW_Z_INDEX = zIndex;
+            }
 
-            element.style.zIndex = String(newZIndex);
+            element.style.zIndex = String(zIndex);
         };
 
         const getDefaultPosition = () =>
@@ -177,13 +180,13 @@ export const DraggableWindow: FC<PropsWithChildren<DraggableWindowProps>> = prop
         };
     }, [ handleSelector, uniqueKey, defaultPosition ]);
 
-    return (
-        createPortal(
-            <div
-                ref={ windowRef }
-                className="pointer-events-auto invisible absolute inline-block"
-            >
-                { children }
-            </div>, document.getElementById('draggable-windows-container'))
-    );
+    const portalContent = useMemo(() => <div
+        ref={ windowRef }
+        className="pointer-events-auto invisible absolute inline-block">
+        { children }
+    </div>, [ children ]);
+
+    const container = document.getElementById('draggable-windows-container');
+
+    return createPortal(portalContent, container);
 };
