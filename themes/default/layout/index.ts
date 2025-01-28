@@ -4,6 +4,7 @@ export * from './NitroButton';
 export * from './NitroCard';
 export * from './NitroCatalogIcon';
 export * from './NitroFurniIconImage';
+export * from './NitroImage';
 export * from './NitroInfiniteGrid';
 export * from './NitroInfiniteGridItem';
 export * from './NitroInput';

@@ -1,6 +1,5 @@
-import { useResizeObserver } from '#base/hooks';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Fragment, ReactElement, useRef, useState } from 'react';
+import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
 
 export const NitroInfiniteGrid = <T,>(props: {
     items: T[];
@@ -10,37 +9,68 @@ export const NitroInfiniteGrid = <T,>(props: {
     itemRender?: (item: T, index?: number) => ReactElement;
 }) =>
 {
+    "use no memo";
     const { items = [], itemWidth = 45, itemHeight = 45, overrideColumnCount = 0, itemRender = null } = props;
-    const [ elementSize, setElementSize ] = useState({ width: 0, height: 0 });
     const [ columnCount, setColumnCount ] = useState(0);
-    const [ isReady, setIsReady ] = useState(false);
     const elementRef = useRef<HTMLDivElement>(null);
 
     const virtualizer = useVirtualizer({
-        count: (columnCount > 0) ? Math.max(1, Math.ceil((items?.length ?? 0) / columnCount)) : 0,
+        count: (Math.floor(((items.length / (columnCount || 1)) || 1)) || 1),
         overscan: 1,
         getScrollElement: () => elementRef.current,
-        estimateSize: () => itemHeight
+        estimateSize: () => itemHeight,
     });
 
-    const onResize = (size: { width: number, height: number }) =>
+    useEffect(() =>
     {
-        if((size.width === elementSize.width) && (size.height === elementSize.height)) return;
+        if (!elementRef?.current) return;
 
-        setElementSize(size);
-        setColumnCount((overrideColumnCount > 0) ? overrideColumnCount : Math.max(1, Math.min(12, Math.ceil(size.width / (itemWidth + 4)))));
+        let previousWidth = -1;
+        let debounceTimeout: ReturnType<typeof setTimeout> = null;
 
-        if(!isReady) setIsReady(true);
-    }
+        const setColumnsForWidth = (width: number, force: boolean = false) =>
+        {
+            width = Math.floor(width);
 
-    useResizeObserver({
-        ref: elementRef,
-        onResize
-    });
+            if(width === previousWidth) return;
 
-    if (!isReady) {
-        return <div ref={elementRef} className="overflow-y-auto size-full" />;
-    }
+            previousWidth = width;
+
+            if (debounceTimeout) clearTimeout(debounceTimeout);
+
+            if(force)
+            {
+                setColumnCount(overrideColumnCount || Math.max(1, Math.min(12, Math.ceil(previousWidth / (itemWidth + 4)))));
+
+                return;
+            }
+
+            debounceTimeout = setTimeout(() =>
+            {
+                setColumnCount(overrideColumnCount || Math.max(1, Math.min(12, Math.ceil(previousWidth / (itemWidth + 4)))));
+            }, 10);
+        };
+
+        const resizeObserver = new ResizeObserver(entries =>
+        {
+            const entry = entries?.[0];
+
+            if(entry) setColumnsForWidth(entry.contentRect.width);
+        });
+
+        resizeObserver.observe(elementRef.current);
+
+        const initialSize = elementRef.current.getBoundingClientRect();
+
+        if(initialSize) setColumnsForWidth(initialSize.width, true);
+
+        return () =>
+        {
+            if (debounceTimeout) clearTimeout(debounceTimeout);
+
+            resizeObserver.disconnect();
+        };
+    }, [ itemWidth, overrideColumnCount ]);
 
     return (
         <div
@@ -55,6 +85,7 @@ export const NitroInfiniteGrid = <T,>(props: {
                     <div
                         key={ virtualRow.key }
                         data-index={ virtualRow.index }
+                        ref={ virtualizer.measureElement }
                         className={ `grid grid-cols-${ columnCount } gap-1 absolute top-0 left-0 w-full` }
                         style={ {
                             height: `${ virtualRow.size }px`,
