@@ -19,6 +19,7 @@ export const CatalogView: FC<{
         rootNode,
         activeNodes,
         currentPage,
+        currentOffer,
         navigationVisible,
         catalogNeedsUpdate,
         selectNode,
@@ -28,6 +29,7 @@ export const CatalogView: FC<{
             state.rootNode,
             state.activeNodes,
             state.currentPage,
+            state.currentOffer,
             state.navigationVisible,
             state.catalogNeedsUpdate,
             state.selectNode,
@@ -81,7 +83,7 @@ export const CatalogView: FC<{
                             <CatalogNavigationView node={ activeNodes?.[0] } />
                         </div> }
                     <div className={ classNames("flex flex-col overflow-hidden", navigationVisible ? 'col-span-9' : 'col-span-12') }>
-                        <CatalogPageView page={ currentPage } roomPreviewer={ roomPreviewer } />
+                        <CatalogPageView page={ currentPage } roomPreviewer={ roomPreviewer } currentOffer={ currentOffer } />
                     </div>
                 </div>
             </NitroCard.Content>

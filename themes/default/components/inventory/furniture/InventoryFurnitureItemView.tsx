@@ -49,7 +49,7 @@ export const InventoryFurnitureItemView: FC<{
             ) }
             onMouseEvent={ onMouseEvent }>
             { (unlockedCount > 1) &&
-                <div className="absolute align-middle rounded bg-red-700 bg-opacity-80 text-white border-black border top-[2px] right-[2px] text-[9.5px] p-[2px] z-[1] leading-[8px]">{ unlockedCount }</div> }
+                <div className="absolute align-middle rounded-md bg-red-700 bg-opacity-80 text-white border-black border top-[2px] right-[2px] text-[9.5px] p-[2px] z-[1] leading-[8px]">{ unlockedCount }</div> }
             <NitroFurniIconImage
                 className="unique-bg-override"
                 url={ imageUrl } />

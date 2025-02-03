@@ -1,8 +1,9 @@
-import { GetConfigurationValue, LocalizeBadgeName, LocalizeText, SendMessageComposer } from '#base/api';
+import { LocalizeBadgeName, LocalizeText, SendMessageComposer } from '#base/api';
+import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
 import { useInventoryStore } from '#base/stores';
 import { NitroBadgeImage, NitroButton, NitroInfiniteGrid } from '#themes/default/layout';
 import { RequestBadgesComposer } from '@nitrots/nitro-renderer';
-import { FC, useEffect } from 'react';
+import { FC, useContext, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryBadgeItemView } from './InventoryBadgeItemView';
 
@@ -30,6 +31,7 @@ export const InventoryBadgeView: FC<{
             state.setBadgeNeedsUpdate
         ]));
     const isWearingBadge = (badgeCode: string) => activeBadgeCodes.includes(badgeCode);
+    const { getConfigValue = null } = useContext(NitroConfigContext);
 
     useEffect(() =>
     {
@@ -40,7 +42,14 @@ export const InventoryBadgeView: FC<{
         setBadgeNeedsUpdate(false);
     }, [ badgeNeedsUpdate ]);
 
-    const toggleBadge = () => toggleBadgeCode(selectedBadgeCode);
+    const toggleBadge = (badgeCode: string) =>
+    {
+        if(!badgeCode || !badgeCode.length) return;
+
+        const maxBadgeCount = getConfigValue<number>('settings.maxBadges', 5);
+
+        toggleBadgeCode(badgeCode, maxBadgeCount);
+    }
 
     return (
         <div className="grid h-full grid-cols-12 gap-2">
@@ -49,7 +58,7 @@ export const InventoryBadgeView: FC<{
                     <NitroInfiniteGrid<string>
                     key="inventory-badges"
                     items={ badgeCodes.filter(badgeCode => !activeBadgeCodes.includes(badgeCode)) }
-                    itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } /> }
+                    itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadge } /> } /> }
             </div>
             <div className="flex flex-col justify-between col-span-5 overflow-auto">
                 <div className="flex flex-col gap-1 overflow-hidden size-full">
@@ -58,7 +67,7 @@ export const InventoryBadgeView: FC<{
                         <NitroInfiniteGrid<string>
                             overrideColumnCount={ 3 }
                             items={ activeBadgeCodes }
-                            itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadgeCode } /> } /> }
+                            itemRender={ item => <InventoryBadgeItemView badgeId={ badgeIds[item] ?? -1 } badgeCode={ item } selectedBadgeCode={ selectedBadgeCode } selectBadgeCode={ selectBadgeCode } toggleBadgeCode={ toggleBadge } /> } /> }
                 </div>
                 { !!selectedBadgeCode &&
                     <div className="flex flex-col gap-2 grow">
@@ -67,8 +76,8 @@ export const InventoryBadgeView: FC<{
                             <span className="text-sm truncate grow">{ LocalizeBadgeName(selectedBadgeCode) }</span>
                         </div>
                         <NitroButton
-                            disabled={ !isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < GetConfigurationValue<number>('user.badges.max.slots', 5)) }
-                            onClick={ toggleBadge }>
+                            disabled={ !isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < getConfigValue<number>('user.badges.max.slots', 5)) }
+                            onClick={ event => toggleBadge(selectedBadgeCode) }>
                                 { LocalizeText(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge') }
                         </NitroButton>
                     </div> }

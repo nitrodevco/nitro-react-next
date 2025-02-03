@@ -2,33 +2,27 @@ import { NitroConfigContext } from '#base/context';
 import { classNames, styleNames } from '#base/utils';
 import { DetailedHTMLProps, FC, HTMLAttributes, useContext, useEffect, useRef, useState } from 'react';
 
-export const NitroImage: FC<{
-    url?: string;
+export const NitroCurrencyIcon: FC<{
+    type: string | number;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
-    const { url = null, className = null, style = null, ref = null, ...rest } = props;
-    const [ imageData, setImageData ] = useState({ url: '', width: 45, height: 45 });
+    const { type = '', className = null, style = null, ref = null, ...rest } = props;
+    const [ imageUrl, setImageUrl ] = useState('');
     const { getConfigValue = null } = useContext(NitroConfigContext);
     const isDisposed = useRef(false);
 
     useEffect(() =>
     {
-        if(!url || !url.length) return;
-
         const image = new Image();
 
-        image.src = url;
+        image.src = getConfigValue<string>('asset.urls.icons.currency')?.replace('%type%', type.toString());
         image.onload = () =>
         {
             if(isDisposed.current) return;
 
-            setImageData({
-                url: image.src,
-                width: image.width,
-                height: image.height
-            });
+            setImageUrl(image.src);
         }
-    }, [ url ]);
+    }, [ type ]);
 
     useEffect(() =>
     {
@@ -44,14 +38,12 @@ export const NitroImage: FC<{
         <div
             ref={ ref }
             className={ classNames(
-                'overflow-hidden relative bg-center bg-no-repeat',
+                'overflow-hidden relative bg-center bg-no-repeat min-w-[15px] min-h-[15px]',
                 className
             ) }
             style={ styleNames(
                 {
-                    backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url(${ getConfigValue<string>('asset.urls.icons.loading') })`,
-                    width: `${ imageData.width }px`,
-                    height: `${ imageData.height }px`,
+                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url(${ getConfigValue<string>('asset.urls.icons.loading') })`,
                     ...style
                 }
             ) }

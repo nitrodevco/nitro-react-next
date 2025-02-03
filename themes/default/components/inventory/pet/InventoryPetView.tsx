@@ -77,7 +77,7 @@ export const InventoryPetView: FC<{
                         items={ petItems }
                         itemRender={ item => <InventoryPetItemView petItem={ item } selectedPetItem={ selectedPetItem} selectPetItem={ selectPetItem } /> } /> }
             </div>
-            <div className="flex flex-col col-span-5">
+            <div className="flex flex-col col-span-5 gap-1 overflow-hidden">
                 <div className="relative flex flex-col">
                     <div className="h-[140px] w-full">
                         <NitroRoomPreviewer roomPreviewer={ roomPreviewer } />

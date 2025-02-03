@@ -1,4 +1,4 @@
-import { GetConfigurationValue, SendMessageComposer } from '#base/api';
+import { SendMessageComposer } from '#base/api';
 import { BadgesParser, SetActivatedBadgesComposer } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
@@ -11,7 +11,7 @@ export interface InventoryBadgesSlice
     selectedBadgeCode: string;
     badgeNeedsUpdate: boolean;
     selectBadgeCode: (badgeCode: string) => void;
-    toggleBadgeCode: (badgeCode: string) => void;
+    toggleBadgeCode: (badgeCode: string, maxBadgeCount: number) => void;
     processBadges: (badges: BadgesParser) => void;
     addBadge: (badgeId: number, badgeCode: string) => void;
     setBadgeNeedsUpdate: (flag: boolean) => void;
@@ -33,11 +33,10 @@ export const createInventoryBadgesSlice: StateCreator<
         {
             return { selectedBadgeCode: badgeCode };
         }),
-        toggleBadgeCode: (badgeCode: string) => set(state =>
+        toggleBadgeCode: (badgeCode: string, maxBadgeCount: number) => set(state =>
         {
             const activeBadgeCodes = [...state.activeBadgeCodes];
             const index = activeBadgeCodes.indexOf(badgeCode);
-            const maxBadgeCount = GetConfigurationValue<number>('user.badges.max.slots', 5);
 
             if (index === -1)
             {

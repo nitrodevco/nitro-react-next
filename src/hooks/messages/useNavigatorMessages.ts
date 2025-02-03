@@ -1,6 +1,8 @@
-import { CreateRoomSession, DoorStateType, GetConfigurationValue, SendMessageComposer, TryVisitRoom, VisitDesktop } from '#base/api';
+import { CreateRoomSession, DoorStateType, SendMessageComposer, TryVisitRoom, VisitDesktop } from '#base/api';
+import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
 import { useNavigatorStore } from '#base/stores';
 import { CanCreateRoomEventEvent, CantConnectMessageParser, CreateLinkEvent, DoorbellMessageEvent, FlatAccessDeniedMessageEvent, FlatCreatedEvent, FollowFriendMessageComposer, GenericErrorEvent, GetGuestRoomMessageComposer, GetGuestRoomResultEvent, GetSessionDataManager, GetUserEventCatsMessageComposer, GetUserFlatCatsMessageComposer, NavigatorHomeRoomEvent, NavigatorMetadataEvent, NavigatorOpenRoomCreatorEvent, NavigatorSearchEvent, RoomDataParser, RoomDoorbellAcceptedEvent, RoomEnterErrorEvent, RoomEntryInfoMessageEvent, RoomForwardEvent, RoomScoreEvent, RoomSettingsUpdatedEvent, SecurityLevel, UserEventCatsEvent, UserFlatCatsEvent, UserInfoEvent, UserPermissionsEvent } from '@nitrots/nitro-renderer';
+import { useContext } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
 
@@ -27,6 +29,7 @@ export const useNavigatorMessages = () =>
             state.setDoorData,
             state.setSearchResult,
             state.setNavigatorData]));
+    const { getConfigValue = null } = useContext(NitroConfigContext);
 
     useMessageEvent<RoomSettingsUpdatedEvent>(RoomSettingsUpdatedEvent, event =>
     {
@@ -267,16 +270,16 @@ export const useNavigatorMessages = () =>
         let forwardType = -1;
         let forwardId = -1;
 
-        if ((GetConfigurationValue<string>('friend.id') !== undefined) && (parseInt(GetConfigurationValue<string>('friend.id')) > 0))
+        if ((getConfigValue<string>('friend.id') !== undefined) && (parseInt(getConfigValue<string>('friend.id')) > 0))
         {
             forwardType = 0;
-            SendMessageComposer(new FollowFriendMessageComposer(parseInt(GetConfigurationValue<string>('friend.id'))));
+            SendMessageComposer(new FollowFriendMessageComposer(parseInt(getConfigValue<string>('friend.id'))));
         }
 
-        if ((GetConfigurationValue<number>('forward.type') !== undefined) && (GetConfigurationValue<number>('forward.id') !== undefined))
+        if ((getConfigValue<number>('forward.type') !== undefined) && (getConfigValue<number>('forward.id') !== undefined))
         {
-            forwardType = parseInt(GetConfigurationValue<string>('forward.type'));
-            forwardId = parseInt(GetConfigurationValue<string>('forward.id'));
+            forwardType = parseInt(getConfigValue<string>('forward.type'));
+            forwardId = parseInt(getConfigValue<string>('forward.id'));
         }
 
         if (forwardType === 2)

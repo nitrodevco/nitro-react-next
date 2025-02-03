@@ -1,12 +1,13 @@
-import { GetRoomEngine, GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
-import { GetConfigurationValue } from '../renderer';
+import { GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
+import { GetProductDataForLocalization } from '../renderer';
+import { LocalizeText } from '../utils/LocalizeText';
 import { CatalogPricingModelType } from './CatalogPricingModelType';
 import { CatalogPricingType } from './CatalogPricingType';
 import { CatalogType } from './CatalogType';
 import { ICatalogNode } from './ICatalogNode';
 import { IProduct } from './IProduct';
 import { IPurchasableOffer } from './IPurchasableOffer';
-import { ProductTypeEnum } from './ProductTypeEnum';
+import { ProductType } from './ProductType';
 
 export const EFFECT_CLASSID_NINJA_DISAPPEAR: number = 108;
 
@@ -154,7 +155,7 @@ export const GetPricingType = (priceInCredits: number, priceInActivityPoints: nu
 
 export const GetPricingModelForProducts = (products: IProduct[]) =>
 {
-    products = products.filter(product => ((product.productType !== ProductTypeEnum.BADGE) && (product.productType !== ProductTypeEnum.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)));
+    products = products.filter(product => ((product.productType !== ProductType.BADGE) && (product.productType !== ProductType.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)));
 
     if (products.length === 1)
     {
@@ -168,61 +169,26 @@ export const GetPricingModelForProducts = (products: IProduct[]) =>
     return CatalogPricingModelType.PRICING_MODEL_UNKNOWN;
 }
 
-export const GetPixelEffectIcon = (id: number) =>
+export const GetLocalizationNameForOffer = (offer: IPurchasableOffer) =>
 {
-    return '';
-};
-
-export const GetSubscriptionProductIcon = (id: number) =>
-{
-    return '';
-};
-
-export const GetIconUrlForProduct = (product: IProduct, offer: IPurchasableOffer = null) =>
-{
-    if (!product) return null;
-
-    switch (product.productType)
+    if (offer)
     {
-        case ProductTypeEnum.FLOOR:
-            return GetRoomEngine().getFurnitureFloorIconUrl(product.productClassId);
-        case ProductTypeEnum.WALL: {
-            if (offer && product.furnitureData)
-            {
-                let iconName = '';
+        const productData = GetProductDataForLocalization(offer.localizationId);
 
-                switch (product.furnitureData.className)
-                {
-                    case 'floor':
-                        iconName = ['th', product.furnitureData.className, offer.product.extraParam].join('_');
-                        break;
-                    case 'wallpaper':
-                        iconName = ['th', 'wall', offer.product.extraParam].join('_');
-                        break;
-                    case 'landscape':
-                        iconName = ['th', product.furnitureData.className, (offer.product.extraParam || '').replace('.', '_'), '001'].join('_');
-                        break;
-                }
-
-                if (iconName !== '')
-                {
-                    const assetUrl = GetConfigurationValue<string>('catalog.asset.url');
-
-                    return `${assetUrl}/${iconName}.png`;
-                }
-            }
-
-            return GetRoomEngine().getFurnitureWallIconUrl(product.productClassId, product.extraParam);
-        }
-        case ProductTypeEnum.EFFECT:
-            return GetPixelEffectIcon(product.productClassId);
-        case ProductTypeEnum.HABBO_CLUB:
-            return GetSubscriptionProductIcon(product.productClassId);
-        case ProductTypeEnum.BADGE:
-            return GetSessionDataManager().getBadgeUrl(product.extraParam);
-        case ProductTypeEnum.ROBOT:
-            return null;
+        if (productData) return productData.name;
     }
 
-    return null;
+    return LocalizeText(offer.localizationId);
+}
+
+export const GetLocalizationDescriptionForOffer = (offer: IPurchasableOffer) =>
+{
+    if (offer)
+    {
+        const productData = GetProductDataForLocalization(offer.localizationId);
+
+        if (productData) return productData.description;
+    }
+
+    return LocalizeText(offer.localizationId);
 }

@@ -1,4 +1,4 @@
-import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api/index.ts';
+import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductType } from '#base/api/index.ts';
 import { useMessageEvent } from '#base/hooks';
 import { useCatalogStore } from '#base/stores';
 import { CatalogPageMessageEvent, CatalogPagesListEvent } from '@nitrots/nitro-renderer';
@@ -55,8 +55,8 @@ export const useCatalogMessages = () =>
 
             if (!products.length) continue;
 
-            const badgeCode = products.find(product => product.productType === ProductTypeEnum.BADGE)?.extraParam ?? null;
-            const product = products.length === 1 ? products[0] : products.filter(product => ((product.productType !== ProductTypeEnum.BADGE) && (product.productType !== ProductTypeEnum.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)))?.[0] ?? null;
+            const badgeCode = products.find(product => product.productType === ProductType.BADGE)?.extraParam ?? null;
+            const product = products.length === 1 ? products[0] : products.filter(product => ((product.productType !== ProductType.BADGE) && (product.productType !== ProductType.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)))?.[0] ?? null;
 
             const purchasableOffer: IPurchasableOffer = {
                 offerId: offer.offerId,

@@ -2,38 +2,44 @@ import { classNames } from '#base/utils';
 import { LoadingView, Main } from '#themes/default';
 import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
+import { NitroConfigContext } from './context';
 
 export const App: FC = () =>
 {
     const [ isReady, setIsReady ] = useState(false);
+    const { getConfigValue = null } = useContext(NitroConfigContext);
 
     useEffect(() =>
     {
-        const prepare = async (width: number, height: number) =>
+        if(!getConfigValue) return;
+
+        GetTicker().maxFPS = getConfigValue<number>('renderer.fps', 24);
+        NitroLogger.LOG_DEBUG = getConfigValue<boolean>('logging.debug', true);
+        NitroLogger.LOG_WARN = getConfigValue<boolean>('logging.warn', false);
+        NitroLogger.LOG_ERROR = getConfigValue<boolean>('logging.error', false);
+        NitroLogger.LOG_EVENTS = getConfigValue<boolean>('logging.events', false);
+        NitroLogger.LOG_PACKETS = getConfigValue<boolean>('logging.packets', false);
+    }, [ getConfigValue ]);
+
+    useEffect(() =>
+    {
+        const setup = async (width: number, height: number) =>
         {
             try
             {
-                if(!window.NitroConfig) throw new Error('NitroConfig is not defined!');
-
                 const renderer = await PrepareRenderer({
                     width,
                     height,
                     autoDensity: true,
                     backgroundAlpha: 0,
-                    preference: 'webgl'
+                    preference: 'webgl',
+                    roundPixels: true
                 });
 
                 await GetConfiguration().init();
 
-                GetTicker().maxFPS = GetConfiguration().getValue<number>('system.fps.max', 24);
-                NitroLogger.LOG_DEBUG = GetConfiguration().getValue<boolean>('system.log.debug', true);
-                NitroLogger.LOG_WARN = GetConfiguration().getValue<boolean>('system.log.warn', false);
-                NitroLogger.LOG_ERROR = GetConfiguration().getValue<boolean>('system.log.error', false);
-                NitroLogger.LOG_EVENTS = GetConfiguration().getValue<boolean>('system.log.events', false);
-                NitroLogger.LOG_PACKETS = GetConfiguration().getValue<boolean>('system.log.packets', false);
-
-                const assetUrls = GetConfiguration().getValue<string[]>('preload.assets.urls').map(url => GetConfiguration().interpolate(url)) ?? [];
+                const assetUrls = getConfigValue<string[]>('asset.urls.preload') || [];
 
                 await Promise.all(
                     [
@@ -48,9 +54,7 @@ export const App: FC = () =>
 
                 await GetRoomEngine().init();
                 await GetCommunication().init();
-
-                // new GameMessageHandler();
-
+        
                 GetTicker().add(ticker =>
                 {
                     GetRoomEngine().update(ticker);
@@ -65,9 +69,9 @@ export const App: FC = () =>
             {
                 NitroLogger.error(err);
             }
-        };
-
-        prepare(window.innerWidth, window.innerHeight);
+        }
+    
+        setup(window.innerWidth, window.innerHeight);
     }, []);
 
     return (

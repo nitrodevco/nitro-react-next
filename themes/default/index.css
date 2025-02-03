@@ -694,14 +694,5 @@
             width: 18px;
             height: 19px;
         }
-
-        &.icon-loading {
-            background-image: url("/assets/images/ui/loading_icon.png");
-
-            &.with-size {
-                width: 16px;
-                height: 16px;
-            }
-        }
     }
 }

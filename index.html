@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <base href="./" />
     <title>Nitro</title>
+    <!-- <script src="https://unpkg.com/react-scan/dist/auto.global.js"></script> -->
 </head>
 
 <body>
@@ -14,7 +15,8 @@
     <div id="root" class="w-full h-full"></div>
     <script>
         window.NitroConfig = {
-            "config.urls": ["/renderer-config.json", "/ui-config.json"],
+            "nitro.config.url": "/config/nitro-config.json",
+            "config.urls": ["/config/renderer-config.json", "/config/ui-config.json"],
             "sso.ticket":
                 new URLSearchParams(window.location.search).get("sso") ||
                 null,

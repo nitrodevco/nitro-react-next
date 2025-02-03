@@ -1,6 +1,6 @@
-import { GetConfigurationValue } from '#base/api';
+import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
 import { classNames, styleNames } from '#base/utils';
-import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, useContext, useEffect, useRef, useState } from 'react';
 
 export const NitroCatalogIcon: FC<{
     icon: number;
@@ -8,13 +8,14 @@ export const NitroCatalogIcon: FC<{
 {
     const { icon = 0, className = null, style = null, ref = null, ...rest } = props;
     const [ imageUrl, setImageUrl ] = useState('');
+    const { getConfigValue = null } = useContext(NitroConfigContext);
     const isDisposed = useRef(false);
 
     useEffect(() =>
     {
         const image = new Image();
 
-        image.src = GetConfigurationValue<string>('catalog.asset.icon.url').replace('%name%', icon.toString());
+        image.src = getConfigValue<string>('asset.urls.icons.catalog')?.replace('%name%', icon.toString());
         image.onload = () =>
         {
             if(isDisposed.current) return;
@@ -42,7 +43,7 @@ export const NitroCatalogIcon: FC<{
             ) }
             style={ styleNames(
                 {
-                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url("/assets/images/ui/loading_icon.png")`,
+                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url(${ getConfigValue<string>('asset.urls.icons.loading') })`,
                     ...style
                 }
             ) }

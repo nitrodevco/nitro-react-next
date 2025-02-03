@@ -78,7 +78,7 @@ export const InventoryBotView: FC<{
                         items={ botItems }
                         itemRender={ item => <InventoryBotItemView botItem={ item } selectedBotItem={ selectedBotItem } selectBotItem={ selectBotItem } /> } /> }
             </div>
-            <div className="flex flex-col col-span-5">
+            <div className="flex flex-col col-span-5 gap-1 overflow-hidden">
                 <div className="relative flex flex-col">
                     <div className="h-[140px] w-full">
                         <NitroRoomPreviewer roomPreviewer={ roomPreviewer } />

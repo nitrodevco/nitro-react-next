@@ -1,27 +1,11 @@
 import react from '@vitejs/plugin-react';
-import { resolve } from 'path';
-import tsConfig from './tsconfig.json';
-
-function getPathsFromTsConfig() {
-    const aliases = {};
-
-    for (const [key, value] of Object.entries(tsConfig.compilerOptions.paths))
-    {
-        const cleanKey = key.replace('/*', '');
-        const cleanValue = value[0].replace('/*', '');
-        const resolvedPath = resolve(__dirname, cleanValue);
-
-        aliases[cleanKey] = resolvedPath;
-    }
-
-    return aliases;
-}
 
 /** @type {import('vite').UserConfig} */
 export default {
     plugins: [
         react({
             babel: {
+                compact: false,
                 plugins: [
                     ['babel-plugin-react-compiler', {
                         target: '19'

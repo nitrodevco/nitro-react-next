@@ -1,4 +1,4 @@
-import { IPurchasableOffer, ProductTypeEnum, SendMessageComposer } from '#base/api';
+import { IPurchasableOffer, ProductType, SendMessageComposer } from '#base/api';
 import { useCatalogStore } from '#base/stores';
 import { NitroInfiniteGrid } from '#themes/default/layout';
 import { GetProductOfferComposer } from '@nitrots/nitro-renderer';
@@ -12,12 +12,14 @@ export const CatalogOfferGridWidgetView: FC<{
     const [
         currentPage,
         currentOffer,
-        setCurrentOffer
+        setCurrentOffer,
+        updateCurrentOfferOptions
     ] = useCatalogStore(
         useShallow(state => [
             state.currentPage,
             state.currentOffer,
             state.setCurrentOffer,
+            state.updateCurrentOfferOptions
         ]));
 
     const selectOffer = (offer: IPurchasableOffer) =>
@@ -30,16 +32,11 @@ export const CatalogOfferGridWidgetView: FC<{
         {
             setCurrentOffer(offer);
 
-            if(offer.product && (offer.product.productType === ProductTypeEnum.WALL))
+            if(offer.product && (offer.product.productType === ProductType.WALL))
             {
-                /* setPurchaseOptions(prevValue =>
-                {
-                    const newValue = { ...prevValue };
-    
-                    newValue.extraData = (offer.product.extraParam || null);
-    
-                    return newValue;
-                }); */
+                updateCurrentOfferOptions({
+                    extraData: (offer.product.extraParam || null)
+                });
             }
         }
     };

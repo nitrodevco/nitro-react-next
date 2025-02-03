@@ -3,6 +3,7 @@ export * from './NitroBadgeImage';
 export * from './NitroButton';
 export * from './NitroCard';
 export * from './NitroCatalogIcon';
+export * from './NitroCurrencyIcon';
 export * from './NitroFurniIconImage';
 export * from './NitroImage';
 export * from './NitroInfiniteGrid';

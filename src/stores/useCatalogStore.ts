@@ -1,4 +1,4 @@
-import { CatalogType, ICatalogNode, ICatalogPage, IPurchasableOffer, SendMessageComposer } from '#base/api/index.ts';
+import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IPurchasableOffer, SendMessageComposer } from '#base/api/index.ts';
 import { FrontPageItem, GetCatalogPageComposer, NodeData } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 
@@ -13,6 +13,7 @@ interface CatalogSlice
     currentPage: ICatalogPage;
     currentPageId: number;
     currentOffer: IPurchasableOffer;
+    currentOfferOptions: IOfferOptions;
     frontPageItems: FrontPageItem[];
     navigationVisible: boolean;
     catalogNeedsUpdate: boolean;
@@ -21,6 +22,8 @@ interface CatalogSlice
     setSearchResult: (searchValue: string, offers: IPurchasableOffer[], filteredNodes: ICatalogNode[]) => void;
     setCurrentPage: (currentPage: ICatalogPage) => void;
     setCurrentOffer: (currentOffer: IPurchasableOffer) => void;
+    updateCurrentOfferOptions: (options: Partial<IOfferOptions>) => void;
+    setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => void;
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => void;
     setCatalogNeedsUpdate: (flag: boolean) => void;
 }
@@ -35,6 +38,7 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
     currentPage: null,
     currentPageId: -1,
     currentOffer: null,
+    currentOfferOptions: null,
     frontPageItems: [],
     navigationVisible: true,
     catalogNeedsUpdate: true,
@@ -160,7 +164,19 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
         return { searchResult };
     }),
     setCurrentPage: (currentPage: ICatalogPage) => set({ currentPage, currentOffer: null }),
-    setCurrentOffer: (currentOffer: IPurchasableOffer) => set({ currentOffer }),
+    setCurrentOffer: (currentOffer: IPurchasableOffer) => set({
+        currentOffer, currentOfferOptions: {
+            quantity: 1,
+            extraData: null,
+            extraParamRequired: false,
+            previewStuffData: null
+        }
+    }),
+    updateCurrentOfferOptions: (options: Partial<IOfferOptions>) => set(state =>
+    {
+        return { currentOfferOptions: { ...state.currentOfferOptions, ...options } };
+    }),
+    setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => set({ currentOfferOptions }),
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => set({ frontPageItems }),
     setCatalogNeedsUpdate: (flag: boolean) => set({ catalogNeedsUpdate: flag })
 }));

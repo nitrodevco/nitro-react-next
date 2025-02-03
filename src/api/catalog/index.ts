@@ -5,7 +5,7 @@ export * from './CatalogUtils';
 export * from './ICatalogNode';
 export * from './ICatalogPage';
 export * from './ICatalogPageLocalization';
+export * from './IOfferOptions';
 export * from './IProduct';
 export * from './IPurchasableOffer';
 export * from './ProductType';
-export * from './ProductTypeEnum';

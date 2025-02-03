@@ -152,7 +152,9 @@ module.exports = {
                 'navigator-w': '420px',
                 'navigator-h': '440px',
                 'inventory-w': '528px',
-                'inventory-h': '320px'
+                'inventory-h': '320px',
+                'catalog-w': '630px',
+                'catalog-h': '401px'
             },
             borderRadius: {
                 '3': '0.3rem',

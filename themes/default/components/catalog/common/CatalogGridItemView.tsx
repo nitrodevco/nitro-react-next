@@ -1,8 +1,9 @@
-import { GetIconUrlForProduct, IPurchasableOffer } from '#base/api';
+import { IPurchasableOffer } from '#base/api';
 import { classNames } from '#base/utils';
-import { NitroImage, NitroInfiniteGridItem } from '#themes/default/layout';
+import { NitroInfiniteGridItem } from '#themes/default/layout';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
+import { CatalogOfferIconView } from './CatalogOfferIconView';
 
 export const CatalogGridItemView: FC<{
     offer: IPurchasableOffer;
@@ -33,7 +34,6 @@ export const CatalogGridItemView: FC<{
     };
 
     const product = offer.product;
-    const imageUrl = GetIconUrlForProduct(product, offer);
 
     return (
         <NitroInfiniteGridItem
@@ -42,8 +42,7 @@ export const CatalogGridItemView: FC<{
                 (product.uniqueLimitedItemSeriesSize > 0) && 'unique-item'
             ) }
             onMouseEvent={ onMouseEvent }>
-                <NitroImage
-                    url={ imageUrl } />
+                <CatalogOfferIconView offer={ offer } />
         </NitroInfiniteGridItem>
     );
 };
