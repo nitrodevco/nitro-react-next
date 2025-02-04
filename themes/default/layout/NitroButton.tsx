@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
 
 const classes = {
     base: 'inline-flex justify-center items-center gap-2 transition-[background-color] duration-300 transform tracking-wide rounded-md',
-    disabled: '',
+    disabled: 'cursor-not-allowed',
     size: {
         default: 'px-2 py-0.5 font-medium',
         lg: 'px-5 py-3 text-base font-medium',

@@ -1,9 +1,9 @@
 import { NitroConfigContext } from '#base/context';
 import { classNames, styleNames } from '#base/utils';
-import { GetSessionDataManager } from '@nitrots/nitro-renderer';
+import { BadgeImageReadyEvent, GetEventDispatcher, GetSessionDataManager, TextureUtils } from '@nitrots/nitro-renderer';
 import { DetailedHTMLProps, FC, HTMLAttributes, useContext, useEffect, useRef, useState } from 'react';
 
-export const NitroBadgeImage: FC<{
+export const NitroGroupBadgeImage: FC<{
     badgeCode: string;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
@@ -16,19 +16,40 @@ export const NitroBadgeImage: FC<{
     {
         if(!badgeCode || !badgeCode.length) return;
 
-        const image = new Image();
+        let didSetBadge = false;
 
-        image.src = GetSessionDataManager().getBadgeUrl(badgeCode);
-        image.onload = () =>
+        const onBadgeImageReadyEvent = async (event: BadgeImageReadyEvent) =>
         {
-            if(isDisposed.current) return;
+            if(isDisposed.current || !event || (event.badgeId !== badgeCode)) return;
 
-            setImageUrl(image.src);
+            didSetBadge = true;
+
+            const imageUrl = await TextureUtils.generateImageUrl(event.image);
+
+            setImageUrl(imageUrl);
+
+            GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
+        };
+            
+        GetEventDispatcher().addEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
+
+        const texture = GetSessionDataManager().getGroupBadgeImage(badgeCode);
+
+        if(texture && !didSetBadge)
+        {
+            const generateImage = async () =>
+            {
+                const imageUrl = await TextureUtils.generateImageUrl(texture);
+
+                setImageUrl(imageUrl);
+            }
+
+            generateImage();
         }
 
         return () =>
         {
-            setImageUrl('');
+            GetEventDispatcher().removeEventListener(BadgeImageReadyEvent.IMAGE_READY, onBadgeImageReadyEvent);
         }
     }, [ badgeCode ]);
 
