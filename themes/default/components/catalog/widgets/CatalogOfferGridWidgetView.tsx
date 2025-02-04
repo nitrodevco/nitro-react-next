@@ -47,6 +47,7 @@ export const CatalogOfferGridWidgetView: FC<{
         <NitroInfiniteGrid<IPurchasableOffer>
             key={ `catalog-offer-grid-${ currentPage.pageId }` }
             items={ currentPage.offers }
+            getKey={ item => item.offerId }
             itemRender={ item => <CatalogGridItemView offer={ item } currentOffer={ currentOffer } selectOffer={ selectOffer } /> }
         />
     );

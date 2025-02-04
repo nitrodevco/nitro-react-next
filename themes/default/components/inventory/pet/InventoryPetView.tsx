@@ -75,6 +75,7 @@ export const InventoryPetView: FC<{
                     <NitroInfiniteGrid<IPetItem>
                         key="inventory-pets"
                         items={ petItems }
+                        getKey={ item => item.petData?.id }
                         itemRender={ item => <InventoryPetItemView petItem={ item } selectedPetItem={ selectedPetItem} selectPetItem={ selectPetItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5 gap-1 overflow-hidden">

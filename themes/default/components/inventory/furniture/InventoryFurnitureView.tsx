@@ -119,6 +119,7 @@ export const InventoryFurnitureView: FC<{
                     <NitroInfiniteGrid<IGroupItem>
                         key="inventory-furniture"
                         items={ filteredGroupItems }
+                        getKey={ item => item.items[0]?.id}
                         itemRender={ item => <InventoryFurnitureItemView groupItem={ item } selectedFurniItem={ selectedFurniItem } selectFurniItem={ selectFurniItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5 gap-1 overflow-hidden">

@@ -37,7 +37,7 @@ export const InventoryBadgeItemView: FC<{
             gridItemActive={ selectedBadgeCode === badgeCode }
             gridItemUnseen={ isUnseen }
             onMouseEvent={ onMouseEvent }>
-                <NitroBadgeImage badgeCode={ badgeCode} />
+                <NitroBadgeImage badgeCode={ badgeCode } />
         </NitroInfiniteGridItem>
     );
 };

@@ -1,21 +1,22 @@
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { Fragment, ReactElement, useEffect, useRef, useState } from 'react';
+import { Fragment, Key, ReactElement, useEffect, useRef, useState } from 'react';
 
 export const NitroInfiniteGrid = <T,>(props: {
     items: T[];
     itemWidth?: number;
     itemHeight?: number;
     overrideColumnCount?: number;
-    itemRender?: (item: T, index?: number) => ReactElement;
+    itemRender: (item: T, index?: number) => ReactElement;
+    getKey: (item: T) => Key;
 }) =>
 {
     "use no memo";
-    const { items = [], itemWidth = 45, itemHeight = 45, overrideColumnCount = 0, itemRender = null } = props;
+    const { items = [], itemWidth = 45, itemHeight = 45, overrideColumnCount = 0, itemRender = null, getKey = null } = props;
     const [ columnCount, setColumnCount ] = useState(0);
     const elementRef = useRef<HTMLDivElement>(null);
 
     const virtualizer = useVirtualizer({
-        count: (Math.floor(((items.length / (columnCount || 1)) || 1)) || 1),
+        count: (Math.ceil((items.length / (columnCount || 1))) || 1),
         overscan: 1,
         getScrollElement: () => elementRef.current,
         estimateSize: () => itemHeight,
@@ -95,8 +96,10 @@ export const NitroInfiniteGrid = <T,>(props: {
                         {
                             const item = items[i + (virtualRow.index * columnCount)];
 
+                            if(!item) return null;
+
                             return (
-                                <Fragment key={ `${ virtualRow.key }-${ i }` }>
+                                <Fragment key={ getKey(item) }>
                                     { (item && itemRender(item, i)) ?? null }
                                 </Fragment>
                             );

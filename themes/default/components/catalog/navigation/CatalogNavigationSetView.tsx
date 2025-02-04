@@ -18,7 +18,7 @@ export const CatalogNavigationSetView: FC<{
             {
                 if(!child.isVisible) return null;
                     
-                return <CatalogNavigationItemView key={ index } node={ child } isChild={ isChild } activeNodes={ activeNodes } expandedNodes={ expandedNodes } selectNode={ selectNode } />
+                return <CatalogNavigationItemView key={ node.pageId } node={ child } isChild={ isChild } activeNodes={ activeNodes } expandedNodes={ expandedNodes } selectNode={ selectNode } />
             }) }
         </>
     );

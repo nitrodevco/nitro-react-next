@@ -76,6 +76,7 @@ export const InventoryBotView: FC<{
                     <NitroInfiniteGrid<IBotItem>
                         key="inventory-bots"
                         items={ botItems }
+                        getKey={ item => item.botData?.id }
                         itemRender={ item => <InventoryBotItemView botItem={ item } selectedBotItem={ selectedBotItem } selectBotItem={ selectBotItem } /> } /> }
             </div>
             <div className="flex flex-col col-span-5 gap-1 overflow-hidden">
