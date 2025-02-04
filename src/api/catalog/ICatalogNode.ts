@@ -1,5 +1,8 @@
+import { Key } from 'react';
+
 export interface ICatalogNode
 {
+    key: Key;
     depth: number;
     localization: string;
     pageId: number;

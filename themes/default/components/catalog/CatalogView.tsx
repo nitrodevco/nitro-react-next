@@ -66,10 +66,12 @@ export const CatalogView: FC<{
 
                         return (
                             <NitroCard.TabItem
-                                key={ child.pageId }
+                                key={ child.key }
                                 isActive={ (activeNodes.indexOf(child) >= 0) }
                                 onClick={ event => selectNode(child) }>
-                                <NitroCatalogIcon icon={ child.iconId } />
+                                <div className="flex items-center justify-center w-[20px] h-[20px]">
+                                    <NitroCatalogIcon icon={ child.iconId } />
+                                </div>
                                 { child.localization }
                             </NitroCard.TabItem>
                         );

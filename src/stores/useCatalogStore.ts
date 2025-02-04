@@ -48,9 +48,12 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
 
         const offerNodes: { [key: string]: ICatalogNode[] } = {};
 
+        let pageCounter = 0;
+
         const getCatalogNode = (node: NodeData, depth: number, parent: ICatalogNode) =>
         {
             const catalogNode: ICatalogNode = {
+                key: pageCounter,
                 depth,
                 parent,
                 localization: node.localization,
@@ -61,6 +64,8 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
                 offerIds: node.offerIds,
                 isVisible: node.visible,
             };
+
+            pageCounter++;
 
             for (const offerId of catalogNode.offerIds)
             {
