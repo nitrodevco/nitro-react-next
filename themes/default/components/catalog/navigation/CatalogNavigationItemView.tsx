@@ -49,8 +49,10 @@ export const CatalogNavigationItemView: FC<{
                 onClick={ () => selectNode(node) }>
                 <div
                     className="flex items-center gap-1 px-1 py-0.5 w-full">
-                    <NitroCatalogIcon icon={ node.iconId } />
-                    <p className="truncate text-sm w-full">{ node.localization }</p>
+                    <div className="flex items-center justify-center w-[20px] h-[20px]">
+                        <NitroCatalogIcon icon={ node.iconId } />
+                    </div>
+                    <p className="truncate text-sm grow">{ node.localization }</p>
                     { hasChildren &&
                         <>
                             { isExpanded && <FaCaretUp className="fa-icon text-sm" /> }

@@ -57,7 +57,7 @@ export const NitroAvatarImage: FC<{
         <div
             ref={ ref }
             className={ classNames(
-                'avatar-image relative w-[90px] h-[130px] bg-no-repeat bg-[center_-8px] pointer-events-none',
+                'avatar-image relative bg-no-repeat bg-[center_-8px] pointer-events-none',
                 className
             ) }
             style={ styleNames(

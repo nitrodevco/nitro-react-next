@@ -1,7 +1,7 @@
 import { AttemptItemPlacement, GetUnlockedCountForGroup, IGroupItem } from '#base/api';
 import { useVisibilityStore } from '#base/stores';
 import { classNames } from '#base/utils';
-import { NitroFurniIconImage, NitroInfiniteGridItem, NitroLimitedEditionNumber } from '#themes/default/layout';
+import { NitroFurniIcon, NitroInfiniteGridItem, NitroLimitedEditionNumber } from '#themes/default/layout';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 
@@ -50,7 +50,7 @@ export const InventoryFurnitureItemView: FC<{
             onMouseEvent={ onMouseEvent }>
             { (unlockedCount > 1) &&
                 <div className="absolute align-middle rounded-md bg-red-700 bg-opacity-80 text-white border-black border top-[2px] right-[2px] text-[9.5px] p-[2px] z-[1] leading-[8px]">{ unlockedCount }</div> }
-            <NitroFurniIconImage
+            <NitroFurniIcon
                 className="unique-bg-override"
                 url={ imageUrl } />
             { (uniqueNumber > 0) &&
