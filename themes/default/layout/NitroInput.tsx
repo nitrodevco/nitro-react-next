@@ -2,7 +2,7 @@ import { classNames } from '#base/utils';
 import { DetailedHTMLProps, FC, InputHTMLAttributes } from 'react';
 
 const classes = {
-    base: 'block w-full placeholder-gray-400 border border-gray-300 shadow-sm appearance-none',
+    base: 'block w-full placeholder-gray-400 border border-gray-300 shadow-xs appearance-none',
     disabled: '',
     inputSize: {
         sm: 'px-1 py-0.5 text-sm',
@@ -10,7 +10,7 @@ const classes = {
     },
     rounded: 'rounded-md',
     color: {
-        default: 'focus:outline-none focus:ring-indigo-500 focus:border-indigo-500',
+        default: 'focus:outline-hidden focus:ring-indigo-500 focus:border-indigo-500',
     }
 };
 

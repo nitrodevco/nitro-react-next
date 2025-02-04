@@ -78,7 +78,7 @@ export const NitroInfiniteGrid = <T,>(props: {
             ref={ elementRef }
             className="overflow-y-auto size-full">
             <div
-                className="flex flex-col w-full *:pb-1 last:*:pb-0 relative"
+                className="flex flex-col w-full *:pb-1 *:last:pb-0 relative"
                 style={ {
                     height: `${ virtualizer.getTotalSize() }px`
                 } }>

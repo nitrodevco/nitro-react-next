@@ -45,7 +45,7 @@ export const CatalogNavigationItemView: FC<{
                 <div
                     className="absolute top-[-4px] left-0 h-[calc(100%+4px)] w-[2px] bg-[#b6bec5]" /> }
             <div
-                className={ classNames(`cursor-pointer overflow-hidden w-full z-[1]`, isActive && 'rounded-md bg-[#ECECEC]', (isExpanded && hasChildren) && 'mb-0.5') }
+                className={ classNames(`cursor-pointer overflow-hidden w-full z-1`, isActive && 'rounded-md bg-[#ECECEC]', (isExpanded && hasChildren) && 'mb-0.5') }
                 onClick={ () => selectNode(node) }>
                 <div
                     className="flex items-center gap-1 px-1 py-0.5 w-full">

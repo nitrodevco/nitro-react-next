@@ -14,7 +14,7 @@ const NitroCardRoot: FC<DraggableWindowProps & DetailedHTMLProps<HTMLAttributes<
             <div
                 ref={ ref }
                 className={ classNames(
-                    'flex flex-col rounded-md shadow border-2 border-card-border overflow-hidden min-w-full min-h-full max-w-full max-h-full resize',
+                    'flex flex-col rounded-md shadow-sm border-2 border-card-border overflow-hidden min-w-full min-h-full max-w-full max-h-full resize',
                     className
                 ) }
                 { ...rest } />
@@ -94,7 +94,7 @@ const NitroCardTabItem: FC<{
         <div
             ref={ ref }
             className={ classNames(
-                'overflow-hidden relative cursor-pointer rounded-t-md flex bg-card-tab-item px-3 py-1 z-[1] border-card-border border-t border-l border-r before:absolute before:w-[93%] before:h-[3px] before:rounded-md before:top-[1.5px] before:left-0 before:right-0 before:m-auto before:z-[1] before:bg-[#C2C9D1]',
+                'overflow-hidden relative cursor-pointer rounded-t-md flex bg-card-tab-item px-3 py-1 z-1 border-card-border border-t border-l border-r before:absolute before:w-[93%] before:h-[3px] before:rounded-md before:top-[1.5px] before:left-0 before:right-0 before:m-auto before:z-1 before:bg-[#C2C9D1]',
                 isActive && 'bg-card-tab-item-active -mb-[1px] before:bg-white',
                 className)
             }

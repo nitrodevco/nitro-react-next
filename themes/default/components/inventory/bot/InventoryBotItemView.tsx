@@ -45,7 +45,7 @@ export const InventoryBotItemView: FC<{
             gridItemActive={ botItem === selectedBotItem }
             gridItemUnseen={ isUnseen }
             onMouseEvent={ onMouseEvent }>
-                <NitroAvatarImage className="!bg-[center_-35px]" avatarDirection={ 3 } avatarFigure={ botItem.botData.figure } avatarHeadOnly={ true } />
+                <NitroAvatarImage className="bg-[center_-35px]!" avatarDirection={ 3 } avatarFigure={ botItem.botData.figure } avatarHeadOnly={ true } />
         </NitroInfiniteGridItem>
     );
 };
