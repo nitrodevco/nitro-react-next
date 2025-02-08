@@ -1,7 +1,8 @@
-import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductType } from '#base/api/index.ts';
+import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductType } from '#base/api';
+import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
 import { useMessageEvent } from '#base/hooks';
-import { useCatalogStore } from '#base/stores';
-import { CatalogPageMessageEvent, CatalogPagesListEvent } from '@nitrots/nitro-renderer';
+import { useCatalogStore, useEventStore } from '#base/stores';
+import { CatalogPageMessageEvent, CatalogPagesListEvent, LimitedEditionSoldOutEvent, PurchaseErrorMessageEvent, PurchaseNotAllowedMessageEvent, PurchaseOKMessageEvent } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 
 export const useCatalogMessages = () =>
@@ -20,6 +21,7 @@ export const useCatalogMessages = () =>
             state.setCurrentPage,
             state.setFrontPageItems
         ]));
+    const emit = useEventStore(state => state.emit);
 
     useMessageEvent<CatalogPagesListEvent>(CatalogPagesListEvent, event =>
     {
@@ -35,6 +37,17 @@ export const useCatalogMessages = () =>
         if (parser.catalogType !== catalogType) return;
 
         const purchasableOffers: IPurchasableOffer[] = [];
+        const catalogPage: ICatalogPage = {
+            pageId: parser.pageId,
+            layoutCode: parser.layoutCode,
+            localization: {
+                texts: parser.localization.texts,
+                images: parser.localization.images
+            },
+            offers: purchasableOffers,
+            acceptSeasonCurrencyAsCredits: parser.acceptSeasonCurrencyAsCredits,
+            mode: 0
+        };
 
         for (const offer of parser.offers)
         {
@@ -73,62 +86,47 @@ export const useCatalogMessages = () =>
                 bundlePurchaseAllowed: offer.bundlePurchaseAllowed,
                 isRentOffer: offer.rent,
                 isLazy: false,
-                page: null, // need still
+                page: catalogPage,
                 badgeCode
             };
 
             if ((catalogType === CatalogType.NORMAL) || ((purchasableOffer.pricingModel !== CatalogPricingModelType.PRICING_MODEL_BUNDLE) && (purchasableOffer.pricingModel !== CatalogPricingModelType.PRICING_MODEL_MULTI))) purchasableOffers.push(purchasableOffer);
         }
 
+        setCurrentPage(catalogPage);
+
         if (parser.frontPageItems && parser.frontPageItems.length) setFrontPageItems(parser.frontPageItems);
-
-        if (currentPageId === parser.pageId)
-        {
-            const catalogPage: ICatalogPage = {
-                pageId: parser.pageId,
-                layoutCode: parser.layoutCode,
-                localization: {
-                    texts: parser.localization.texts,
-                    images: parser.localization.images
-                },
-                offers: purchasableOffers,
-                acceptSeasonCurrencyAsCredits: parser.acceptSeasonCurrencyAsCredits,
-                mode: 0
-            };
-
-            setCurrentPage(catalogPage);
-        }
     });
 
-    /* useMessageEvent<PurchaseOKMessageEvent>(PurchaseOKMessageEvent, event =>
+    useMessageEvent<PurchaseOKMessageEvent>(PurchaseOKMessageEvent, event =>
     {
         const parser = event.getParser();
 
-        DispatchUiEvent(new CatalogPurchasedEvent(parser.offer));
+        emit(new CatalogPurchasedEvent(parser.offer));
     });
 
     useMessageEvent<PurchaseErrorMessageEvent>(PurchaseErrorMessageEvent, event =>
     {
         const parser = event.getParser();
 
-        DispatchUiEvent(new CatalogPurchaseFailureEvent(parser.code));
+        emit(new CatalogPurchaseFailureEvent(parser.code));
     });
 
     useMessageEvent<PurchaseNotAllowedMessageEvent>(PurchaseNotAllowedMessageEvent, event =>
     {
         const parser = event.getParser();
 
-        DispatchUiEvent(new CatalogPurchaseNotAllowedEvent(parser.code));
+        emit(new CatalogPurchaseNotAllowedEvent(parser.code));
     });
 
     useMessageEvent<LimitedEditionSoldOutEvent>(LimitedEditionSoldOutEvent, event =>
     {
         const parser = event.getParser();
 
-        DispatchUiEvent(new CatalogPurchaseSoldOutEvent());
+        emit(new CatalogPurchaseSoldOutEvent());
     });
 
-    useMessageEvent<ProductOfferEvent>(ProductOfferEvent, event =>
+    /*useMessageEvent<ProductOfferEvent>(ProductOfferEvent, event =>
     {
         const parser = event.getParser();
         const offerData = parser.offer;

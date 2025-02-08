@@ -1,6 +1,6 @@
-import { NitroConfigContext } from '#base/context';
+import { useConfigValue } from '#base/hooks/index.ts';
 import { classNames, styleNames } from '#base/utils';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 export const NitroImage: FC<{
     url?: string;
@@ -8,7 +8,7 @@ export const NitroImage: FC<{
 {
     const { url = null, className = null, style = null, ref = null, ...rest } = props;
     const [ imageData, setImageData ] = useState({ url: '', width: 45, height: 45 });
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const loadingUrl = useConfigValue<string>('asset.urls.icons.loading', '');
     const isDisposed = useRef(false);
 
     useEffect(() =>
@@ -49,7 +49,7 @@ export const NitroImage: FC<{
             ) }
             style={ styleNames(
                 {
-                    backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url(${ getConfigValue<string>('asset.urls.icons.loading') })`,
+                    backgroundImage: (imageData?.url?.length > 0) ? `url(${ imageData.url })` : `url(${ loadingUrl })`,
                     width: `${ imageData.width }px`,
                     height: `${ imageData.height }px`,
                     ...style

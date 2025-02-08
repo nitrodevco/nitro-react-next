@@ -1,5 +1,5 @@
-import { NitroConfigContext } from '#base/context';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext } from 'react';
+import { useConfigValue } from '#base/hooks/index.ts';
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import { NitroImage } from './NitroImage';
 
 export const NitroBadgeImage: FC<{
@@ -7,8 +7,8 @@ export const NitroBadgeImage: FC<{
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { badgeCode = null, ...rest } = props;
-    const { getConfigValue = null } = useContext(NitroConfigContext);
-    const imageUrl = `${ getConfigValue<string>('asset.urls.badges') }/${ badgeCode }.gif`;
+    const baseUrl = useConfigValue<string>('asset.urls.badges', '');
+    const imageUrl = `${ baseUrl }/${ badgeCode }.gif`;
 
     return <NitroImage url={ imageUrl } { ...rest } />;
 };

@@ -8,8 +8,7 @@ interface IDoorData
     state: number;
 }
 
-interface NavigatorSlice
-{
+type State = {
     categories: NavigatorCategoryDataParser[];
     eventCategories: NavigatorEventCategoryDataParser[];
     topLevelContext: NavigatorTopLevelContext;
@@ -23,6 +22,9 @@ interface NavigatorSlice
     needsInit: boolean,
     needsSearch: boolean,
     pendingResult: boolean,
+}
+
+type Actions = {
     setCategories: (categories: NavigatorCategoryDataParser[]) => void;
     setEventCategories: (eventCategories: NavigatorEventCategoryDataParser[]) => void;
     setTopLevelContext: (topLevelContext: NavigatorTopLevelContext) => void;
@@ -33,7 +35,7 @@ interface NavigatorSlice
     setNavigatorData: (navigatorData: Partial<INavigatorData>) => void;
 }
 
-export const useNavigatorStore = create<NavigatorSlice>(set => ({
+const initialState: State = {
     categories: null,
     eventCategories: null,
     topLevelContext: null,
@@ -44,7 +46,6 @@ export const useNavigatorStore = create<NavigatorSlice>(set => ({
     },
     searchResult: null,
     navigatorData: {
-        settingsReceived: false,
         homeRoomId: 0,
         enteredGuestRoom: null,
         currentRoomOwner: false,
@@ -62,6 +63,10 @@ export const useNavigatorStore = create<NavigatorSlice>(set => ({
     needsInit: true,
     needsSearch: false,
     pendingResult: false,
+};
+
+export const useNavigatorStore = create<State & Actions>(set => ({
+    ...initialState,
     setCategories: (categories: NavigatorCategoryDataParser[]) => set({ categories }),
     setEventCategories: (eventCategories: NavigatorEventCategoryDataParser[]) => set({ eventCategories }),
     setTopLevelContext: (topLevelContext: NavigatorTopLevelContext) => set({ topLevelContext }),

@@ -1,7 +1,5 @@
-import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
-import { useSessionStore } from '#base/stores';
+import { useConfigurationStore, useSessionStore } from '#base/stores';
 import { AccountSafetyLockStatusChangeMessageEvent, AccountSafetyLockStatusChangeParser, ChangeUserNameResultMessageEvent, EmailStatusResultEvent, FigureUpdateEvent, NoobnessLevelEnum, NoobnessLevelMessageEvent, PetScratchFailedMessageEvent, UserInfoEvent, UserNameChangeMessageEvent, UserPermissionsEvent, UserTagsMessageEvent } from '@nitrots/nitro-renderer';
-import { useContext } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
 
@@ -30,7 +28,7 @@ export const useSessionMessages = () =>
             state.increasePetRespects,
             state.setEmailVerified,
             state.setTags]));
-    const { setConfigValue = null } = useContext(NitroConfigContext);
+    const setConfigValue = useConfigurationStore(state => state.setConfigValue);
 
     useMessageEvent<FigureUpdateEvent>(FigureUpdateEvent, event =>
     {

@@ -36,7 +36,19 @@ export const CatalogView: FC<{
             state.setCatalogNeedsUpdate
         ]));
 
-    const hideCatalog = () => useVisibilityStore.setState({ catalogVisible: false });
+    useEffect(() =>
+    {
+        if(!rootNode?.children?.length || activeNodes?.length) return;
+
+        for(const child of rootNode.children)
+        {
+            if(!child.isVisible) continue;
+
+            selectNode(child);
+
+            return;
+        }
+    }, [ activeNodes, rootNode ]);
 
     useEffect(() =>
     {
@@ -51,6 +63,8 @@ export const CatalogView: FC<{
     }, [ catalogNeedsUpdate, catalogType ]);
 
     if(!rootNode) return null;
+
+    const hideCatalog = () => useVisibilityStore.setState({ catalogVisible: false });
 
     return (
         <NitroCard

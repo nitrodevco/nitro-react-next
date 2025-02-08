@@ -1,8 +1,8 @@
 import { SendMessageComposer } from '#base/api/index.ts';
-import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
-import { useWalletStore } from '#base/stores/newWalletStore.ts';
+import { useConfigValue } from '#base/hooks/index.ts';
+import { useWalletStore } from '#base/stores/useWalletStore.ts';
 import { UserCurrencyComposer, UserSubscriptionComposer } from '@nitrots/nitro-renderer';
-import { FC, useContext, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 export const WalletView: FC<{
@@ -18,8 +18,7 @@ export const WalletView: FC<{
         state.currencies,
         state.walletNeedsUpdate,
         state.setWalletNeedsUpdate]));
-    const { getConfigValue = null } = useContext(NitroConfigContext);
-    const hcDisabled = getConfigValue('settings.hcDisabled', false);
+    const hcDisabled = useConfigValue<boolean>('settings.hcDisabled', false);
 
     useEffect(() =>
     {

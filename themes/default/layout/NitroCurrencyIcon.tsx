@@ -1,5 +1,6 @@
-import { NitroConfigContext } from '#base/context';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext } from 'react';
+import { useConfigValue } from '#base/hooks/index.ts';
+import { NitroLogger } from '@nitrots/nitro-renderer';
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import { NitroImage } from './NitroImage';
 
 export const NitroCurrencyIcon: FC<{
@@ -7,8 +8,21 @@ export const NitroCurrencyIcon: FC<{
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { type = '', ...rest } = props;
-    const { getConfigValue = null } = useContext(NitroConfigContext);
-    const imageUrl = getConfigValue<string>('asset.urls.icons.currency')?.replace('%type%', type.toString());
+    const currencyConfig = useConfigValue<{
+        type: number;
+        name: string;
+        iconUrl: string;
+        borderColor: string;
+        textColor: string;
+        backgroundColor: string;
+    }[]>('settings.currencies', [])?.find(x => x.type == type) || null;
 
-    return <NitroImage url={ imageUrl } { ...rest } />;
+    if(!currencyConfig)
+    {
+        NitroLogger.warn(`Currency type ${ type } not found in config.`);
+
+        return null;
+    }
+
+    return <NitroImage url={ currencyConfig.iconUrl } { ...rest } />;
 };

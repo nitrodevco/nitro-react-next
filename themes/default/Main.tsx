@@ -1,11 +1,11 @@
 import { CatalogType } from '#base/api/index.ts';
-import { useCatalogMessages, useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages } from '#base/hooks';
+import { useCatalogMessages, useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages, useSessionMessages, useWalletMessages } from '#base/hooks';
 import { useVisibilityStore } from '#base/stores';
 import { AddLinkEventTracker, GetCommunication, HabboWebTools, ILinkEventTracker, RemoveLinkEventTracker, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
-import { CatalogView, HotelView, InventoryView, NavigatorView, RoomView, ToolbarView } from './components';
+import { CatalogView, HotelView, InventoryView, NavigatorView, RoomView, ToolbarView, WalletView } from './components';
 import './index.css';
 
 export const Main: FC = () =>
@@ -16,19 +16,21 @@ export const Main: FC = () =>
         inventoryVisible,
         catalogVisible
     ] = useVisibilityStore(
-        useShallow(state => [
-            state.landingViewVisible,
-            state.navigationVisible,
-            state.inventoryVisible,
-            state.catalogVisible
-        ]));
+    useShallow(state => [
+        state.landingViewVisible,
+        state.navigationVisible,
+        state.inventoryVisible,
+        state.catalogVisible
+    ]));
 
     useNitroEvent<RoomSessionEvent>(RoomSessionEvent.CREATED, event => useVisibilityStore.setState({ landingViewVisible: false }));
     useNitroEvent<RoomSessionEvent>(RoomSessionEvent.ENDED, event => useVisibilityStore.setState({ landingViewVisible: event.openLandingView }));
 
+    useSessionMessages();
     useInventoryMessages();
     useNavigatorMessages();
     useCatalogMessages();
+    useWalletMessages();
     useRoomMessages();
 
     useEffect(() =>
@@ -85,10 +87,15 @@ export const Main: FC = () =>
                     </motion.div> }
             </AnimatePresence>
             <RoomView />
-            <NavigatorView />
+            { navigationVisible && <NavigatorView /> }
             { inventoryVisible && <InventoryView /> }
             { catalogVisible && <CatalogView catalogType={ CatalogType.NORMAL } />}
             <ToolbarView isInRoom={ !landingViewVisible } />
+            <div className="absolute top-[0] right-[10px] min-w-[200px] max-w-[200px] h-[calc(100%-55px)] pointer-events-none">
+                <div className="flex flex-col size-full relative">
+                    <WalletView />
+                </div>
+            </div>
         </>
     );
 };

@@ -2,8 +2,7 @@ import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IPurchasableOff
 import { FrontPageItem, GetCatalogPageComposer, NodeData } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 
-interface CatalogSlice
-{
+type State = {
     catalogType: string;
     rootNode: ICatalogNode;
     activeNodes: ICatalogNode[];
@@ -17,6 +16,9 @@ interface CatalogSlice
     frontPageItems: FrontPageItem[];
     navigationVisible: boolean;
     catalogNeedsUpdate: boolean;
+}
+
+type Actions = {
     processNodeData: (nodeData: NodeData) => void;
     selectNode: (targetNode: ICatalogNode, offerId?: number) => void;
     setSearchResult: (searchValue: string, offers: IPurchasableOffer[], filteredNodes: ICatalogNode[]) => void;
@@ -26,9 +28,10 @@ interface CatalogSlice
     setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => void;
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => void;
     setCatalogNeedsUpdate: (flag: boolean) => void;
+    reset: () => void;
 }
 
-export const useCatalogStore = create<CatalogSlice>(set => ({
+const initialState: State = {
     catalogType: CatalogType.NORMAL,
     rootNode: null,
     activeNodes: [],
@@ -42,6 +45,10 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
     frontPageItems: [],
     navigationVisible: true,
     catalogNeedsUpdate: true,
+}
+
+export const useCatalogStore = create<State & Actions>(set => ({
+    ...initialState,
     processNodeData: (nodeData: NodeData) => set(state =>
     {
         if (!nodeData) return state;
@@ -147,7 +154,7 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
             });
         }
 
-        const newState: Partial<CatalogSlice> = { activeNodes, expandedNodes };
+        const newState: Partial<State> = { activeNodes, expandedNodes };
 
         if (targetNode.pageId > -1)
         {
@@ -183,5 +190,6 @@ export const useCatalogStore = create<CatalogSlice>(set => ({
     }),
     setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => set({ currentOfferOptions }),
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => set({ frontPageItems }),
-    setCatalogNeedsUpdate: (flag: boolean) => set({ catalogNeedsUpdate: flag })
+    setCatalogNeedsUpdate: (flag: boolean) => set({ catalogNeedsUpdate: flag }),
+    reset: () => set(initialState)
 }));

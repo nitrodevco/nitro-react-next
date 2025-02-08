@@ -1,5 +1,6 @@
 import { CatalogPricingModelType, FurniCategory, ProductType } from '#base/api';
 import { useCatalogStore } from '#base/stores/useCatalogStore.ts';
+import { useSessionStore } from '#base/stores/useSessionStore.ts';
 import { NitroRoomPreviewer } from '#themes/default/layout';
 import { GetAvatarRenderManager, GetSessionDataManager, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
@@ -14,10 +15,12 @@ export const CatalogViewOfferWidgetView: FC<{
         currentOffer,
         currentOfferOptions,
     ] = useCatalogStore(
-        useShallow(state => [
-            state.currentOffer,
-            state.currentOfferOptions
-        ]));
+    useShallow(state => [
+        state.currentOffer,
+        state.currentOfferOptions
+    ]));
+    const figure = useSessionStore(state => state.figure);
+    const gender = useSessionStore(state => state.gender);
 
     useEffect(() =>
     {
@@ -42,10 +45,10 @@ export const CatalogViewOfferWidgetView: FC<{
 
                     for(const part of customParts)
                     {
-                        if(GetAvatarRenderManager().isValidFigureSetForGender(part, GetSessionDataManager().gender)) figureSets.push(part);
+                        if(GetAvatarRenderManager().isValidFigureSetForGender(part, gender)) figureSets.push(part);
                     }
 
-                    const figureString = GetAvatarRenderManager().getFigureStringWithFigureIds(GetSessionDataManager().figure, GetSessionDataManager().gender, figureSets);
+                    const figureString = GetAvatarRenderManager().getFigureStringWithFigureIds(figure, gender, figureSets);
 
                     roomPreviewer.addAvatarIntoRoom(figureString, product.productClassId);
                 }
@@ -84,7 +87,7 @@ export const CatalogViewOfferWidgetView: FC<{
                 roomPreviewer.addAvatarIntoRoom(product.extraParam, 0);
                 return;
             case ProductType.EFFECT:
-                roomPreviewer.addAvatarIntoRoom(GetSessionDataManager().figure, product.productClassId);
+                roomPreviewer.addAvatarIntoRoom(figure, product.productClassId);
                 return;
         }
     }, [ currentOffer, currentOfferOptions, roomPreviewer ]);

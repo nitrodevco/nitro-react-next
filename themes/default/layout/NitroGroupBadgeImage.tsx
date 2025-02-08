@@ -1,7 +1,7 @@
-import { NitroConfigContext } from '#base/context';
+import { useConfigValue } from '#base/hooks/index.ts';
 import { classNames, styleNames } from '#base/utils';
 import { BadgeImageReadyEvent, GetEventDispatcher, GetSessionDataManager, TextureUtils } from '@nitrots/nitro-renderer';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext, useEffect, useRef, useState } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes, useEffect, useRef, useState } from 'react';
 
 export const NitroGroupBadgeImage: FC<{
     badgeCode: string;
@@ -9,7 +9,7 @@ export const NitroGroupBadgeImage: FC<{
 {
     const { badgeCode = null, className = null, style = null, ref = null, ...rest } = props;
     const [ imageUrl, setImageUrl ] = useState('');
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const loadingUrl = useConfigValue<string>('asset.urls.icons.loading', '');
     const isDisposed = useRef(false);
 
     useEffect(() =>
@@ -72,7 +72,7 @@ export const NitroGroupBadgeImage: FC<{
             ) }
             style={ styleNames(
                 {
-                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url(${ getConfigValue<string>('asset.urls.icons.loading') })`,
+                    backgroundImage: (imageUrl?.length > 0) ? `url(${ imageUrl })` : `url(${ loadingUrl })`,
                     ...style
                 }
             ) }

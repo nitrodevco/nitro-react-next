@@ -1,15 +1,15 @@
 import { IPurchasableOffer, ProductType } from '#base/api';
-import { NitroConfigContext } from '#base/context';
+import { useConfigValue } from '#base/hooks/index.ts';
 import { NitroBadgeImage, NitroImage } from '#themes/default';
 import { GetRoomEngine } from '@nitrots/nitro-renderer';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext } from 'react';
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 
 export const CatalogOfferIconView: FC<{
     offer: IPurchasableOffer;
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { offer = null, ...rest } = props;
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const baseUrl = useConfigValue<string>('asset.urls.catalog', '');
 
     if(!offer) return null;
 
@@ -44,9 +44,7 @@ export const CatalogOfferIconView: FC<{
 
                 if (iconName !== '')
                 {
-                    const assetUrl = getConfigValue<string>('asset.urls.catalog');
-
-                    imageUrl = `${assetUrl}/${iconName}.png`;
+                    imageUrl = `${ baseUrl }/${iconName}.png`;
 
                     break;
                 }

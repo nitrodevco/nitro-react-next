@@ -1,9 +1,27 @@
 import { create } from 'zustand';
 
-interface ConfigurationSlice
-{
-
+type State = {
+    config: {};
+    configNeedsUpdate: boolean;
 }
 
-export const useConfigurationStore = create<ConfigurationSlice>(set => ({
+type Actions = {
+    setConfig: (config: {}) => void;
+    setConfigValue: <T = unknown>(key: string, value: T) => void;
+    setConfigNeedsUpdate: (configNeedsUpdate: boolean) => void;
+}
+
+const initialState: State = {
+    config: null,
+    configNeedsUpdate: true
+};
+
+export const useConfigurationStore = create<State & Actions>(set => ({
+    ...initialState,
+    setConfig: (config: {}) => set({ config, configNeedsUpdate: false }),
+    setConfigValue: <T = unknown>(key: string, value: T) => set(state =>
+    {
+        return { config: { ...state.config, [key]: value } };
+    }),
+    setConfigNeedsUpdate: (configNeedsUpdate: boolean) => set({ configNeedsUpdate })
 }));

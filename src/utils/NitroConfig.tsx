@@ -1,16 +1,11 @@
-import { createContext, useEffect, useState } from 'react';
+import { useConfigSync } from '#base/hooks';
+import { useConfigurationStore } from '#base/stores';
+import { FC, PropsWithChildren, useEffect } from 'react';
 
-interface INitroConfigContext
+export const NitroConfig: FC<PropsWithChildren> = props =>
 {
-    config: {};
-    getConfigValue: <T>(key: string, defaultValue?: T) => T;
-}
-
-export const NitroConfigContext = createContext<INitroConfigContext>(null);
-
-export const NitroConfigProvider = ({ children }) =>
-{
-    const [ config, setConfig ] = useState<Record<string, any>>(null);
+    const setConfig = useConfigurationStore(state => state.setConfig);
+    const configNeedsUpdate = useConfigurationStore(state => state.configNeedsUpdate);
 
     const processJson = (data: Record<string, any>) =>
     {
@@ -55,7 +50,7 @@ export const NitroConfigProvider = ({ children }) =>
 
         const unflattenObject = (flatConfig: Record<string, any>) =>
         {
-            const result: any = {};
+            const result = {};
 
             for (const key in flatConfig)
             {
@@ -88,7 +83,7 @@ export const NitroConfigProvider = ({ children }) =>
         return unflatten;
     }
 
-    const loadConfig = async (url: string, override: Record<string, any> = null) =>
+    const loadUrl = async (url: string) =>
     {
         try
         {
@@ -98,20 +93,14 @@ export const NitroConfigProvider = ({ children }) =>
 
             let data = await response.json() as Record<string, any>;
 
-            if(override) data = { ...data, ...override };
-
-            const processedData = processJson(data);
-
-            setConfig(processedData);
+            return data;
         }
         
         catch (error)
         {
-            console.error(`Trouble loading the nitro-config.json using: ${url}`, error.message);
+            console.error(`Trouble loading the configuration using: ${url}`, error.message);
         }
     };
-
-    const getConfigValue = <T = unknown>(key: string, defaultValue: T = undefined): T => key.split('.').reduce((acc, k) => acc?.[k], config as any) ?? defaultValue;
 
     useEffect(() =>
     {
@@ -121,14 +110,19 @@ export const NitroConfigProvider = ({ children }) =>
 
         if(!url || !url.length) url = './nitro-config.json';
 
-        loadConfig(url, window.NitroConfig);
-    }, []);
+        const load = async () =>
+        {
+            let config = await loadUrl(url);
 
-    if(!config) return null;
+            if(!config) return;
 
-    return (
-        <NitroConfigContext.Provider value={{ config, getConfigValue }}>
-            { children }
-        </NitroConfigContext.Provider>
-    );
-};
+            setConfig(processJson({ ...config, ...window.NitroConfig }));
+        }
+
+        load();
+    }, [ configNeedsUpdate ]);
+
+    useConfigSync();
+
+    return props.children;
+}

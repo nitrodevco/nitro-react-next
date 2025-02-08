@@ -1,8 +1,7 @@
 import { UserSubscriptionParser } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 
-interface WalletSlice
-{
+type State = {
     currencies: { [key: number]: number };
     clubDays: number;
     clubPeriods: number;
@@ -15,13 +14,16 @@ interface WalletSlice
     minutesSinceLastModified: number;
     clubLevel: number;
     walletNeedsUpdate: boolean;
+}
+
+type Actions = {
     setCurrency: (type: number, amount: number) => void;
     setCurrencies: (currencies: { [key: string]: number }) => void;
     processUserSubscription: (data: UserSubscriptionParser) => void;
     setWalletNeedsUpdate: (flag: boolean) => void;
 }
 
-export const useWalletStore = create<WalletSlice>(set => ({
+const initialState: State = {
     currencies: {},
     clubDays: 0,
     clubPeriods: 0,
@@ -34,6 +36,10 @@ export const useWalletStore = create<WalletSlice>(set => ({
     minutesSinceLastModified: 0,
     clubLevel: 0,
     walletNeedsUpdate: true,
+};
+
+export const useWalletStore = create<State & Actions>(set => ({
+    ...initialState,
     setCurrency: (type: number, amount: number) => set(state =>
     {
         const currencies = { ...state.currencies };

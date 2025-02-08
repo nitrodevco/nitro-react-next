@@ -1,26 +1,13 @@
-import { classNames } from '#base/utils';
-import { LoadingView, Main } from '#themes/default';
+import { LoadingView, Main } from '#themes/default/index.ts';
 import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrots/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
-import { FC, useContext, useEffect, useState } from 'react';
-import { NitroConfigContext } from './context';
+import { FC, useEffect, useState } from 'react';
+import { useConfigValue } from './hooks/index';
 
 export const App: FC = () =>
 {
     const [ isReady, setIsReady ] = useState(false);
-    const { getConfigValue = null } = useContext(NitroConfigContext);
-
-    useEffect(() =>
-    {
-        if(!getConfigValue) return;
-
-        GetTicker().maxFPS = getConfigValue<number>('renderer.fps', 24);
-        NitroLogger.LOG_DEBUG = getConfigValue<boolean>('logging.debug', true);
-        NitroLogger.LOG_WARN = getConfigValue<boolean>('logging.warn', false);
-        NitroLogger.LOG_ERROR = getConfigValue<boolean>('logging.error', false);
-        NitroLogger.LOG_EVENTS = getConfigValue<boolean>('logging.events', false);
-        NitroLogger.LOG_PACKETS = getConfigValue<boolean>('logging.packets', false);
-    }, [ getConfigValue ]);
+    const preloadAssetUrls = useConfigValue<string[]>('asset.urls.preload') || [];
 
     useEffect(() =>
     {
@@ -39,11 +26,9 @@ export const App: FC = () =>
 
                 await GetConfiguration().init();
 
-                const assetUrls = getConfigValue<string[]>('asset.urls.preload') || [];
-
                 await Promise.all(
                     [
-                        GetAssetManager().downloadAssets(assetUrls),
+                        GetAssetManager().downloadAssets(preloadAssetUrls),
                         GetLocalizationManager().init(),
                         GetAvatarRenderManager().init(),
                         GetSoundManager().init(),
@@ -75,10 +60,7 @@ export const App: FC = () =>
     }, []);
 
     return (
-        <div className={classNames(
-            'w-full h-full overflow-hidden text-base bg-black',
-            !(window.devicePixelRatio % 1) && '[image-rendering:pixelated]',
-        )}>
+        <>
             <AnimatePresence>
                 { !isReady &&
                     <motion.div
@@ -91,6 +73,6 @@ export const App: FC = () =>
             </AnimatePresence>
             { isReady && <Main /> }
             <div id="draggable-windows-container" className="pointer-events-none absolute left-0 top-0 size-full overflow-hidden" />
-        </div>
+        </>
     );
 };

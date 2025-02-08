@@ -1,5 +1,6 @@
 export * from './CatalogPricingModelType';
 export * from './CatalogPricingType';
+export * from './CatalogPurchaseState';
 export * from './CatalogType';
 export * from './CatalogUtils';
 export * from './ICatalogNode';

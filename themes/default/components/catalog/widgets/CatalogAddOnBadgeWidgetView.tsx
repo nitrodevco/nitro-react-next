@@ -1,6 +1,6 @@
 import { useCatalogStore } from '#base/stores/useCatalogStore.ts';
-import { NitroBadgeImage } from '#themes/default/layout/NitroBadgeImage.tsx';
 import { FC } from 'react';
+import { NitroBadgeImage } from '../../../layout/NitroBadgeImage';
 
 export const CatalogAddOnBadgeWidgetView: FC<{
 }> = props =>

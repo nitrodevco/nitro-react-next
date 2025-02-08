@@ -13,5 +13,6 @@ export * from './NitroInput';
 export * from './NitroItemCountBadge';
 export * from './NitroLimitedEditionNumber';
 export * from './NitroPetImage';
+export * from './NitroPriceBadge';
 export * from './NitroRarityLevel';
 export * from './NitroRoomPreviewer';

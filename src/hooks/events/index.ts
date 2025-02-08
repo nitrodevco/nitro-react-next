@@ -1,4 +1,3 @@
-export * from './useEventDispatcher';
+export * from './useEventListener';
 export * from './useMessageEvent';
 export * from './useNitroEvent';
-export * from './useUiEvent';

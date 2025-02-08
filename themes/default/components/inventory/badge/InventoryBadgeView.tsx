@@ -1,9 +1,9 @@
 import { LocalizeBadgeName, LocalizeText, SendMessageComposer } from '#base/api';
-import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
+import { useConfigValue } from '#base/hooks/index.ts';
 import { useInventoryStore } from '#base/stores';
 import { NitroBadgeImage, NitroButton, NitroInfiniteGrid } from '#themes/default/layout';
 import { RequestBadgesComposer } from '@nitrots/nitro-renderer';
-import { FC, useContext, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryBadgeItemView } from './InventoryBadgeItemView';
 
@@ -31,7 +31,7 @@ export const InventoryBadgeView: FC<{
             state.setBadgeNeedsUpdate
         ]));
     const isWearingBadge = (badgeCode: string) => activeBadgeCodes.includes(badgeCode);
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const maxBadgeCount = useConfigValue<number>('settings.maxBadges', 5);
 
     useEffect(() =>
     {
@@ -45,8 +45,6 @@ export const InventoryBadgeView: FC<{
     const toggleBadge = (badgeCode: string) =>
     {
         if(!badgeCode || !badgeCode.length) return;
-
-        const maxBadgeCount = getConfigValue<number>('settings.maxBadges', 5);
 
         toggleBadgeCode(badgeCode, maxBadgeCount);
     }
@@ -84,7 +82,7 @@ export const InventoryBadgeView: FC<{
                             <span className="text-sm truncate grow">{ LocalizeBadgeName(selectedBadgeCode) }</span>
                         </div>
                         <NitroButton
-                            disabled={ !isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < getConfigValue<number>('user.badges.max.slots', 5)) }
+                            disabled={ !isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < maxBadgeCount) }
                             onClick={ event => toggleBadge(selectedBadgeCode) }>
                                 { LocalizeText(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge') }
                         </NitroButton>

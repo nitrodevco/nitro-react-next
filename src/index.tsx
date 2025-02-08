@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { NitroConfigProvider } from './context';
 import './index.css';
+import { NitroConfig } from './utils';
 
 const root = createRoot(document.getElementById('root'));
 
 root.render(
-    <NitroConfigProvider>
+    <NitroConfig>
         <App />
-    </NitroConfigProvider>
+    </NitroConfig>
 );

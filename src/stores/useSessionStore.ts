@@ -2,8 +2,7 @@ import { SendMessageComposer } from '#base/api/index.ts';
 import { PetRespectComposer, SetCurrentUserId, UserInfoDataParser, UserRespectComposer } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 
-interface SessionSlice
-{
+type State = {
     userId: number;
     name: string;
     figure: string;
@@ -20,6 +19,9 @@ interface SessionSlice
     isAmbassador: boolean;
     noobnessLevel: number;
     isEmailVerified: boolean;
+}
+
+type Actions = {
     processUserInfo: (userInfo: UserInfoDataParser) => void;
     setName: (name?: string, canChangeName?: boolean) => void;
     updateFigure: (figure: string, gender: string) => void;
@@ -34,7 +36,7 @@ interface SessionSlice
     setTags: (tags: string[]) => void;
 }
 
-export const useSessionStore = create<SessionSlice>(set => ({
+const initialState: State = {
     userId: null,
     name: null,
     figure: null,
@@ -51,6 +53,10 @@ export const useSessionStore = create<SessionSlice>(set => ({
     isAmbassador: false,
     noobnessLevel: -1,
     isEmailVerified: false,
+};
+
+export const useSessionStore = create<State & Actions>(set => ({
+    ...initialState,
     processUserInfo: (userInfo: UserInfoDataParser) => set(state =>
     {
         SetCurrentUserId(userInfo.userId);

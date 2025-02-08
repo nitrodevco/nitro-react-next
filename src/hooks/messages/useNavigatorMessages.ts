@@ -1,10 +1,9 @@
 import { CreateRoomSession, DoorStateType, SendMessageComposer, TryVisitRoom, VisitDesktop } from '#base/api';
-import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
-import { useNavigatorStore } from '#base/stores';
-import { CanCreateRoomEventEvent, CantConnectMessageParser, CreateLinkEvent, DoorbellMessageEvent, FlatAccessDeniedMessageEvent, FlatCreatedEvent, FollowFriendMessageComposer, GenericErrorEvent, GetGuestRoomMessageComposer, GetGuestRoomResultEvent, GetSessionDataManager, GetUserEventCatsMessageComposer, GetUserFlatCatsMessageComposer, NavigatorHomeRoomEvent, NavigatorMetadataEvent, NavigatorOpenRoomCreatorEvent, NavigatorSearchEvent, RoomDataParser, RoomDoorbellAcceptedEvent, RoomEnterErrorEvent, RoomEntryInfoMessageEvent, RoomForwardEvent, RoomScoreEvent, RoomSettingsUpdatedEvent, SecurityLevel, UserEventCatsEvent, UserFlatCatsEvent, UserInfoEvent, UserPermissionsEvent } from '@nitrots/nitro-renderer';
-import { useContext } from 'react';
+import { useNavigatorStore, useSessionStore } from '#base/stores';
+import { CanCreateRoomEventEvent, CantConnectMessageParser, CreateLinkEvent, DoorbellMessageEvent, FlatAccessDeniedMessageEvent, FlatCreatedEvent, FollowFriendMessageComposer, GenericErrorEvent, GetGuestRoomMessageComposer, GetGuestRoomResultEvent, GetUserEventCatsMessageComposer, GetUserFlatCatsMessageComposer, NavigatorHomeRoomEvent, NavigatorMetadataEvent, NavigatorOpenRoomCreatorEvent, NavigatorSearchEvent, NoobnessLevelEnum, RoomDataParser, RoomDoorbellAcceptedEvent, RoomEnterErrorEvent, RoomEntryInfoMessageEvent, RoomForwardEvent, RoomScoreEvent, RoomSettingsUpdatedEvent, SecurityLevel, UserEventCatsEvent, UserFlatCatsEvent, UserInfoEvent, UserPermissionsEvent } from '@nitrots/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
+import { useConfigValue } from '../utils/useConfigValue';
 
 let HOMEROOM_RECEIVED = false;
 
@@ -29,7 +28,13 @@ export const useNavigatorMessages = () =>
             state.setDoorData,
             state.setSearchResult,
             state.setNavigatorData]));
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const userName = useSessionStore(state => state.name);
+    const isAmbassador = useSessionStore(state => state.isAmbassador);
+    const isRealNoob = useSessionStore(state => state.noobnessLevel === NoobnessLevelEnum.REAL_NOOB);
+    const isModerator = useSessionStore(state => state.securityLevel) >= SecurityLevel.MODERATOR;
+    const friendId = useConfigValue<string>('friend.id')
+    const forwardId = useConfigValue<string>('forward.id');
+    const forwardType = useConfigValue<string>('forward.type');
 
     useMessageEvent<RoomSettingsUpdatedEvent>(RoomSettingsUpdatedEvent, event =>
     {
@@ -112,7 +117,7 @@ export const useNavigatorMessages = () =>
         }
         else if (parser.roomForward)
         {
-            if ((parser.data.ownerName !== GetSessionDataManager().userName) && !parser.isGroupMember)
+            if ((parser.data.ownerName !== userName) && !parser.isGroupMember)
             {
                 switch (parser.data.doorMode)
                 {
@@ -131,7 +136,7 @@ export const useNavigatorMessages = () =>
                 }
             }
 
-            if ((parser.data.doorMode === RoomDataParser.NOOB_STATE) && !GetSessionDataManager().isAmbassador && !GetSessionDataManager().isRealNoob && !GetSessionDataManager().isModerator) return;
+            if ((parser.data.doorMode === RoomDataParser.NOOB_STATE) && !isAmbassador && !isRealNoob && !isModerator) return;
 
             CreateRoomSession(parser.data.roomId);
         }
@@ -267,27 +272,27 @@ export const useNavigatorMessages = () =>
 
         HOMEROOM_RECEIVED = true;
 
-        let forwardType = -1;
-        let forwardId = -1;
+        let newForwardType = -1;
+        let newForwardId = -1;
 
-        if ((getConfigValue<string>('friend.id') !== undefined) && (parseInt(getConfigValue<string>('friend.id')) > 0))
+        if ((friendId !== undefined) && (parseInt(friendId) > 0))
         {
-            forwardType = 0;
-            SendMessageComposer(new FollowFriendMessageComposer(parseInt(getConfigValue<string>('friend.id'))));
+            newForwardType = 0;
+            SendMessageComposer(new FollowFriendMessageComposer(parseInt(friendId)));
         }
 
-        if ((getConfigValue<number>('forward.type') !== undefined) && (getConfigValue<number>('forward.id') !== undefined))
+        if ((forwardType !== undefined) && (forwardId !== undefined))
         {
-            forwardType = parseInt(getConfigValue<string>('forward.type'));
-            forwardId = parseInt(getConfigValue<string>('forward.id'));
+            newForwardType = parseInt(forwardType);
+            newForwardId = parseInt(forwardId);
         }
 
-        if (forwardType === 2)
+        if (newForwardType === 2)
         {
-            TryVisitRoom(forwardId);
+            TryVisitRoom(newForwardId);
         }
 
-        else if ((forwardType === -1) && (parser.roomIdToEnter > 0))
+        else if ((newForwardType === -1) && (parser.roomIdToEnter > 0))
         {
             CreateLinkEvent('navigator/close');
 

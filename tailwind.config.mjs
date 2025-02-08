@@ -144,6 +144,8 @@ module.exports = {
             boxShadow,
             backgroundImage: {
                 'button-gradient-gray': 'linear-gradient(to bottom, #e2e2e2 50%, #c8c8c8 50%)',
+                'button-gradient-yellow': 'linear-gradient(to bottom, #fff176 50%, #fbc02d 50%)',
+                'button-gradient-red': 'linear-gradient(to bottom, #ff8a80 50%, #d32f2f 50%)',
                 'rarity-level': 'url("/assets/images/infostand/rarity-level.png")'
             },
             spacing: {

@@ -1,7 +1,7 @@
 import { ICatalogPage } from '#base/api';
-import { NitroConfigContext } from '#base/context/NitroConfigContext.tsx';
-import { NitroImage } from '#themes/default/layout/NitroImage.tsx';
-import { DetailedHTMLProps, FC, HTMLAttributes, useContext } from 'react';
+import { useConfigValue } from '#base/hooks/index.ts';
+import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
+import { NitroImage } from '../../../layout/NitroImage';
 
 export const CatalogPageImageView: FC<{
     page: ICatalogPage;
@@ -9,7 +9,7 @@ export const CatalogPageImageView: FC<{
 } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>> = props =>
 {
     const { page = null, imageIndex = 0, ...rest } = props;
-    const { getConfigValue = null } = useContext(NitroConfigContext);
+    const baseUrl = useConfigValue<string>('asset.urls.catalog', '');
 
     if(!page) return null;
 
@@ -21,12 +21,7 @@ export const CatalogPageImageView: FC<{
     {
         const imageName = pageLocalization.images[imageIndex];
 
-        if (imageName && imageName.length)
-        {
-            imageUrl = getConfigValue<string>('asset.urls.catalog');
-
-            imageUrl = `${imageUrl}/${imageName}.gif`;
-        }
+        if (imageName && imageName.length) imageUrl = `${ baseUrl }/${imageName}.gif`;
     }
 
     return <NitroImage url={ imageUrl } { ...rest } />;

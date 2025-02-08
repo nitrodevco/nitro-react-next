@@ -1,8 +1,7 @@
 import { GetLocalizationNameForOffer, ProductType } from '#base/api';
 import { FC } from 'react';
-import { CatalogPageImageView } from '../common/CatalogPageImageView';
-import { CatalogAddOnBadgeWidgetView, CatalogOfferGridWidgetView, CatalogViewOfferWidgetView } from '../widgets';
-import { CatalogPriceDisplayWidget } from '../widgets/CatalogPriceDisplayWidget';
+import { CatalogPageImageView, CatalogPageTextView } from '../common';
+import { CatalogAddOnBadgeWidgetView, CatalogOfferGridWidgetView, CatalogPriceDisplayWidget, CatalogPurchaseWidgetView, CatalogViewOfferWidgetView } from '../widgets';
 import { CatalogLayoutProps } from './CatalogLayoutProps';
 
 export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
@@ -18,8 +17,9 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
             </div>
             <div className="flex flex-col col-span-5 gap-1 overflow-hidden">
                 { (currentOffer === null) &&
-                    <div className="flex flex-col items-center justify-center grow">
+                    <div className="flex flex-col items-center justify-center grow gap-2">
                         <CatalogPageImageView page={ page } imageIndex={ 1 } />
+                        <CatalogPageTextView className="text-center" page={ page } textIndex={ 0 } />
                     </div> }
                 { (currentOffer !== null) &&
                     <>
@@ -34,8 +34,11 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
                             </> }
                         <div className="flex flex-col grow">
                             <span className="text-base truncate grow">{ GetLocalizationNameForOffer(currentOffer) }</span>
-                            <div className="flex justify-between">
-                                <CatalogPriceDisplayWidget />
+                            <div className="flex flex-col justify-between gap-1">
+                                <div className="flex justify-end">
+                                    <CatalogPriceDisplayWidget />
+                                </div>
+                                <CatalogPurchaseWidgetView />
                             </div>
                         </div>
                     </> }

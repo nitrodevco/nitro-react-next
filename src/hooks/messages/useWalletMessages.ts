@@ -1,8 +1,6 @@
 import { CurrencyType } from '#base/api';
-import { NitroConfigContext } from '#base/context';
 import { useWalletStore } from '#base/stores';
 import { ActivityPointNotificationMessageEvent, UserCreditsEvent, UserCurrencyEvent, UserSubscriptionEvent } from '@nitrots/nitro-renderer';
-import { useContext } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
 
@@ -20,7 +18,6 @@ export const useWalletMessages = () =>
             state.setCurrencies,
             state.processUserSubscription
         ]));
-    const { setConfigValue = null } = useContext(NitroConfigContext);
 
     useMessageEvent<UserCreditsEvent>(UserCreditsEvent, event =>
     {
