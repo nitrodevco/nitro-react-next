@@ -1,7 +1,7 @@
 import { LocalizeText, TradeState, UnseenItemCategory } from '#base/api';
-import { useRoomPreviewer } from '#base/hooks/index.ts';
+import { useRoomPreviewer } from '#base/hooks';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
-import { NitroCard } from '#themes/default/layout';
+import { NitroCard } from '#themes/default';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { InventoryBadgeView } from './badge';

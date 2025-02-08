@@ -1,4 +1,4 @@
-import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IPurchasableOffer, SendMessageComposer } from '#base/api/index.ts';
+import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IPurchasableOffer, SendMessageComposer } from '#base/api';
 import { FrontPageItem, GetCatalogPageComposer, NodeData } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 

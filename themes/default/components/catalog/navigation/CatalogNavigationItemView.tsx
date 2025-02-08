@@ -1,6 +1,6 @@
 import { ICatalogNode } from '#base/api';
 import { classNames } from '#base/utils';
-import { NitroCatalogIcon } from '#themes/default/layout';
+import { NitroCatalogIcon } from '#themes/default';
 import { FC, useEffect, useRef } from 'react';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import { CatalogNavigationSetView } from './CatalogNavigationSetView';

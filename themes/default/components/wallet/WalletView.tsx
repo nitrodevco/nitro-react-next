@@ -1,6 +1,6 @@
-import { SendMessageComposer } from '#base/api/index.ts';
-import { useConfigValue } from '#base/hooks/index.ts';
-import { useWalletStore } from '#base/stores/useWalletStore.ts';
+import { SendMessageComposer } from '#base/api';
+import { useConfigValue } from '#base/hooks';
+import { useWalletStore } from '#base/stores';
 import { UserCurrencyComposer, UserSubscriptionComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

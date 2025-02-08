@@ -1,4 +1,4 @@
-import { useConfigurationStore } from '#base/stores/useConfigurationStore.ts';
+import { useConfigurationStore } from '#base/stores';
 import { GetTicker, NitroLogger } from '@nitrots/nitro-renderer';
 import { useEffect } from 'react';
 

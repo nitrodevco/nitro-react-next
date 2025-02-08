@@ -1,5 +1,5 @@
 import { CancelRoomObjectPlacement, GetPlacingItemId, IBotItem, RemoveBotIdFromGroup, UnseenItemCategory } from '#base/api';
-import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
+import { useVisibilityStore } from '#base/stores';
 import { BotData } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';

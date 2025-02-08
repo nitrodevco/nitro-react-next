@@ -1,5 +1,5 @@
-import { ICatalogNode } from '#base/api/index.ts';
-import { useCatalogStore } from '#base/stores/useCatalogStore.ts';
+import { ICatalogNode } from '#base/api';
+import { useCatalogStore } from '#base/stores';
 import { FC, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { CatalogNavigationItemView } from './CatalogNavigationItemView';

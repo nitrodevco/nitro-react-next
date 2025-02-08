@@ -1,4 +1,4 @@
-import { useConfigValue } from '#base/hooks/index.ts';
+import { useConfigValue } from '#base/hooks';
 import { NitroLogger } from '@nitrots/nitro-renderer';
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import { NitroImage } from './NitroImage';

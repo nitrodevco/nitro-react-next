@@ -1,6 +1,6 @@
 import { UnseenItemCategory } from '#base/api';
 import { useInventoryStore } from '#base/stores';
-import { NitroBadgeImage, NitroInfiniteGridItem } from '#themes/default/layout';
+import { NitroBadgeImage, NitroInfiniteGridItem } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent } from 'react';
 

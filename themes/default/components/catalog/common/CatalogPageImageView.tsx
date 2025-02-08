@@ -1,7 +1,7 @@
 import { ICatalogPage } from '#base/api';
-import { useConfigValue } from '#base/hooks/index.ts';
+import { useConfigValue } from '#base/hooks';
+import { NitroImage } from '#themes/default';
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
-import { NitroImage } from '../../../layout/NitroImage';
 
 export const CatalogPageImageView: FC<{
     page: ICatalogPage;

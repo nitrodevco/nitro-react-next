@@ -1,6 +1,6 @@
 import { LocalizeText, ProcessSearchWithFurnitureData } from '#base/api';
 import { useCatalogStore } from '#base/stores';
-import { NitroButton, NitroInput } from '#themes/default/layout';
+import { NitroButton, NitroInput } from '#themes/default';
 import { GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef, useState } from 'react';
 import { FaSearch, FaTimes } from 'react-icons/fa';

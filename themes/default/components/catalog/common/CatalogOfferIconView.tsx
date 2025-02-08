@@ -1,5 +1,5 @@
 import { IPurchasableOffer, ProductType } from '#base/api';
-import { useConfigValue } from '#base/hooks/index.ts';
+import { useConfigValue } from '#base/hooks';
 import { NitroBadgeImage, NitroImage } from '#themes/default';
 import { GetRoomEngine } from '@nitrots/nitro-renderer';
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';

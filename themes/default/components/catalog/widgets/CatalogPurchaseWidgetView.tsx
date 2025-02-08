@@ -2,7 +2,7 @@ import { CatalogPricingModelType, CatalogPurchaseState, CurrencyType, LocalizeTe
 import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
 import { useConfigValue, useEventListener } from '#base/hooks';
 import { useCatalogStore, useSessionStore, useWalletStore } from '#base/stores';
-import { NitroButton } from '#themes/default/layout';
+import { NitroButton } from '#themes/default';
 import { HabboClubLevelEnum, PurchaseFromCatalogComposer } from '@nitrots/nitro-renderer';
 import { FC, useState } from 'react';
 import { useShallow } from 'zustand/shallow';

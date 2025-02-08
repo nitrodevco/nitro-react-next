@@ -1,7 +1,6 @@
 import { CatalogPricingModelType, FurniCategory, ProductType } from '#base/api';
-import { useCatalogStore } from '#base/stores/useCatalogStore.ts';
-import { useSessionStore } from '#base/stores/useSessionStore.ts';
-import { NitroRoomPreviewer } from '#themes/default/layout';
+import { useCatalogStore, useSessionStore } from '#base/stores';
+import { NitroRoomPreviewer } from '#themes/default';
 import { GetAvatarRenderManager, GetSessionDataManager, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

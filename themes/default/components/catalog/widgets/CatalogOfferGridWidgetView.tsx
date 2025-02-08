@@ -1,6 +1,6 @@
 import { IPurchasableOffer, ProductType, SendMessageComposer } from '#base/api';
 import { useCatalogStore } from '#base/stores';
-import { NitroInfiniteGrid } from '#themes/default/layout';
+import { NitroInfiniteGrid } from '#themes/default';
 import { GetProductOfferComposer } from '@nitrots/nitro-renderer';
 import { FC } from 'react';
 import { useShallow } from 'zustand/shallow';

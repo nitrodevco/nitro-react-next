@@ -1,4 +1,4 @@
-import { SendMessageComposer } from '#base/api/index.ts';
+import { SendMessageComposer } from '#base/api';
 import { PetRespectComposer, SetCurrentUserId, UserInfoDataParser, UserRespectComposer } from '@nitrots/nitro-renderer';
 import { create } from 'zustand';
 

@@ -1,7 +1,7 @@
 import { LocalizeBadgeName, LocalizeText, SendMessageComposer } from '#base/api';
-import { useConfigValue } from '#base/hooks/index.ts';
+import { useConfigValue } from '#base/hooks';
 import { useInventoryStore } from '#base/stores';
-import { NitroBadgeImage, NitroButton, NitroInfiniteGrid } from '#themes/default/layout';
+import { NitroBadgeImage, NitroButton, NitroInfiniteGrid } from '#themes/default';
 import { RequestBadgesComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

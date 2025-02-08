@@ -1,6 +1,6 @@
 import { DispatchMouseEvent, DispatchTouchEvent, InitializeRoomInstanceRenderingCanvas, SetActiveRoomId } from '#base/api';
 import { useRoomStore } from '#base/stores';
-import { classNames } from '#base/utils/classNames.ts';
+import { classNames } from '#base/utils';
 import { GetRenderer, GetRoomEngine, GetStage, NitroAdjustmentFilter, NitroSprite, NitroTexture, RoomGeometry, RoomVariableEnum, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef } from 'react';
 

@@ -1,6 +1,6 @@
 import { IGroupItem, LocalizeText } from '#base/api';
-import { useInventoryStore } from '#base/stores/index.ts';
-import { NitroButton, NitroInput } from '#themes/default/layout';
+import { useInventoryStore } from '#base/stores';
+import { NitroButton, NitroInput } from '#themes/default';
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 

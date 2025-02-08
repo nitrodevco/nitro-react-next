@@ -1,6 +1,6 @@
 import { AttemptPetPlacement, IPetItem, UnseenItemCategory } from '#base/api';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
-import { NitroInfiniteGridItem, NitroPetImage } from '#themes/default/layout';
+import { NitroInfiniteGridItem, NitroPetImage } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 

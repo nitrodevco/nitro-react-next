@@ -1,5 +1,5 @@
 import { AddFurnitureItem, AttemptItemPlacement, CancelRoomObjectPlacement, FurnitureItem, GetAllItemIdsForGroups, GetPlacingItemId, GetTotalCountForGroup, IGroupItem, RemoveItemIdFromGroup, UnseenItemCategory } from '#base/api';
-import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
+import { useVisibilityStore } from '#base/stores';
 import { FurnitureListItemParser } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';

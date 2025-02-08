@@ -1,4 +1,4 @@
-import { CatalogType } from '#base/api/index.ts';
+import { CatalogType } from '#base/api';
 import { useCatalogMessages, useInventoryMessages, useNavigatorMessages, useNitroEvent, useRoomMessages, useSessionMessages, useWalletMessages } from '#base/hooks';
 import { useVisibilityStore } from '#base/stores';
 import { AddLinkEventTracker, GetCommunication, HabboWebTools, ILinkEventTracker, RemoveLinkEventTracker, RoomSessionEvent } from '@nitrots/nitro-renderer';

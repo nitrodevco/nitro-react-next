@@ -1,7 +1,7 @@
 import { AttemptItemPlacement, GetUnlockedCountForGroup, IGroupItem } from '#base/api';
 import { useVisibilityStore } from '#base/stores';
 import { classNames } from '#base/utils';
-import { NitroFurniIcon, NitroInfiniteGridItem, NitroLimitedEditionNumber } from '#themes/default/layout';
+import { NitroFurniIcon, NitroInfiniteGridItem, NitroLimitedEditionNumber } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 

@@ -2,7 +2,7 @@ import { LocalizeText, SendMessageComposer } from '#base/api';
 import { useRoomPreviewer } from '#base/hooks';
 import { useCatalogStore, useVisibilityStore } from '#base/stores';
 import { classNames } from '#base/utils';
-import { NitroCard, NitroCatalogIcon } from '#themes/default/layout';
+import { NitroCard, NitroCatalogIcon } from '#themes/default';
 import { BuildersClubQueryFurniCountMessageComposer, GetCatalogIndexComposer, GetClubGiftInfo, GetGiftWrappingConfigurationComposer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

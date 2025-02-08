@@ -1,6 +1,6 @@
 import { IPurchasableOffer } from '#base/api';
 import { classNames } from '#base/utils';
-import { NitroInfiniteGridItem } from '#themes/default/layout';
+import { NitroInfiniteGridItem } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
 import { FC, MouseEvent, useState } from 'react';
 import { CatalogOfferIconView } from './CatalogOfferIconView';

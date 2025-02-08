@@ -1,6 +1,6 @@
 import { AttemptBotPlacement, IBotItem, LocalizeText, SendMessageComposer } from '#base/api';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
-import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default/layout';
+import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default';
 import { GetBotInventoryComposer, GetRoomEngine, RoomObjectVariable, RoomPreviewer } from '@nitrots/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

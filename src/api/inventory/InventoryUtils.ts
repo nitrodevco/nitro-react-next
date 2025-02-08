@@ -1,5 +1,5 @@
 import { FurnitureItem, IBotItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
-import { useVisibilityStore } from '#base/stores/useVisibilityStore.ts';
+import { useVisibilityStore } from '#base/stores';
 import { FurniturePlacePaintComposer, GetRoomEngine, GetRoomSessionManager, RoomObjectCategory, RoomObjectPlacementSource, RoomObjectType } from '@nitrots/nitro-renderer';
 import { FurniCategory } from './FurniCategory';
 import { IGroupItem } from './IGroupItem';

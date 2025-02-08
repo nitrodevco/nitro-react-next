@@ -1,6 +1,6 @@
 import { AttemptItemPlacement, FurniCategory, IGroupItem, LocalizeText, SendMessageComposer } from '#base/api';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
-import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default/layout';
+import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default';
 import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';

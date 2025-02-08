@@ -1,7 +1,7 @@
 import { LocalizeText, SendMessageComposer } from '#base/api';
 import { useNitroEvent } from '#base/hooks';
 import { useNavigatorStore, useVisibilityStore } from '#base/stores';
-import { NitroCard } from '#themes/default/layout';
+import { NitroCard } from '#themes/default';
 import { ConvertGlobalRoomIdMessageComposer, HabboWebTools, LegacyExternalInterface, NavigatorInitComposer, NavigatorSearchComposer, RoomSessionEvent } from '@nitrots/nitro-renderer';
 import { FC, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/shallow';

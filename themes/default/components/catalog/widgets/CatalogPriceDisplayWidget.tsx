@@ -1,5 +1,5 @@
 import { useCatalogStore } from '#base/stores';
-import { NitroPriceBadge } from '#themes/default/layout';
+import { NitroPriceBadge } from '#themes/default';
 import { FC } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useShallow } from 'zustand/shallow';
