@@ -1,4 +1,4 @@
-import { CatalogPricingModelType, FurniCategory, ProductType } from '#base/api';
+import { CatalogPricingModelType, FurniCategoryEnum, ProductTypeEnum } from '#base/api';
 import { useCatalogStore, useSessionStore } from '#base/stores';
 import { NitroRoomPreviewer } from '#themes/default';
 import { GetAvatarRenderManager, GetSessionDataManager, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
@@ -33,10 +33,10 @@ export const CatalogViewOfferWidgetView: FC<{
 
         switch(product.productType)
         {
-            case ProductType.FLOOR: {
+            case ProductTypeEnum.Floor: {
                 if(!product.furnitureData) return;
 
-                if(product.furnitureData.specialType === FurniCategory.FIGURE_PURCHASABLE_SET)
+                if(product.furnitureData.specialType === FurniCategoryEnum.FigurePurchasableSet)
                 {
                     const furniData = GetSessionDataManager().getFloorItemData(product.furnitureData.id);
                     const customParts = furniData.customParams.split(',').map(value => parseInt(value));
@@ -57,18 +57,18 @@ export const CatalogViewOfferWidgetView: FC<{
                 }
                 return;
             }
-            case ProductType.WALL: {
+            case ProductTypeEnum.Wall: {
                 if(!product.furnitureData) return;
 
                 switch(product.furnitureData.specialType)
                 {
-                    case FurniCategory.FLOOR:
+                    case FurniCategoryEnum.Floor:
                         roomPreviewer.updateObjectRoom(product.extraParam);
                         return;
-                    case FurniCategory.WALL_PAPER:
+                    case FurniCategoryEnum.Wallpaper:
                         roomPreviewer.updateObjectRoom(null, product.extraParam);
                         return;
-                    case FurniCategory.LANDSCAPE: {
+                    case FurniCategoryEnum.Landscape: {
                         roomPreviewer.updateObjectRoom(null, null, product.extraParam);
 
                         const furniData = GetSessionDataManager().getWallItemDataByName('window_double_default');
@@ -82,10 +82,10 @@ export const CatalogViewOfferWidgetView: FC<{
                         return;
                 }
             }
-            case ProductType.ROBOT:
+            case ProductTypeEnum.Robot:
                 roomPreviewer.addAvatarIntoRoom(product.extraParam, 0);
                 return;
-            case ProductType.EFFECT:
+            case ProductTypeEnum.Effect:
                 roomPreviewer.addAvatarIntoRoom(figure, product.productClassId);
                 return;
         }

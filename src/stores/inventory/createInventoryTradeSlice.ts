@@ -1,4 +1,4 @@
-import { TradeState, TradeUserData } from '#base/api';
+import { TradeStateEnum, TradeUserData } from '#base/api';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
 
@@ -6,7 +6,7 @@ export interface InventoryTradeSlice
 {
     primaryUser: TradeUserData;
     secondaryUser: TradeUserData;
-    tradeState: number;
+    tradeState: TradeStateEnum;
 }
 
 export const createInventoryTradeSlice: StateCreator<
@@ -18,5 +18,5 @@ export const createInventoryTradeSlice: StateCreator<
     ({
         primaryUser: null,
         secondaryUser: null,
-        tradeState: TradeState.TRADING_STATE_READY
+        tradeState: TradeStateEnum.Ready
     });

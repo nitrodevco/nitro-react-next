@@ -1,5 +1,5 @@
-import { ProductType } from '#base/api';
 import { GetSessionDataManager, IFurnitureData } from '@nitrots/nitro-renderer';
+import { ProductTypeEnum } from '../../catalog';
 
 export function GetFurnitureData(furniClassId: number, productType: string): IFurnitureData
 {
@@ -7,10 +7,10 @@ export function GetFurnitureData(furniClassId: number, productType: string): IFu
 
     switch (productType.toLowerCase())
     {
-        case ProductType.FLOOR:
+        case ProductTypeEnum.Floor:
             furniData = GetSessionDataManager().getFloorItemData(furniClassId);
             break;
-        case ProductType.WALL:
+        case ProductTypeEnum.Wall:
             furniData = GetSessionDataManager().getWallItemData(furniClassId);
             break;
     }

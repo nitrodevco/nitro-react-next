@@ -1,8 +1,11 @@
-import { FurnitureItem, IBotItem, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
-import { useVisibilityStore } from '#base/stores';
 import { FurniturePlacePaintComposer, GetRoomEngine, GetRoomSessionManager, RoomObjectCategory, RoomObjectPlacementSource, RoomObjectType } from '@nitrots/nitro-renderer';
-import { FurniCategory } from './FurniCategory';
+import { SendMessageComposer } from '../renderer';
+import { LocalizeText } from '../utils';
+import { FurniCategoryEnum } from './FurniCategoryEnum';
+import { FurnitureItem } from './FurnitureItem';
+import { IBotItem } from './IBotItem';
 import { IGroupItem } from './IGroupItem';
+import { IPetItem } from './IPetItem';
 
 let objectMoverRequested = false;
 let itemIdInPlacing = -1;
@@ -33,7 +36,7 @@ export const AttemptItemPlacement = (groupItem: IGroupItem, dontPlacePaint: bool
 
     if (!item) return false;
 
-    if ((item.category === FurniCategory.FLOOR) || (item.category === FurniCategory.WALL_PAPER) || (item.category === FurniCategory.LANDSCAPE))
+    if ((item.category === FurniCategoryEnum.Floor) || (item.category === FurniCategoryEnum.Wallpaper) || (item.category === FurniCategoryEnum.Landscape))
     {
         if (dontPlacePaint) return false;
 
@@ -49,7 +52,7 @@ export const AttemptItemPlacement = (groupItem: IGroupItem, dontPlacePaint: bool
         if (item.isWallItem) category = RoomObjectCategory.WALL;
         else category = RoomObjectCategory.FLOOR;
 
-        if ((item.category === FurniCategory.POSTER)) // or external image from furnidata
+        if ((item.category === FurniCategoryEnum.Poster)) // or external image from furnidata
         {
             isMoving = GetRoomEngine().processRoomObjectPlacement(RoomObjectPlacementSource.INVENTORY, item.id, category, item.type, item.stuffData.getLegacyString());
         }
@@ -124,7 +127,7 @@ export const GetUnlockedCountForGroup = (groupItem: IGroupItem) =>
 {
     if (!groupItem) return 0;
 
-    if (groupItem.category === FurniCategory.POST_IT) return GetTotalCountForGroup(groupItem);
+    if (groupItem.category === FurniCategoryEnum.Postit) return GetTotalCountForGroup(groupItem);
 
     let count = 0;
     let i = 0;
@@ -152,7 +155,7 @@ export const GetTotalCountForGroup = (groupItem: IGroupItem) =>
 {
     if (!groupItem) return 0;
 
-    if (groupItem.category === FurniCategory.POST_IT)
+    if (groupItem.category === FurniCategoryEnum.Postit)
     {
         let count = 0;
         let index = 0;
@@ -180,7 +183,7 @@ export const GetAllItemIdsForGroups = (groupItems: IGroupItem[]) =>
     {
         let totalCount = GetTotalCountForGroup(groupItem);
 
-        if (groupItem.category === FurniCategory.POST_IT) totalCount = 1;
+        if (groupItem.category === FurniCategoryEnum.Postit) totalCount = 1;
 
         let i = 0;
 
@@ -240,10 +243,10 @@ export const PushItemIntoGroup = (groupItem: IGroupItem, item: FurnitureItem) =>
 
         switch (groupItem.category)
         {
-            case FurniCategory.POSTER:
+            case FurniCategoryEnum.Poster:
                 key = (`poster_${groupItem.stuffData.getLegacyString()}_name`);
                 break;
-            case FurniCategory.TRAX_SONG:
+            case FurniCategoryEnum.TraxSong:
                 groupItem.name = 'SONG_NAME';
                 return;
             default:
@@ -317,7 +320,7 @@ export const RemovePetIdFromGroup = (groupItem: IPetItem[], petId: number) =>
             {
                 CancelRoomObjectPlacement();
 
-                useVisibilityStore.setState({ inventoryVisible: true });
+                //useVisibilityStore.setState({ inventoryVisible: true });
             }
 
             groupItem.splice(index, 1);
@@ -345,7 +348,7 @@ export const RemoveBotIdFromGroup = (groupItem: IBotItem[], botId: number) =>
             {
                 CancelRoomObjectPlacement();
 
-                useVisibilityStore.setState({ inventoryVisible: true });
+                //useVisibilityStore.setState({ inventoryVisible: true });
             }
 
             groupItem.splice(index, 1);
@@ -439,7 +442,7 @@ const AddGroupableFurnitureItem = (set: IGroupItem[], item: FurnitureItem, unsee
     {
         if ((groupItem.type === item.type) && (groupItem.isWallItem === item.isWallItem) && groupItem.isGroupable)
         {
-            if (item.category === FurniCategory.POSTER)
+            if (item.category === FurniCategoryEnum.Poster)
             {
                 if (groupItem.stuffData.getLegacyString() === item.stuffData.getLegacyString())
                 {
@@ -449,7 +452,7 @@ const AddGroupableFurnitureItem = (set: IGroupItem[], item: FurnitureItem, unsee
                 }
             }
 
-            else if (item.category === FurniCategory.GUILD_FURNI)
+            else if (item.category === FurniCategoryEnum.GuildFurni)
             {
                 if (item.stuffData.compare(groupItem.stuffData))
                 {

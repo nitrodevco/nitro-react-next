@@ -1,4 +1,4 @@
-import { AttemptBotPlacement, IBotItem, UnseenItemCategory } from '#base/api';
+import { AttemptBotPlacement, IBotItem, UnseenItemCategoryEnum } from '#base/api';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
 import { NitroAvatarImage, NitroInfiniteGridItem } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
@@ -15,7 +15,7 @@ export const InventoryBotItemView: FC<{
     const isUnseen = useInventoryStore(state =>
     {
         const unseenItems = state.unseenItems;
-        return unseenItems.get(UnseenItemCategory.BOT)?.indexOf(botItem.botData.id) >= 0;
+        return unseenItems.get(UnseenItemCategoryEnum.Bot)?.indexOf(botItem.botData.id) >= 0;
     });
 
     const onMouseEvent = (event: MouseEvent) =>

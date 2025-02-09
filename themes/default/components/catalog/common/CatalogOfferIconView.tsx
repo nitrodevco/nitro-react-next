@@ -1,4 +1,4 @@
-import { IPurchasableOffer, ProductType } from '#base/api';
+import { IPurchasableOffer, ProductTypeEnum } from '#base/api';
 import { useConfigValue } from '#base/hooks';
 import { NitroBadgeImage, NitroImage } from '#themes/default';
 import { GetRoomEngine } from '@nitrots/nitro-renderer';
@@ -21,10 +21,10 @@ export const CatalogOfferIconView: FC<{
     
     switch (product.productType)
     {
-        case ProductType.FLOOR:
+        case ProductTypeEnum.Floor:
             imageUrl = GetRoomEngine().getFurnitureFloorIconUrl(product.productClassId);
             break;
-        case ProductType.WALL: {
+        case ProductTypeEnum.Wall: {
             if (product.furnitureData)
             {
                 let iconName = '';
@@ -54,17 +54,17 @@ export const CatalogOfferIconView: FC<{
 
             break;
         }
-        case ProductType.EFFECT:
+        case ProductTypeEnum.Effect:
             imageUrl = '';
             // GetPixelEffectIcon(product.productClassId);
             break;
-        case ProductType.HABBO_CLUB:
+        case ProductTypeEnum.HabboClub:
             imageUrl = '';
             // GetSubscriptionProductIcon(product.productClassId);
             break;
-        case ProductType.BADGE:
+        case ProductTypeEnum.Badge:
             return <NitroBadgeImage badgeCode={ product.extraParam } { ...rest } />;
-        case ProductType.ROBOT:
+        case ProductTypeEnum.Robot:
             return null;
     }
 

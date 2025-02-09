@@ -1,4 +1,4 @@
-import { AttemptPetPlacement, IPetItem, UnseenItemCategory } from '#base/api';
+import { AttemptPetPlacement, IPetItem, UnseenItemCategoryEnum } from '#base/api';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
 import { NitroInfiniteGridItem, NitroPetImage } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
@@ -15,7 +15,7 @@ export const InventoryPetItemView: FC<{
     const isUnseen = useInventoryStore(state =>
     {
         const unseenItems = state.unseenItems;
-        return unseenItems.get(UnseenItemCategory.PET)?.indexOf(petItem.petData.id) >= 0;
+        return unseenItems.get(UnseenItemCategoryEnum.Pet)?.indexOf(petItem.petData.id) >= 0;
     });
 
     const onMouseEvent = (event: MouseEvent) =>

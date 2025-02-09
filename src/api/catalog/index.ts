@@ -9,4 +9,4 @@ export * from './ICatalogPageLocalization';
 export * from './IOfferOptions';
 export * from './IProduct';
 export * from './IPurchasableOffer';
-export * from './ProductType';
+export * from './ProductTypeEnum';

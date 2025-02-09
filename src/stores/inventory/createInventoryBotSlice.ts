@@ -1,4 +1,4 @@
-import { CancelRoomObjectPlacement, GetPlacingItemId, IBotItem, RemoveBotIdFromGroup, UnseenItemCategory } from '#base/api';
+import { CancelRoomObjectPlacement, GetPlacingItemId, IBotItem, RemoveBotIdFromGroup, UnseenItemCategoryEnum } from '#base/api';
 import { useVisibilityStore } from '#base/stores';
 import { BotData } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
@@ -39,7 +39,7 @@ export const createInventoryBotSlice: StateCreator<
 
             if (selectedBotItem)
             {
-                state.removeUnseenItems(UnseenItemCategory.BOT, selectedBotItem.botData.id);
+                state.removeUnseenItems(UnseenItemCategoryEnum.Bot, selectedBotItem.botData.id);
             }
 
             return { selectedBotItem };
@@ -49,7 +49,7 @@ export const createInventoryBotSlice: StateCreator<
             if (!botData) return state;
 
             const botItems = [...state.botItems];
-            const isUnseen = (state.unseenItems.get(UnseenItemCategory.BOT)?.indexOf(botData.id) >= 0);
+            const isUnseen = (state.unseenItems.get(UnseenItemCategoryEnum.Bot)?.indexOf(botData.id) >= 0);
 
             if (botItems.filter(item => item.botData.id === botData.id).length > 0) return state;
 
@@ -104,7 +104,7 @@ export const createInventoryBotSlice: StateCreator<
             for (const botData of addedDatas)
             {
                 const botItem: IBotItem = { botData };
-                const unseen = (state.unseenItems.get(UnseenItemCategory.BOT)?.indexOf(botData.id) >= 0);
+                const unseen = (state.unseenItems.get(UnseenItemCategoryEnum.Bot)?.indexOf(botData.id) >= 0);
 
                 if (unseen) botItems.unshift(botItem);
                 else botItems.push(botItem);

@@ -1,8 +1,8 @@
-import { PushItemIntoGroup } from '#base/api';
 import { GetSessionDataManager, IObjectData, ItemDataStructure, StringDataType } from '@nitrots/nitro-renderer';
-import { FurniCategory } from './FurniCategory';
+import { FurniCategoryEnum } from './FurniCategoryEnum';
 import { FurnitureItem } from './FurnitureItem';
 import { IGroupItem } from './IGroupItem';
+import { PushItemIntoGroup } from './InventoryUtils';
 
 const isExternalImage = (spriteId: number) => GetSessionDataManager().getWallItemData(spriteId)?.isExternalImage || false;
 
@@ -22,9 +22,9 @@ export const ParseTradeItems = (items: ItemDataStructure[]) =>
 
             if (!item.isGroupable || isExternalImage(spriteId)) name = ('itemid' + item.itemId);
 
-            if (item.category === FurniCategory.POSTER) name = (item.itemId + 'poster' + item.stuffData.getLegacyString());
+            if (item.category === FurniCategoryEnum.Poster) name = (item.itemId + 'poster' + item.stuffData.getLegacyString());
 
-            else if (item.category === FurniCategory.GUILD_FURNI) name = '';
+            else if (item.category === FurniCategoryEnum.GuildFurni) name = '';
 
             let groupItem = ((item.isGroupable && !isExternalImage(item.spriteId)) ? groupItems.get(name) : null);
 

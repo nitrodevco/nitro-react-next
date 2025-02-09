@@ -1,4 +1,4 @@
-import { AttemptItemPlacement, FurniCategory, IGroupItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { AttemptItemPlacement, FurniCategoryEnum, IGroupItem, LocalizeText, SendMessageComposer } from '#base/api';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default';
 import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrots/nitro-renderer';
@@ -65,15 +65,15 @@ export const InventoryFurnitureView: FC<{
         roomPreviewer.updateObjectRoom(floorType, wallType, landscapeType);
         roomPreviewer.updateRoomWallsAndFloorVisibility(true, true);
 
-        if((furnitureItem.category === FurniCategory.WALL_PAPER) || (furnitureItem.category === FurniCategory.FLOOR) || (furnitureItem.category === FurniCategory.LANDSCAPE))
+        if((furnitureItem.category === FurniCategoryEnum.Wallpaper) || (furnitureItem.category === FurniCategoryEnum.Floor) || (furnitureItem.category === FurniCategoryEnum.Landscape))
         {
-            floorType = ((furnitureItem.category === FurniCategory.FLOOR) ? selectedFurniItem.stuffData.getLegacyString() : floorType);
-            wallType = ((furnitureItem.category === FurniCategory.WALL_PAPER) ? selectedFurniItem.stuffData.getLegacyString() : wallType);
-            landscapeType = ((furnitureItem.category === FurniCategory.LANDSCAPE) ? selectedFurniItem.stuffData.getLegacyString() : landscapeType);
+            floorType = ((furnitureItem.category === FurniCategoryEnum.Floor) ? selectedFurniItem.stuffData.getLegacyString() : floorType);
+            wallType = ((furnitureItem.category === FurniCategoryEnum.Wallpaper) ? selectedFurniItem.stuffData.getLegacyString() : wallType);
+            landscapeType = ((furnitureItem.category === FurniCategoryEnum.Landscape) ? selectedFurniItem.stuffData.getLegacyString() : landscapeType);
 
             roomPreviewer.updateObjectRoom(floorType, wallType, landscapeType);
 
-            if(furnitureItem.category === FurniCategory.LANDSCAPE)
+            if(furnitureItem.category === FurniCategoryEnum.Landscape)
             {
                 const data = GetSessionDataManager().getWallItemDataByName('window_double_default');
 

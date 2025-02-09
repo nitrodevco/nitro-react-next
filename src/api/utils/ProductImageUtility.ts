@@ -1,5 +1,5 @@
 import { FurnitureType, GetRoomEngine } from '@nitrots/nitro-renderer';
-import { FurniCategory } from '../inventory';
+import { FurniCategoryEnum } from '../inventory';
 
 export class ProductImageUtility
 {
@@ -15,7 +15,7 @@ export class ProductImageUtility
             case FurnitureType.WALL: {
                 const productCategory = this.getProductCategory(FurnitureType.WALL, furniClassId);
 
-                if (productCategory === FurniCategory.DEFAULT)
+                if (productCategory === FurniCategoryEnum.Default)
                 {
                     imageUrl = GetRoomEngine().getFurnitureWallIconUrl(furniClassId, extraParam);
                 }
@@ -23,11 +23,11 @@ export class ProductImageUtility
                 {
                     switch (productCategory)
                     {
-                        case FurniCategory.WALL_PAPER:
+                        case FurniCategoryEnum.Wallpaper:
                             break;
-                        case FurniCategory.LANDSCAPE:
+                        case FurniCategoryEnum.Landscape:
                             break;
-                        case FurniCategory.FLOOR:
+                        case FurniCategoryEnum.Floor:
                             break;
                     }
                 }
@@ -41,17 +41,17 @@ export class ProductImageUtility
         return imageUrl;
     }
 
-    public static getProductCategory(productType: FurnitureType, furniClassId: number): FurniCategory
+    public static getProductCategory(productType: FurnitureType, furniClassId: number): FurniCategoryEnum
     {
         if (productType === FurnitureType.WALL)
         {
-            if (furniClassId === 3001) return FurniCategory.WALL_PAPER;
+            if (furniClassId === 3001) return FurniCategoryEnum.Wallpaper;
 
-            if (furniClassId === 3002) return FurniCategory.FLOOR;
+            if (furniClassId === 3002) return FurniCategoryEnum.Floor;
 
-            if (furniClassId === 4057) return FurniCategory.LANDSCAPE;
+            if (furniClassId === 4057) return FurniCategoryEnum.Landscape;
         }
 
-        return FurniCategory.DEFAULT;
+        return FurniCategoryEnum.Default;
     }
 }

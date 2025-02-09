@@ -1,4 +1,4 @@
-import { AddFurnitureItem, AttemptItemPlacement, CancelRoomObjectPlacement, FurnitureItem, GetAllItemIdsForGroups, GetPlacingItemId, GetTotalCountForGroup, IGroupItem, RemoveItemIdFromGroup, UnseenItemCategory } from '#base/api';
+import { AddFurnitureItem, AttemptItemPlacement, CancelRoomObjectPlacement, FurnitureItem, GetAllItemIdsForGroups, GetPlacingItemId, GetTotalCountForGroup, IGroupItem, RemoveItemIdFromGroup, UnseenItemCategoryEnum } from '#base/api';
 import { useVisibilityStore } from '#base/stores';
 import { FurnitureListItemParser } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
@@ -46,7 +46,7 @@ export const createInventoryFurniSlice: StateCreator<
             {
                 selectedFurniItem.hasUnseenItems = false;
 
-                state.resetUnseenItems(UnseenItemCategory.FURNI, selectedFurniItem.items.map(item => item.id));
+                state.resetUnseenItems(UnseenItemCategoryEnum.Furni, selectedFurniItem.items.map(item => item.id));
             }
 
             return { selectedFurniItem };
@@ -104,7 +104,7 @@ export const createInventoryFurniSlice: StateCreator<
                 {
                     const furniture = new FurnitureItem(item);
 
-                    AddFurnitureItem(groupItems, furniture, (state.unseenItems.get(UnseenItemCategory.FURNI)?.indexOf(item.itemId) >= 0));
+                    AddFurnitureItem(groupItems, furniture, (state.unseenItems.get(UnseenItemCategoryEnum.Furni)?.indexOf(item.itemId) >= 0));
 
                     // TODO DispatchUiEvent(new InventoryFurniAddedEvent(furniture.id, furniture.type, furniture.category));
                 }
@@ -161,7 +161,7 @@ export const createInventoryFurniSlice: StateCreator<
 
                 const item = new FurnitureItem(parser);
 
-                AddFurnitureItem(groupItems, item, (state.unseenItems.get(UnseenItemCategory.FURNI)?.indexOf(itemId) >= 0));
+                AddFurnitureItem(groupItems, item, (state.unseenItems.get(UnseenItemCategoryEnum.Furni)?.indexOf(itemId) >= 0));
 
                 // TODO DispatchUiEvent(new InventoryFurniAddedEvent(item.id, item.type, item.category));
             }

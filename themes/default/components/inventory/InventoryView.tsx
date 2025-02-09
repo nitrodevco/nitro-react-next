@@ -1,4 +1,4 @@
-import { LocalizeText, TradeState, UnseenItemCategory } from '#base/api';
+import { LocalizeText, TradeStateEnum, UnseenItemCategoryEnum } from '#base/api';
 import { useRoomPreviewer } from '#base/hooks';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
 import { NitroCard } from '#themes/default';
@@ -14,22 +14,22 @@ const TABS = [
     {
         name: 'inventory.furni',
         component: InventoryFurnitureView,
-        unseenCategory: UnseenItemCategory.FURNI
+        unseenCategory: UnseenItemCategoryEnum.Furni
     },
     {
         name: 'inventory.bots',
         component: InventoryBotView,
-        unseenCategory: UnseenItemCategory.BOT
+        unseenCategory: UnseenItemCategoryEnum.Bot
     },
     {
         name: 'inventory.furni.tab.pets',
         component: InventoryPetView,
-        unseenCategory: UnseenItemCategory.PET
+        unseenCategory: UnseenItemCategoryEnum.Pet
     },
     {
         name: 'inventory.badges',
         component: InventoryBadgeView,
-        unseenCategory: UnseenItemCategory.BADGE
+        unseenCategory: UnseenItemCategoryEnum.Badge
     }
 ];
 
@@ -71,7 +71,7 @@ export const InventoryView: FC = props =>
                 
                         useVisibilityStore.setState({ inventoryVisible: false });
                     } } />
-            { (tradeState === TradeState.TRADING_STATE_READY) &&
+            { (tradeState === TradeStateEnum.Ready) &&
                 <>
                     <NitroCard.Tabs>
                         { TABS.map((component, index) =>

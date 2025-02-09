@@ -1,4 +1,4 @@
-import { IPurchasableOffer, ProductType, SendMessageComposer } from '#base/api';
+import { IPurchasableOffer, ProductTypeEnum, SendMessageComposer } from '#base/api';
 import { useCatalogStore } from '#base/stores';
 import { NitroInfiniteGrid } from '#themes/default';
 import { GetProductOfferComposer } from '@nitrots/nitro-renderer';
@@ -32,7 +32,7 @@ export const CatalogOfferGridWidgetView: FC<{
         {
             setCurrentOffer(offer);
 
-            if(offer.product && (offer.product.productType === ProductType.WALL))
+            if(offer.product && (offer.product.productType === ProductTypeEnum.Wall))
             {
                 updateCurrentOfferOptions({
                     extraData: (offer.product.extraParam || null)

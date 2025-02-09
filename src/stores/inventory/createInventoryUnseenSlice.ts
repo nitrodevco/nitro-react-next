@@ -1,14 +1,14 @@
-import { SendMessageComposer } from '#base/api';
+import { SendMessageComposer, UnseenItemCategoryEnum } from '#base/api';
 import { UnseenItemsParser, UnseenResetCategoryComposer, UnseenResetItemsComposer } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 
 export interface InventoryUnseenSlice
 {
-    unseenItems: Map<number, number[]>;
+    unseenItems: Map<UnseenItemCategoryEnum, number[]>;
     processUnseenItems: (items: UnseenItemsParser) => void;
-    resetUnseenCategory: (category: number) => boolean;
-    resetUnseenItems: (category: number, items: number[]) => boolean;
-    removeUnseenItems: (category: number, ...itemIds: number[]) => void;
+    resetUnseenCategory: (category: UnseenItemCategoryEnum) => boolean;
+    resetUnseenItems: (category: UnseenItemCategoryEnum, items: number[]) => boolean;
+    removeUnseenItems: (category: UnseenItemCategoryEnum, ...itemIds: number[]) => void;
 }
 
 export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (set, get) =>
@@ -30,7 +30,7 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return { unseenItems };
     }),
-    resetUnseenCategory: (category: number) =>
+    resetUnseenCategory: (category: UnseenItemCategoryEnum) =>
     {
         let didReset = true;
 
@@ -54,7 +54,7 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return didReset;
     },
-    resetUnseenItems: (category: number, itemIds: number[]) =>
+    resetUnseenItems: (category: UnseenItemCategoryEnum, itemIds: number[]) =>
     {
         let didReset = true;
 
@@ -84,7 +84,7 @@ export const createInventoryUnseenSlice: StateCreator<InventoryUnseenSlice> = (s
 
         return didReset;
     },
-    removeUnseenItems: (category: number, ...itemIds: number[]) => set(state =>
+    removeUnseenItems: (category: UnseenItemCategoryEnum, ...itemIds: number[]) => set(state =>
     {
         if (!state.unseenItems.has(category)) return state;
 

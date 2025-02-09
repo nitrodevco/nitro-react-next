@@ -1,4 +1,4 @@
-import { UnseenItemCategory } from '#base/api';
+import { UnseenItemCategoryEnum } from '#base/api';
 import { useInventoryStore } from '#base/stores';
 import { NitroBadgeImage, NitroInfiniteGridItem } from '#themes/default';
 import { MouseEventType } from '@nitrots/nitro-renderer';
@@ -16,7 +16,7 @@ export const InventoryBadgeItemView: FC<{
     const isUnseen = useInventoryStore(state =>
     {
         const unseenItems = state.unseenItems;
-        return unseenItems.get(UnseenItemCategory.BADGE)?.indexOf(badgeId) >= 0;
+        return unseenItems.get(UnseenItemCategoryEnum.Badge)?.indexOf(badgeId) >= 0;
     });
 
     const onMouseEvent = (event: MouseEvent) =>

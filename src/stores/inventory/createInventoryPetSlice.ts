@@ -1,4 +1,4 @@
-import { IPetItem, RemovePetIdFromGroup, UnseenItemCategory } from '#base/api';
+import { IPetItem, RemovePetIdFromGroup, UnseenItemCategoryEnum } from '#base/api';
 import { PetData } from '@nitrots/nitro-renderer';
 import { StateCreator } from 'zustand';
 import { InventoryUnseenSlice } from './createInventoryUnseenSlice';
@@ -38,7 +38,7 @@ export const createInventoryPetSlice: StateCreator<
 
             if (selectedPetItem)
             {
-                state.removeUnseenItems(UnseenItemCategory.PET, selectedPetItem.petData.id);
+                state.removeUnseenItems(UnseenItemCategoryEnum.Pet, selectedPetItem.petData.id);
             }
 
             return { selectedPetItem };
@@ -48,7 +48,7 @@ export const createInventoryPetSlice: StateCreator<
             if (!petData) return state;
 
             const petItems = [...state.petItems];
-            const isUnseen = (state.unseenItems.get(UnseenItemCategory.PET)?.indexOf(petData.id) >= 0);
+            const isUnseen = (state.unseenItems.get(UnseenItemCategoryEnum.Pet)?.indexOf(petData.id) >= 0);
 
             if (petItems.filter(item => item.petData.id === petData.id).length > 0) return state;
 
@@ -86,7 +86,7 @@ export const createInventoryPetSlice: StateCreator<
 
                 if (!parser) continue;
 
-                const isUnseen = (state.unseenItems.get(UnseenItemCategory.PET)?.indexOf(parser.id) >= 0);
+                const isUnseen = (state.unseenItems.get(UnseenItemCategoryEnum.Pet)?.indexOf(parser.id) >= 0);
                 const petItem: IPetItem = {
                     petData: parser,
                 };

@@ -7,7 +7,7 @@ import { CatalogType } from './CatalogType';
 import { ICatalogNode } from './ICatalogNode';
 import { IProduct } from './IProduct';
 import { IPurchasableOffer } from './IPurchasableOffer';
-import { ProductType } from './ProductType';
+import { ProductTypeEnum } from './ProductTypeEnum';
 
 export const EFFECT_CLASSID_NINJA_DISAPPEAR: number = 108;
 
@@ -155,7 +155,7 @@ export const GetPricingType = (priceInCredits: number, priceInActivityPoints: nu
 
 export const GetPricingModelForProducts = (products: IProduct[]) =>
 {
-    products = products.filter(product => ((product.productType !== ProductType.BADGE) && (product.productType !== ProductType.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)));
+    products = products.filter(product => ((product.productType !== ProductTypeEnum.Badge) && (product.productType !== ProductTypeEnum.Effect) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)));
 
     if (products.length === 1)
     {

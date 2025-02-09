@@ -1,4 +1,4 @@
-import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductType } from '#base/api';
+import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api';
 import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
 import { useMessageEvent } from '#base/hooks';
 import { useCatalogStore, useEventStore } from '#base/stores';
@@ -68,8 +68,8 @@ export const useCatalogMessages = () =>
 
             if (!products.length) continue;
 
-            const badgeCode = products.find(product => product.productType === ProductType.BADGE)?.extraParam ?? null;
-            const product = products.length === 1 ? products[0] : products.filter(product => ((product.productType !== ProductType.BADGE) && (product.productType !== ProductType.EFFECT) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)))?.[0] ?? null;
+            const badgeCode = products.find(product => product.productType === ProductTypeEnum.Badge)?.extraParam ?? null;
+            const product = products.length === 1 ? products[0] : products.filter(product => ((product.productType !== ProductTypeEnum.Badge) && (product.productType !== ProductTypeEnum.Effect) && (product.productClassId !== EFFECT_CLASSID_NINJA_DISAPPEAR)))?.[0] ?? null;
 
             const purchasableOffer: IPurchasableOffer = {
                 offerId: offer.offerId,
@@ -158,7 +158,7 @@ export const useCatalogMessages = () =>
 
         setCurrentOffer(offer);
 
-        if (offer.product && (offer.product.productType === ProductTypeEnum.WALL))
+        if (offer.product && (offer.product.productType === ProductTypeEnum.Wall))
         {
             setPurchaseOptions(prevValue =>
             {

@@ -1,3 +1,4 @@
+import { TradeStateEnum } from '../inventory';
 import { IRoomChatSettings } from './IRoomChatSettings';
 import { IRoomModerationSettings } from './IRoomModerationSettings';
 
@@ -9,7 +10,7 @@ export interface IRoomData
     categoryId: number;
     userCount: number;
     tags: string[];
-    tradeState: number;
+    tradeState: TradeStateEnum;
     allowWalkthrough: boolean;
     lockState: number;
     password: string;

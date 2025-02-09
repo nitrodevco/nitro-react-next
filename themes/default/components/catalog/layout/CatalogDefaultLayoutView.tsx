@@ -1,4 +1,4 @@
-import { GetLocalizationNameForOffer, ProductType } from '#base/api';
+import { GetLocalizationNameForOffer, ProductTypeEnum } from '#base/api';
 import { FC } from 'react';
 import { CatalogPageImageView, CatalogPageTextView } from '../common';
 import { CatalogAddOnBadgeWidgetView, CatalogOfferGridWidgetView, CatalogPriceDisplayWidget, CatalogPurchaseWidgetView, CatalogViewOfferWidgetView } from '../widgets';
@@ -23,12 +23,12 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
                     </div> }
                 { (currentOffer !== null) &&
                     <>
-                        { (currentOffer.product.productType !== ProductType.BADGE) &&
+                        { (currentOffer.product.productType !== ProductTypeEnum.Badge) &&
                             <>
                                 <CatalogViewOfferWidgetView roomPreviewer={ roomPreviewer } />
                                 <CatalogAddOnBadgeWidgetView />
                             </> }
-                        { (currentOffer.product.productType === ProductType.BADGE) &&
+                        { (currentOffer.product.productType === ProductTypeEnum.Badge) &&
                             <>
                                 <CatalogAddOnBadgeWidgetView />
                             </> }
