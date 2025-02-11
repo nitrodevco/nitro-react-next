@@ -1,4 +1,4 @@
-import { IFurnitureData, IGroupInformationManager, IMessageComposer, IProductData, ISessionDataManager } from '#renderer/api';
+import { IFurnitureData, IGroupInformationManager, IMessageComposer, ISessionDataManager } from '#renderer/api';
 import { AvailabilityStatusMessageEvent, GetCommunication, GetUserTagsComposer, InClientLinkEvent, MysteryBoxKeysEvent, RoomReadyMessageEvent, RoomUnitChatComposer } from '#renderer/communication';
 import { MysteryBoxKeysUpdateEvent, NitroSettingsEvent, SessionDataPreferencesEvent } from '#renderer/events';
 import { CreateLinkEvent, HabboWebTools } from '#renderer/utils';
@@ -8,7 +8,6 @@ import { GroupInformationManager } from './GroupInformationManager';
 import { IgnoredUsersManager } from './IgnoredUsersManager';
 import { BadgeImageManager } from './badge/BadgeImageManager';
 import { FurnitureDataLoader } from './furniture/FurnitureDataLoader';
-import { ProductDataLoader } from './product/ProductDataLoader';
 
 export class SessionDataManager implements ISessionDataManager
 {
@@ -23,9 +22,7 @@ export class SessionDataManager implements ISessionDataManager
 
     private _floorItems: Map<number, IFurnitureData> = new Map();
     private _wallItems: Map<number, IFurnitureData> = new Map();
-    private _products: Map<string, IProductData> = new Map();
     private _furnitureData: FurnitureDataLoader = new FurnitureDataLoader(this._floorItems, this._wallItems);
-    private _productData: ProductDataLoader = new ProductDataLoader(this._products);
     private _tags: string[] = [];
 
     private _badgeImageManager: BadgeImageManager = new BadgeImageManager();
@@ -34,7 +31,6 @@ export class SessionDataManager implements ISessionDataManager
     {
         await Promise.all([
             this._furnitureData.init(),
-            this._productData.init(),
             this._badgeImageManager.init(),
             this._ignoredUsersManager.init(),
             this._groupInformationManager.init()
@@ -149,11 +145,6 @@ export class SessionDataManager implements ISessionDataManager
         }
 
         return null;
-    }
-
-    public getProductData(type: string): IProductData
-    {
-        return this._products.get(type);
     }
 
     public getBadgeUrl(name: string): string

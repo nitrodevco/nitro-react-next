@@ -1,9 +1,8 @@
-import { LocalizeText, SendMessageComposer } from '#base/api';
-import { useRoomPreviewer } from '#base/hooks';
+import { LocalizeText } from '#base/api';
+import { useCatalogLogic, useRoomPreviewer } from '#base/hooks';
 import { useCatalogStore, useVisibilityStore } from '#base/stores';
 import { classNames } from '#base/utils';
 import { NitroCard, NitroCatalogIcon } from '#themes/default';
-import { BuildersClubQueryFurniCountMessageComposer, GetCatalogIndexComposer, GetClubGiftInfo, GetGiftWrappingConfigurationComposer } from '@nitrodevco/nitro-renderer';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 import { CatalogPageView } from './CatalogPageView';
@@ -21,9 +20,7 @@ export const CatalogView: FC<{
             currentPage,
             currentOffer,
             navigationVisible,
-            catalogNeedsUpdate,
             selectNode,
-            setCatalogNeedsUpdate
         ] = useCatalogStore(
             useShallow(state => [
                 state.rootNode,
@@ -31,10 +28,10 @@ export const CatalogView: FC<{
                 state.currentPage,
                 state.currentOffer,
                 state.navigationVisible,
-                state.catalogNeedsUpdate,
                 state.selectNode,
-                state.setCatalogNeedsUpdate
             ]));
+
+        useCatalogLogic();
 
         useEffect(() =>
         {
@@ -49,18 +46,6 @@ export const CatalogView: FC<{
                 return;
             }
         }, [activeNodes, rootNode]);
-
-        useEffect(() =>
-        {
-            if (!catalogNeedsUpdate) return;
-
-            SendMessageComposer(new GetGiftWrappingConfigurationComposer());
-            SendMessageComposer(new GetClubGiftInfo());
-            SendMessageComposer(new GetCatalogIndexComposer(catalogType));
-            SendMessageComposer(new BuildersClubQueryFurniCountMessageComposer());
-
-            setCatalogNeedsUpdate(false);
-        }, [catalogNeedsUpdate, catalogType]);
 
         if (!rootNode) return null;
 

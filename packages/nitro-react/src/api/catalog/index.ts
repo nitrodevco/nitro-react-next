@@ -8,5 +8,6 @@ export * from './ICatalogPage';
 export * from './ICatalogPageLocalization';
 export * from './IOfferOptions';
 export * from './IProduct';
+export * from './IProductData';
 export * from './IPurchasableOffer';
 export * from './ProductTypeEnum';

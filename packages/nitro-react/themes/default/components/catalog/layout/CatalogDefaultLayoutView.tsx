@@ -1,4 +1,5 @@
-import { GetLocalizationNameForOffer, ProductTypeEnum } from '#base/api';
+import { ProductTypeEnum } from '#base/api';
+import { useOfferLocalization } from '#base/hooks/index.ts';
 import { FC } from 'react';
 import { CatalogPageImageView, CatalogPageTextView } from '../common';
 import { CatalogAddOnBadgeWidgetView, CatalogOfferGridWidgetView, CatalogPriceDisplayWidget, CatalogPurchaseWidgetView, CatalogViewOfferWidgetView } from '../widgets';
@@ -7,8 +8,9 @@ import { CatalogLayoutProps } from './CatalogLayoutProps';
 export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
 {
     const { page = null, roomPreviewer = null, currentOffer = null } = props;
+    const offerName = useOfferLocalization(currentOffer, 'name');
 
-    if(!page) return null;
+    if (!page) return null;
 
     return (
         <div className="grid h-full grid-cols-12 gap-2">
@@ -16,24 +18,26 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
                 <CatalogOfferGridWidgetView />
             </div>
             <div className="flex flex-col col-span-5 gap-1 overflow-hidden">
-                { (currentOffer === null) &&
+                {(currentOffer === null) &&
                     <div className="flex flex-col items-center justify-center grow gap-2">
-                        <CatalogPageImageView page={ page } imageIndex={ 1 } />
-                        <CatalogPageTextView className="text-center" page={ page } textIndex={ 0 } />
-                    </div> }
-                { (currentOffer !== null) &&
+                        <CatalogPageImageView page={page} imageIndex={1} />
+                        <CatalogPageTextView className="text-center" page={page} textIndex={0} />
+                    </div>}
+                {(currentOffer !== null) &&
                     <>
-                        { (currentOffer.product.productType !== ProductTypeEnum.Badge) &&
+                        {(currentOffer.product.productType !== ProductTypeEnum.Badge) &&
                             <>
-                                <CatalogViewOfferWidgetView roomPreviewer={ roomPreviewer } />
+                                <CatalogViewOfferWidgetView roomPreviewer={roomPreviewer} />
                                 <CatalogAddOnBadgeWidgetView />
-                            </> }
-                        { (currentOffer.product.productType === ProductTypeEnum.Badge) &&
+                            </>}
+                        {(currentOffer.product.productType === ProductTypeEnum.Badge) &&
                             <>
                                 <CatalogAddOnBadgeWidgetView />
-                            </> }
+                            </>}
                         <div className="flex flex-col grow">
-                            <span className="text-base truncate grow">{ GetLocalizationNameForOffer(currentOffer) }</span>
+                            <span className="text-base truncate grow">
+                                {offerName}
+                            </span>
                             <div className="flex flex-col justify-between gap-1">
                                 <div className="flex justify-end">
                                     <CatalogPriceDisplayWidget />
@@ -41,7 +45,7 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
                                 <CatalogPurchaseWidgetView />
                             </div>
                         </div>
-                    </> }
+                    </>}
             </div>
         </div>
     )

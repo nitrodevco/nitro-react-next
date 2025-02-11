@@ -2,7 +2,6 @@ import { Texture } from 'pixi.js';
 import { IFurnitureData } from './IFurnitureData';
 import { IGroupInformationManager } from './IGroupInformationManager';
 import { IIgnoredUsersManager } from './IIgnoredUsersManager';
-import { IProductData } from './IProductData';
 
 export interface ISessionDataManager
 {
@@ -12,7 +11,6 @@ export interface ISessionDataManager
     getFloorItemDataByName(name: string): IFurnitureData;
     getWallItemData(id: number): IFurnitureData;
     getWallItemDataByName(name: string): IFurnitureData;
-    getProductData(type: string): IProductData;
     getBadgeUrl(name: string): string;
     getGroupBadgeUrl(name: string): string;
     getBadgeImage(name: string): Texture;

@@ -1,6 +1,4 @@
-import { GetSessionDataManager, IFurnitureData } from '@nitrodevco/nitro-renderer';
-import { GetProductDataForLocalization } from '../renderer';
-import { LocalizeText } from '../utils/LocalizeText';
+import { IFurnitureData } from '@nitrodevco/nitro-renderer';
 import { CatalogPricingModelType } from './CatalogPricingModelType';
 import { CatalogPricingType } from './CatalogPricingType';
 import { CatalogType } from './CatalogType';
@@ -70,7 +68,6 @@ export const ProcessSearchWithFurnitureData = (searchValue: string, catalogType:
             productClassId: furnitureData.id,
             extraParam: furnitureData.customParams,
             productCount: 1,
-            productData: GetSessionDataManager().getProductData(furnitureData.className),
             furnitureData,
             isUniqueLimitedItem: false,
             uniqueLimitedItemSeriesSize: 0,
@@ -167,28 +164,4 @@ export const GetPricingModelForProducts = (products: IProduct[]) =>
     if (products.length > 1) return CatalogPricingModelType.PRICING_MODEL_BUNDLE;
 
     return CatalogPricingModelType.PRICING_MODEL_UNKNOWN;
-}
-
-export const GetLocalizationNameForOffer = (offer: IPurchasableOffer) =>
-{
-    if (offer)
-    {
-        const productData = GetProductDataForLocalization(offer.localizationId);
-
-        if (productData) return productData.name;
-    }
-
-    return LocalizeText(offer.localizationId);
-}
-
-export const GetLocalizationDescriptionForOffer = (offer: IPurchasableOffer) =>
-{
-    if (offer)
-    {
-        const productData = GetProductDataForLocalization(offer.localizationId);
-
-        if (productData) return productData.description;
-    }
-
-    return LocalizeText(offer.localizationId);
 }

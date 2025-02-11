@@ -28,6 +28,10 @@
             "${asset.urls.images}/big_arrow.png"
         ]
     },
+    "gamedata.urls": {
+        "base": "https://assets.nitrodev.co/gamedata",
+        "productData": "${gamedata.urls.base}/ProductData.json"
+    },
     "settings": {
         "maxBadges": 5,
         "hcDisabled": true,

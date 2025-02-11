@@ -7,7 +7,6 @@ export * from './GroupInformationManager';
 export * from './HabboClubLevelEnum';
 export * from './handler';
 export * from './IgnoredUsersManager';
-export * from './product';
 export * from './RoomPetData';
 export * from './RoomSession';
 export * from './RoomSessionManager';

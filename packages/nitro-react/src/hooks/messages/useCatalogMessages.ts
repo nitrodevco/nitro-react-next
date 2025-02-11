@@ -1,4 +1,4 @@
-import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, GetProductDataForLocalization, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api';
+import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api';
 import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
 import { useMessageEvent } from '#base/hooks';
 import { useCatalogStore } from '#base/stores';
@@ -11,6 +11,7 @@ export const useCatalogMessages = () =>
     const [
         catalogType,
         currentPageId,
+        productData,
         processNodeData,
         setCurrentPage,
         setFrontPageItems
@@ -18,6 +19,7 @@ export const useCatalogMessages = () =>
         useShallow(state => [
             state.catalogType,
             state.currentPageId,
+            state.productData,
             state.processNodeData,
             state.setCurrentPage,
             state.setFrontPageItems
@@ -53,14 +55,12 @@ export const useCatalogMessages = () =>
         for (const offer of parser.offers)
         {
             const products: IProduct[] = [];
-            const productData = GetProductDataForLocalization(offer.localizationId);
 
             for (const product of offer.products) products.push({
                 productType: product.productType.toLowerCase(),
                 productClassId: product.furniClassId,
                 extraParam: product.extraParam,
                 productCount: product.productCount,
-                productData,
                 furnitureData: GetFurnitureData(product.furniClassId, product.productType),
                 isUniqueLimitedItem: product.uniqueLimitedItem,
                 uniqueLimitedItemSeriesSize: product.uniqueLimitedSeriesSize,

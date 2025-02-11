@@ -6,7 +6,6 @@ export * from './GetFurnitureData';
 export * from './GetFurnitureDataForProductOffer';
 export * from './GetFurnitureDataForRoomObject';
 export * from './GetOwnPosture';
-export * from './GetProductDataForLocalization';
 export * from './GetRoomSession';
 export * from './GoToDesktop';
 export * from './HasHabboClub';

@@ -1,4 +1,4 @@
-import { IFurnitureData, IProductData } from '@nitrodevco/nitro-renderer';
+import { IFurnitureData } from '@nitrodevco/nitro-renderer';
 
 export interface IProduct
 {
@@ -6,7 +6,6 @@ export interface IProduct
     productClassId: number;
     extraParam: string;
     productCount: number;
-    productData: IProductData;
     furnitureData: IFurnitureData;
     isUniqueLimitedItem: boolean;
     uniqueLimitedItemSeriesSize: number;

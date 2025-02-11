@@ -1,4 +1,4 @@
-import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IPurchasableOffer, SendMessageComposer } from '#base/api';
+import { CatalogType, ICatalogNode, ICatalogPage, IOfferOptions, IProductData, IPurchasableOffer, SendMessageComposer } from '#base/api';
 import { FrontPageItem, GetCatalogPageComposer, NodeData } from '@nitrodevco/nitro-renderer';
 import { create } from 'zustand';
 
@@ -7,14 +7,16 @@ type State = {
     rootNode: ICatalogNode;
     activeNodes: ICatalogNode[];
     expandedNodes: ICatalogNode[];
-    offerNodes: { [key: string]: ICatalogNode[] };
+    offerNodes: Record<string, ICatalogNode[]>;
     searchResult: { searchValue: string; offers: IPurchasableOffer[]; filteredNodes: ICatalogNode[] };
     currentPage: ICatalogPage;
     currentPageId: number;
     currentOffer: IPurchasableOffer;
     currentOfferOptions: IOfferOptions;
     frontPageItems: FrontPageItem[];
+    productData: Record<string, IProductData>;
     navigationVisible: boolean;
+    productDataNeedsUpdate: boolean;
     catalogNeedsUpdate: boolean;
 }
 
@@ -27,6 +29,8 @@ type Actions = {
     updateCurrentOfferOptions: (options: Partial<IOfferOptions>) => void;
     setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => void;
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => void;
+    setProductData: (productData: { [key: string]: IProductData }) => void;
+    setProductDataNeedsUpdate: (flag: boolean) => void;
     setCatalogNeedsUpdate: (flag: boolean) => void;
     reset: () => void;
 }
@@ -43,7 +47,9 @@ const initialState: State = {
     currentOffer: null,
     currentOfferOptions: null,
     frontPageItems: [],
+    productData: {},
     navigationVisible: true,
+    productDataNeedsUpdate: true,
     catalogNeedsUpdate: true,
 }
 
@@ -190,6 +196,8 @@ export const useCatalogStore = create<State & Actions>(set => ({
     }),
     setCurrentOfferOptions: (currentOfferOptions: IOfferOptions) => set({ currentOfferOptions }),
     setFrontPageItems: (frontPageItems: FrontPageItem[]) => set({ frontPageItems }),
+    setProductData: (productData: { [key: string]: IProductData }) => set({ productData, productDataNeedsUpdate: false }),
+    setProductDataNeedsUpdate: (flag: boolean) => set({ productDataNeedsUpdate: flag }),
     setCatalogNeedsUpdate: (flag: boolean) => set({ catalogNeedsUpdate: flag }),
     reset: () => set(initialState)
 }));
