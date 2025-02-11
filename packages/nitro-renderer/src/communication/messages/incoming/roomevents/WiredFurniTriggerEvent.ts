@@ -1,0 +1,16 @@
+import { IMessageEvent } from '#renderer/api';
+import { MessageEvent } from '#renderer/events';
+import { WiredFurniTriggerParser } from '../../parser';
+
+export class WiredFurniTriggerEvent extends MessageEvent implements IMessageEvent
+{
+    constructor(callBack: Function)
+    {
+        super(callBack, WiredFurniTriggerParser);
+    }
+
+    public getParser(): WiredFurniTriggerParser
+    {
+        return this.parser as WiredFurniTriggerParser;
+    }
+}

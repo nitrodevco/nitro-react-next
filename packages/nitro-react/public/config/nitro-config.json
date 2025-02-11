@@ -1,0 +1,61 @@
+{
+    "logging": {
+        "debug": false,
+        "warn": false,
+        "error": false,
+        "events": false,
+        "packets": false
+    },
+    "renderer": {
+        "fps": 24
+    },
+    "asset.urls": {
+        "base": "https://assets.nitrodev.co",
+        "images": "${asset.urls.base}/images",
+        "catalog": "${asset.urls.images}/catalog",
+        "badges": "${asset.urls.images}/badges",
+        "icons": {
+            "loading": "/assets/images/ui/loading_icon.png",
+            "catalog": "${asset.urls.images}/catalog-icons",
+            "currency": "${asset.urls.images}/wallet"
+        },
+        "preload": [
+            "${asset.urls.base}/bundled/generic/avatar_additions.nitro",
+            "${asset.urls.base}/bundled/generic/group_badge.nitro",
+            "${asset.urls.base}/bundled/generic/floor_editor.nitro",
+            "${asset.urls.images}/loading_icon.png",
+            "${asset.urls.images}/clear_icon.png",
+            "${asset.urls.images}/big_arrow.png"
+        ]
+    },
+    "settings": {
+        "maxBadges": 5,
+        "hcDisabled": true,
+        "currencies": [
+            {
+                "type": -1,
+                "name": "Credits",
+                "iconUrl": "${asset.urls.icons.currency}/-1.png",
+                "backgroundColor": "#000000",
+                "borderColor": "#FFFFFF",
+                "textColor": "#FFFFFF"
+            },
+            {
+                "type": 0,
+                "name": "Duckets",
+                "iconUrl": "${asset.urls.icons.currency}/0.png",
+                "backgroundColor": "#000000",
+                "borderColor": "#FFFFFF",
+                "textColor": "#FFFFFF"
+            },
+            {
+                "type": 5,
+                "name": "Diamonds",
+                "iconUrl": "${asset.urls.icons.currency}/5.png",
+                "backgroundColor": "#000000",
+                "borderColor": "#FFFFFF",
+                "textColor": "#FFFFFF"
+            }
+        ]
+    }
+}
