@@ -1,9 +1,8 @@
 import { CatalogPricingModelType, CatalogType, EFFECT_CLASSID_NINJA_DISAPPEAR, GetFurnitureData, GetPricingModelForProducts, GetPricingType, ICatalogPage, IProduct, IPurchasableOffer, ProductTypeEnum } from '#base/api';
 import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
 import { useMessageEvent } from '#base/hooks';
-import { useCatalogStore } from '#base/stores';
+import { useCatalogStore, useEventStore } from '#base/stores';
 import { CatalogPageMessageEvent, CatalogPagesListEvent, LimitedEditionSoldOutEvent, PurchaseErrorMessageEvent, PurchaseNotAllowedMessageEvent, PurchaseOKMessageEvent } from '@nitrodevco/nitro-renderer';
-import { useEventStore } from '@nitrodevco/nitro-shared-storage';
 import { useShallow } from 'zustand/shallow';
 
 export const useCatalogMessages = () =>

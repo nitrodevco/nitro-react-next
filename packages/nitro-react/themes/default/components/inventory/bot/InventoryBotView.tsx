@@ -1,4 +1,5 @@
-import { AttemptBotPlacement, IBotItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { AttemptBotPlacement, IBotItem, SendMessageComposer } from '#base/api';
+import { useLocalization } from '#base/hooks/index.ts';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default';
 import { GetBotInventoryComposer, GetRoomEngine, RoomObjectVariable, RoomPreviewer } from '@nitrodevco/nitro-renderer';
@@ -28,6 +29,7 @@ export const InventoryBotView: FC<{
                 state.selectBotItem,
                 state.setBotNeedsUpdate
             ]));
+        const translation = useLocalization();
 
         useEffect(() =>
         {
@@ -67,7 +69,7 @@ export const InventoryBotView: FC<{
 
         const attemptPlacement = () => AttemptBotPlacement(selectedBotItem) && useVisibilityStore.setState({ inventoryVisible: false });
 
-        if (!botItems || !botItems.length) return <InventoryCategoryEmptyView desc={LocalizeText('inventory.empty.desc')} title={LocalizeText('inventory.empty.title')} />;
+        if (!botItems || !botItems.length) return <InventoryCategoryEmptyView desc={translation('inventory.empty.desc')} title={translation('inventory.empty.title')} />;
 
         return (
             <div className="grid h-full grid-cols-12 gap-2">
@@ -91,7 +93,7 @@ export const InventoryBotView: FC<{
                             <div className="flex flex-col gap-1">
                                 {!!roomSession &&
                                     <NitroButton onClick={attemptPlacement}>
-                                        {LocalizeText('inventory.furni.placetoroom')}
+                                        {translation('inventory.furni.placetoroom')}
                                     </NitroButton>}
                             </div>
                         </div>}

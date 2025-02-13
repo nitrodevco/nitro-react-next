@@ -1,7 +1,6 @@
 import { CanManipulateFurniture, GetRoomSession, IsFurnitureSelectionDisabled, ProcessRoomObjectOperation, RoomWidgetUpdateRoomObjectEvent, SetActiveRoomId, StartRoomSession } from '#base/api';
-import { useRoomStore } from '#base/stores';
+import { useEventStore, useRoomStore } from '#base/stores';
 import { RoomEngineEvent, RoomEngineObjectEvent, RoomId, RoomObjectCategory, RoomObjectOperationType, RoomSessionEvent } from '@nitrodevco/nitro-renderer';
-import { useEventStore } from '@nitrodevco/nitro-shared-storage';
 import { useEventListener } from '../events';
 
 export const useRoomMessages = () =>

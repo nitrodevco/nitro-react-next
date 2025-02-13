@@ -1,5 +1,5 @@
+import { useConfigurationStore } from '#base/stores';
 import { GetTicker, NitroLogger } from '@nitrodevco/nitro-renderer';
-import { useConfigurationStore } from '@nitrodevco/nitro-shared-storage';
 import { useEffect } from 'react';
 
 export const useConfigSync = () =>

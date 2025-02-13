@@ -1,10 +1,9 @@
-import { CatalogPricingModelType, CatalogPurchaseState, CurrencyType, LocalizeText, SendMessageComposer } from '#base/api';
+import { CatalogPricingModelType, CatalogPurchaseState, CurrencyType, SendMessageComposer } from '#base/api';
 import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotAllowedEvent, CatalogPurchaseSoldOutEvent } from '#base/events';
-import { useConfigValue, useEventListener } from '#base/hooks';
-import { useCatalogStore, useWalletStore } from '#base/stores';
+import { useConfigValue, useEventListener, useLocalization } from '#base/hooks';
+import { useCatalogStore, useSessionStore, useWalletStore } from '#base/stores';
 import { NitroButton } from '#themes/default';
 import { HabboClubLevelEnum, PurchaseFromCatalogComposer } from '@nitrodevco/nitro-renderer';
-import { useSessionStore } from '@nitrodevco/nitro-shared-storage';
 import { FC, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
@@ -21,7 +20,8 @@ export const CatalogPurchaseWidgetView: FC<{
             ]));
         const currencies = useWalletStore(state => state.currencies);
         const clubLevel = useSessionStore(state => state.clubLevel);
-        const clubMemberLevel = useConfigValue<boolean>('hcDisabled', false) ? HabboClubLevelEnum.VIP : clubLevel;
+        const clubMemberLevel = useConfigValue<boolean>('settings.hcDisabled', false) ? HabboClubLevelEnum.VIP : clubLevel;
+        const translation = useLocalization();
         const [purchaseState, setPurchaseState] = useState(CatalogPurchaseState.NONE);
 
         useEventListener(CatalogPurchasedEvent.PURCHASE_SUCCESS, event => setPurchaseState(CatalogPurchaseState.NONE));
@@ -96,17 +96,17 @@ export const CatalogPurchaseWidgetView: FC<{
 
             let message = '';
 
-            if (clubMemberLevel < currentOffer.clubLevel) message = LocalizeText('catalog.alert.hc.required');
-            if (isLimitedSoldOut()) message = LocalizeText('catalog.alert.limited_edition_sold_out.title');
-            if (priceCredits > currencies[CurrencyType.CREDITS]) message = LocalizeText('catalog.alert.notenough.title');
-            if (pricePoints > currencies[currentOffer.activityPointType]) message = LocalizeText(`catalog.alert.notenough.activitypoints.title.${currentOffer.activityPointType}`);
+            if (clubMemberLevel < currentOffer.clubLevel) message = translation('catalog.alert.hc.required');
+            if (isLimitedSoldOut()) message = translation('catalog.alert.limited_edition_sold_out.title');
+            if (priceCredits > currencies[CurrencyType.CREDITS]) message = translation('catalog.alert.notenough.title');
+            if (pricePoints > currencies[currentOffer.activityPointType]) message = translation(`catalog.alert.notenough.activitypoints.title.${currentOffer.activityPointType}`);
 
             if (message && message.length) return <NitroButton disabled variant="danger">{message}</NitroButton>;
 
             switch (purchaseState)
             {
                 case CatalogPurchaseState.CONFIRM:
-                    return <NitroButton variant="warning" onClick={event => purchase()}>{LocalizeText('catalog.marketplace.confirm_title')}</NitroButton>;
+                    return <NitroButton variant="warning" onClick={event => purchase()}>{translation('catalog.marketplace.confirm_title')}</NitroButton>;
                 case CatalogPurchaseState.PENDING:
                     return <NitroButton disabled>
                         <svg className="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
@@ -115,12 +115,12 @@ export const CatalogPurchaseWidgetView: FC<{
                         </svg>
                     </NitroButton>;
                 case CatalogPurchaseState.FAILED:
-                    return <NitroButton variant="danger">{LocalizeText('generic.failed')}</NitroButton>;
+                    return <NitroButton variant="danger">{translation('generic.failed')}</NitroButton>;
                 case CatalogPurchaseState.SOLD_OUT:
-                    return <NitroButton variant="danger">{LocalizeText('generic.failed') + ' - ' + LocalizeText('catalog.alert.limited_edition_sold_out.title')}</NitroButton>;
+                    return <NitroButton variant="danger">{translation('generic.failed') + ' - ' + translation('catalog.alert.limited_edition_sold_out.title')}</NitroButton>;
                 case CatalogPurchaseState.NONE:
                 default:
-                    return <NitroButton disabled={(currentOfferOptions.extraParamRequired && (!currentOfferOptions.extraData || !currentOfferOptions.extraData.length))} onClick={event => setPurchaseState(CatalogPurchaseState.CONFIRM)}>{LocalizeText('catalog.purchase_confirmation.' + (currentOffer.isRentOffer ? 'rent' : 'buy'))}</NitroButton>;
+                    return <NitroButton disabled={(currentOfferOptions.extraParamRequired && (!currentOfferOptions.extraData || !currentOfferOptions.extraData.length))} onClick={event => setPurchaseState(CatalogPurchaseState.CONFIRM)}>{translation('catalog.purchase_confirmation.' + (currentOffer.isRentOffer ? 'rent' : 'buy'))}</NitroButton>;
             }
         };
 

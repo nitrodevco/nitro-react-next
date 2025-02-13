@@ -1,8 +1,8 @@
-import { useConfigurationStore } from '@nitrodevco/nitro-shared-storage';
+import { useConfig } from './useConfig';
 
 export const useConfigValue = <T>(key: string, defaultValue: T = undefined) =>
 {
-    const config = useConfigurationStore(state => state.config);
+    const config = useConfig();
 
-    return key.split('.').reduce((acc, k) => acc?.[k], config) as T ?? defaultValue;
+    return config(key, defaultValue);
 }

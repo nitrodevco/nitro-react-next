@@ -1,5 +1,5 @@
-import { LocalizeBadgeName, LocalizeText, SendMessageComposer } from '#base/api';
-import { useConfigValue } from '#base/hooks';
+import { SendMessageComposer } from '#base/api';
+import { useBadgeLocalization, useConfigValue, useLocalization } from '#base/hooks';
 import { useInventoryStore } from '#base/stores';
 import { NitroBadgeImage, NitroButton, NitroInfiniteGrid } from '#themes/default';
 import { RequestBadgesComposer } from '@nitrodevco/nitro-renderer';
@@ -32,6 +32,8 @@ export const InventoryBadgeView: FC<{
             ]));
         const isWearingBadge = (badgeCode: string) => activeBadgeCodes.includes(badgeCode);
         const maxBadgeCount = useConfigValue<number>('settings.maxBadges', 5);
+        const selectedBadgeLocalization = useBadgeLocalization(selectedBadgeCode);
+        const translation = useLocalization();
 
         useEffect(() =>
         {
@@ -63,7 +65,7 @@ export const InventoryBadgeView: FC<{
                 </div>
                 <div className="flex flex-col justify-between col-span-5 overflow-auto">
                     <div className="flex flex-col gap-1 overflow-hidden size-full">
-                        <span className="text-base truncate">{LocalizeText('inventory.badges.activebadges')}</span>
+                        <span className="text-base truncate">{translation('inventory.badges.activebadges')}</span>
                         {(activeBadgeCodes?.length > 0) &&
                             <div
                                 className="grid grid-cols-3 w-full gap-1">
@@ -79,12 +81,12 @@ export const InventoryBadgeView: FC<{
                         <div className="flex flex-col gap-2 grow">
                             <div className="flex items-center gap-2">
                                 <NitroBadgeImage className="shrink" badgeCode={selectedBadgeCode} />
-                                <span className="text-sm truncate grow">{LocalizeBadgeName(selectedBadgeCode)}</span>
+                                <span className="text-sm truncate grow">{selectedBadgeLocalization.name}</span>
                             </div>
                             <NitroButton
                                 disabled={!isWearingBadge(selectedBadgeCode) && !(activeBadgeCodes.length < maxBadgeCount)}
                                 onClick={event => toggleBadge(selectedBadgeCode)}>
-                                {LocalizeText(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge')}
+                                {translation(isWearingBadge(selectedBadgeCode) ? 'inventory.badges.clearbadge' : 'inventory.badges.wearbadge')}
                             </NitroButton>
                         </div>}
                 </div>

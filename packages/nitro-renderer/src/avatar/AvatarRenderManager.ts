@@ -1,8 +1,7 @@
 import { AvatarSetType, IAssetManager, IAvatarEffectListener, IAvatarFigureContainer, IAvatarImage, IAvatarImageListener, IAvatarRenderManager, IFigureData, IFigurePartSet, IGraphicAsset, IStructureData } from '#renderer/api';
 import { GetAssetManager } from '#renderer/assets';
-import { GetConfiguration } from '#renderer/configuration';
 import { NitroEventType } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { AvatarAssetDownloadManager } from './AvatarAssetDownloadManager';
 import { AvatarFigureContainer } from './AvatarFigureContainer';
 import { AvatarImage } from './AvatarImage';
@@ -47,11 +46,11 @@ export class AvatarRenderManager implements IAvatarRenderManager
 
     private async loadActions(): Promise<void>
     {
-        const defaultActions = GetConfiguration().getValue<string>('avatar.default.actions');
+        const defaultActions = GetConfigValue<string>('renderer.avatarDefaultActions', '');
 
         if (defaultActions) this._structure.initActions(GetAssetManager(), defaultActions);
 
-        const url = GetConfiguration().getValue<string>('avatar.actions.url');
+        const url = GetConfigValue<string>('gamedata.urls.avatarActions', '');
 
         if (!url || !url.length) throw new Error('Invalid avatar action url');
 
@@ -64,11 +63,11 @@ export class AvatarRenderManager implements IAvatarRenderManager
 
     private async loadFigureData(): Promise<void>
     {
-        const defaultFigureData = GetConfiguration().getValue<IFigureData>('avatar.default.figuredata');
+        const defaultFigureData = GetConfigValue<IFigureData>('renderer.avatarDefaultFiguredata');
 
         if (defaultFigureData) this._structure?.initFigureData(defaultFigureData);
 
-        const url = GetConfiguration().getValue<string>('avatar.figuredata.url');
+        const url = GetConfigValue<string>('gamedata.urls.figureData', '');
 
         if (!url || !url.length) throw new Error('Invalid figure data url');
 

@@ -1,5 +1,5 @@
+import { SessionStore } from '@nitrodevco/nitro-shared-storage';
 import { useStore as useZustandStore } from 'zustand';
-import { SessionStore } from './SessionStore';
 
 type StoreState = ReturnType<typeof SessionStore.getState>;
 

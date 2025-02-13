@@ -8,7 +8,7 @@ import { CatalogLayoutProps } from './CatalogLayoutProps';
 export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
 {
     const { page = null, roomPreviewer = null, currentOffer = null } = props;
-    const offerName = useOfferLocalization(currentOffer, 'name');
+    const offerLocalization = useOfferLocalization(currentOffer);
 
     if (!page) return null;
 
@@ -36,7 +36,7 @@ export const CatalogDefaultLayoutView: FC<CatalogLayoutProps> = props =>
                             </>}
                         <div className="flex flex-col grow">
                             <span className="text-base truncate grow">
-                                {offerName}
+                                {offerLocalization.name}
                             </span>
                             <div className="flex flex-col justify-between gap-1">
                                 <div className="flex justify-end">

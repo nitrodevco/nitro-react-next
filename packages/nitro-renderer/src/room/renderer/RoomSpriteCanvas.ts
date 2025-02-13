@@ -1,7 +1,7 @@
 import { IRoomCanvasMouseListener, IRoomGeometry, IRoomObject, IRoomObjectSprite, IRoomObjectSpriteVisualization, IRoomRenderingCanvas, IRoomSpriteCanvasContainer, IRoomSpriteMouseEvent, MouseEventType, RoomObjectSpriteData, RoomObjectSpriteType } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomSpriteMouseEvent } from '#renderer/events';
 import { GetTicker, TextureUtils, Vector3d } from '#renderer/utils';
+import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { Container, Matrix, Point, Rectangle, Sprite, Texture } from 'pixi.js';
 import { RoomEnterEffect, RoomGeometry, RoomRotatingEffect, RoomShakingEffect } from '../utils';
 import { RoomObjectCache, RoomObjectCacheItem } from './cache';
@@ -67,7 +67,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
         scale: number)
     {
         this._geometry = new RoomGeometry(scale, new Vector3d(-135, 30, 0), new Vector3d(11, 11, 5), new Vector3d(-135, 0.5, 0));
-        this._animationFPS = GetConfiguration().getValue<number>('system.fps.animation', 24);
+        this._animationFPS = GetConfigValue<number>('renderer.animationFps', 24);
         this._objectCache = new RoomObjectCache(this._container.roomObjectVariableAccurateZ);
 
         this.setupCanvas();
@@ -117,7 +117,7 @@ export class RoomSpriteCanvas implements IRoomRenderingCanvas
         {
             while (this._master.children.length)
             {
-                const child = this._master.removeChildAt(0);
+                const child = this._master.removeChildAt(0) as Container;
 
                 child.destroy();
             }

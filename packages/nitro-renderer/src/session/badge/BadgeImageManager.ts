@@ -1,9 +1,8 @@
 import { GetAssetManager } from '#renderer/assets';
 import { GetCommunication, GroupBadgePartsEvent } from '#renderer/communication';
-import { GetConfiguration } from '#renderer/configuration';
 import { BadgeImageReadyEvent } from '#renderer/events';
 import { NitroLogger, TextureUtils } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { Container, Sprite, Texture } from 'pixi.js';
 import { BadgeInfo } from './BadgeInfo';
 import { GroupBadge } from './GroupBadge';
@@ -93,7 +92,7 @@ export class BadgeImageManager
 
     private getBadgePlaceholder(): Texture
     {
-        return GetAssetManager().getTexture(GetConfiguration().getValue<string>('images.url') + '/loading_icon.png');
+        return GetAssetManager().getTexture(GetConfigValue<string>('asset.urls.icons.loading'));
     }
 
     public getBadgeUrl(badge: string, type: string = BadgeImageManager.NORMAL_BADGE): string
@@ -103,7 +102,7 @@ export class BadgeImageManager
         switch (type)
         {
             case BadgeImageManager.NORMAL_BADGE:
-                url = (GetConfiguration().getValue<string>('badge.asset.url')).replace('%badgename%', badge);
+                url = `${GetConfigValue<string>('asset.urls.badges')}/${badge}.gif`
                 break;
             case BadgeImageManager.GROUP_BADGE:
                 url = badge;

@@ -1,26 +1,23 @@
 import { IPurchasableOffer } from '#base/api';
 import { useCatalogStore } from '#base/stores';
 
-export const useOfferLocalization = <T>(offer: IPurchasableOffer, type: 'name' | 'description') =>
+export const useOfferLocalization = (offer: IPurchasableOffer) =>
 {
     const productData = useCatalogStore(state => state.productData);
 
-    let text = '';
+    let name = '';
+    let description = '';
 
     if (offer)
     {
         const offerProductData = productData?.[offer.localizationId];
 
-        if (type === 'name')
-        {
-            text = offerProductData?.name ?? offer.localizationName;
-        }
-
-        else if (type === 'description')
-        {
-            text = offerProductData?.description ?? offer.localizationDescription;
-        }
+        name = offerProductData?.name ?? offer.localizationName;
+        description = offerProductData?.description ?? offer.localizationDescription;
     }
 
-    return text;
+    return {
+        name,
+        description,
+    };
 }

@@ -17,9 +17,6 @@
         window.NitroConfig = {
             "nitro.config.url": "/config/nitro-config.json",
             "config.urls": ["/config/renderer-config.json", "/config/ui-config.json"],
-            "sso.ticket":
-                new URLSearchParams(window.location.search).get("sso") ||
-                null,
             "forward.type": new URLSearchParams(window.location.search).get(
                 "room",
             )

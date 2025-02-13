@@ -1,9 +1,8 @@
 import { IRoomCameraWidgetEffect, IRoomCameraWidgetManager, IRoomCameraWidgetSelectedEffect } from '#renderer/api';
 import { GetAssetManager } from '#renderer/assets';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomCameraWidgetManagerEvent } from '#renderer/events';
 import { TextureUtils } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { BLEND_MODES, ColorMatrix, ColorMatrixFilter, Container, Filter, Sprite, Texture } from 'pixi.js';
 import { RoomCameraWidgetEffect } from './RoomCameraWidgetEffect';
 
@@ -18,8 +17,10 @@ export class RoomCameraWidgetManager implements IRoomCameraWidgetManager
 
         this._isLoaded = true;
 
-        const imagesUrl = GetConfiguration().getValue<string>('image.library.url') + 'Habbo-Stories/';
-        const effects = GetConfiguration().getValue<{ name: string, colorMatrix?: ColorMatrix, minLevel: number, blendMode?: BLEND_MODES, enabled: boolean }[]>('camera.available.effects');
+        // TODO FIX CAMERA URLS BELOW
+
+        const imagesUrl = GetConfigValue<string>('image.library.url') + 'Habbo-Stories/';
+        const effects = GetConfigValue<{ name: string, colorMatrix?: ColorMatrix, minLevel: number, blendMode?: BLEND_MODES, enabled: boolean }[]>('camera.available.effects');
 
         for (const effect of effects)
         {

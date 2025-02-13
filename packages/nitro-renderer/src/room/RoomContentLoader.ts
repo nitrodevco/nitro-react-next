@@ -1,10 +1,9 @@
 import { FurnitureType, IEventDispatcher, IFurnitureData, IGraphicAssetCollection, IPetColorResult, IRoomContentListener, IRoomContentLoader, IRoomObject, RoomObjectCategory, RoomObjectUserType, RoomObjectVariable, RoomObjectVisualizationType } from '#renderer/api';
 import { GetAssetManager } from '#renderer/assets';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomContentLoadedEvent } from '#renderer/events';
 import { GetSessionDataManager } from '#renderer/session';
 import { NitroLogger } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { Texture } from 'pixi.js';
 import { PetColorResult } from './PetColorResult';
 
@@ -42,7 +41,7 @@ export class RoomContentLoader implements IRoomContentLoader
     {
         this.processFurnitureData(GetSessionDataManager().getAllFurnitureData());
 
-        for (const [index, name] of GetConfiguration().getValue<string[]>('pet.types').entries()) this._pets[name] = index;
+        for (const [index, name] of GetConfigValue<string[]>('renderer.petTypes').entries()) this._pets[name] = index;
 
         await Promise.all(RoomContentLoader.MANDATORY_LIBRARIES.map(value => this.downloadAsset(value)));
     }
@@ -267,7 +266,7 @@ export class RoomContentLoader implements IRoomContentLoader
 
     public getPetNameForType(type: number): string
     {
-        return GetConfiguration().getValue<string[]>('pet.types')[type] || null;
+        return GetConfigValue<string[]>('renderer.petTypes')[type] || null;
     }
 
     public isLoaderType(type: string): boolean
@@ -522,22 +521,22 @@ export class RoomContentLoader implements IRoomContentLoader
 
     private getAssetUrlWithGenericBase(assetName: string): string
     {
-        return (GetConfiguration().getValue<string>('generic.asset.url').replace(/%libname%/gi, assetName));
+        return (GetConfigValue<string>('asset.urls.generic').replace(/%libname%/gi, assetName));
     }
 
     public getAssetUrlWithFurniBase(assetName: string): string
     {
-        return (GetConfiguration().getValue<string>('furni.asset.url').replace(/%libname%/gi, assetName));
+        return (GetConfigValue<string>('asset.urls.furni').replace(/%libname%/gi, assetName));
     }
 
     public getAssetUrlWithFurniIconBase(assetName: string): string
     {
-        return (GetConfiguration().getValue<string>('furni.asset.icon.url').replace(/%libname%/gi, assetName));
+        return (GetConfigValue<string>('asset.urls.icons.furni').replace(/%libname%/gi, assetName));
     }
 
     public getAssetUrlWithPetBase(assetName: string): string
     {
-        return (GetConfiguration().getValue<string>('pet.asset.url').replace(/%libname%/gi, assetName));
+        return (GetConfigValue<string>('asset.urls.pet').replace(/%libname%/gi, assetName));
     }
 
     public setRoomObjectRoomId(object: IRoomObject, roomId: string): void

@@ -1,7 +1,7 @@
 import { IsObjectMoverRequested, MergeFragments, SetObjectMoverRequested } from '#base/api';
 import { useEventListener, useMessageEvent } from '#base/hooks';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
-import { BadgePointLimitsEvent, BadgeReceivedEvent, BadgesEvent, BotAddedToInventoryEvent, BotInventoryMessageEvent, BotRemovedFromInventoryEvent, FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, GetLocalizationManager, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomSessionEvent, UnseenItemsEvent } from '@nitrodevco/nitro-renderer';
+import { BadgeReceivedEvent, BadgesEvent, BotAddedToInventoryEvent, BotInventoryMessageEvent, BotRemovedFromInventoryEvent, FurnitureListAddOrUpdateEvent, FurnitureListEvent, FurnitureListInvalidateEvent, FurnitureListItemParser, FurnitureListRemovedEvent, FurniturePostItPlacedEvent, PetAddedToInventoryEvent, PetData, PetInventoryEvent, PetRemovedFromInventory, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomSessionEvent, UnseenItemsEvent } from '@nitrodevco/nitro-renderer';
 import { useShallow } from 'zustand/shallow';
 
 let furniMsgFragments: Map<number, FurnitureListItemParser>[] = null;
@@ -62,13 +62,6 @@ export const useInventoryMessages = () =>
                 useVisibilityStore.setState({ inventoryVisible: false });
                 return;
         }
-    });
-
-    useMessageEvent<BadgePointLimitsEvent>(BadgePointLimitsEvent, event =>
-    {
-        const parser = event.getParser();
-
-        for (const data of parser.data) GetLocalizationManager().setBadgePointLimit(data.badgeId, data.limit);
     });
 
     useMessageEvent<FurnitureListAddOrUpdateEvent>(FurnitureListAddOrUpdateEvent, event => addOrUpdateFurniItems(event?.getParser()?.items ?? null));

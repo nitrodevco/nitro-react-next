@@ -1,4 +1,5 @@
-import { LocalizeText, ProcessSearchWithFurnitureData } from '#base/api';
+import { ProcessSearchWithFurnitureData } from '#base/api';
+import { useLocalization } from '#base/hooks/index.ts';
 import { useCatalogStore } from '#base/stores';
 import { NitroButton, NitroInput } from '#themes/default';
 import { GetSessionDataManager, IFurnitureData } from '@nitrodevco/nitro-renderer';
@@ -19,6 +20,7 @@ export const CatalogSearchView: FC<{}> = props =>
             state.offerNodes,
             state.setSearchResult,
         ]));
+    const translation = useLocalization();
     const furnitureData = useRef<IFurnitureData[]>(null);
 
     useEffect(() =>
@@ -49,7 +51,7 @@ export const CatalogSearchView: FC<{}> = props =>
         <div className="flex gap-1">
             <div className="flex w-full items-center realtive">
                 <NitroInput
-                    placeholder={LocalizeText('generic.search')}
+                    placeholder={translation('generic.search')}
                     value={searchValue}
                     inputSize="sm"
                     onChange={event => setSearchValue(event.target.value)} />

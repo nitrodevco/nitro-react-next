@@ -877,6 +877,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@nitrodevco/nitro-shared-api@workspace:packages/nitro-shared-api":
+  version: 0.0.0-use.local
+  resolution: "@nitrodevco/nitro-shared-api@workspace:packages/nitro-shared-api"
+  dependencies:
+    typescript: "npm:^5.7.3"
+  languageName: unknown
+  linkType: soft
+
 "@nitrodevco/nitro-shared-storage@workspace:*, @nitrodevco/nitro-shared-storage@workspace:packages/nitro-shared-storage":
   version: 0.0.0-use.local
   resolution: "@nitrodevco/nitro-shared-storage@workspace:packages/nitro-shared-storage"

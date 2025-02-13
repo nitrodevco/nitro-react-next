@@ -1,6 +1,5 @@
 import { FurniturePlacePaintComposer, GetRoomEngine, GetRoomSessionManager, RoomObjectCategory, RoomObjectPlacementSource, RoomObjectType } from '@nitrodevco/nitro-renderer';
 import { SendMessageComposer } from '../renderer';
-import { LocalizeText } from '../utils';
 import { FurniCategoryEnum } from './FurniCategoryEnum';
 import { FurnitureItem } from './FurnitureItem';
 import { IBotItem } from './IBotItem';
@@ -238,22 +237,6 @@ export const PushItemIntoGroup = (groupItem: IGroupItem, item: FurnitureItem) =>
     if (groupItem.items.length === 1)
     {
         groupItem.iconUrl = groupItem.isWallItem ? GetRoomEngine().getFurnitureWallIconUrl(groupItem.type, groupItem.stuffData.getLegacyString()) : GetRoomEngine().getFurnitureFloorIconUrl(groupItem.type);
-
-        let key = '';
-
-        switch (groupItem.category)
-        {
-            case FurniCategoryEnum.Poster:
-                key = (`poster_${groupItem.stuffData.getLegacyString()}_name`);
-                break;
-            case FurniCategoryEnum.TraxSong:
-                groupItem.name = 'SONG_NAME';
-                return;
-            default:
-                key = groupItem.isWallItem ? `wallItem.name.${groupItem.type}` : `roomItem.name.${groupItem.type}`;
-        }
-
-        groupItem.name = LocalizeText(key);
     }
 }
 

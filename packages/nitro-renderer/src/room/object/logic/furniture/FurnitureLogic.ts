@@ -1,7 +1,7 @@
 import { IAssetData, IRoomGeometry, IRoomObjectController, IRoomObjectModel, IVector3D, MouseEventType, RoomObjectVariable } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomObjectMouseEvent, RoomObjectRoomAdEvent, RoomObjectStateChangedEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '#renderer/events';
 import { Vector3d } from '#renderer/utils';
+import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { ObjectDataUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectMoveUpdateMessage, ObjectSelectedMessage, RoomObjectUpdateMessage } from '../../../messages';
 import { MovingObjectLogic } from '../MovingObjectLogic';
 
@@ -48,12 +48,12 @@ export class FurnitureLogic extends MovingObjectLogic
 
         if (FurnitureLogic.BOUNCING_STEPS === -1)
         {
-            FurnitureLogic.BOUNCING_STEPS = GetConfiguration().getValue<number>('furni.rotation.bounce.steps', 8);
+            FurnitureLogic.BOUNCING_STEPS = GetConfigValue<number>('renderer.furniRotationBounce', 8);
         }
 
         if (FurnitureLogic.BOUNCING_Z === -1)
         {
-            FurnitureLogic.BOUNCING_Z = GetConfiguration().getValue<number>('furni.rotation.bounce.height', 0.0625);
+            FurnitureLogic.BOUNCING_Z = GetConfigValue<number>('renderer.furniRotationHeight', 0.0625);
         }
     }
 

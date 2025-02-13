@@ -1,5 +1,5 @@
+import { useEventStore } from '#base/stores';
 import { INitroEvent } from '@nitrodevco/nitro-renderer';
-import { useEventStore } from '@nitrodevco/nitro-shared-storage';
 import { useEffect } from 'react';
 
 export const useEventListener = <T extends INitroEvent>(

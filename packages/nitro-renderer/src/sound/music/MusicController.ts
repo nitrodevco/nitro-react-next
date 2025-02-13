@@ -1,9 +1,8 @@
 import { IAdvancedMap, IMusicController, IPlaylistController, ISongInfo } from '#renderer/api';
 import { GetCommunication, GetNowPlayingMessageComposer, GetSongInfoMessageComposer, GetUserSongDisksMessageComposer, TraxSongInfoMessageEvent, UserSongDisksInventoryMessageEvent } from '#renderer/communication';
-import { GetConfiguration } from '#renderer/configuration';
 import { NotifyPlayedSongEvent, NowPlayingEvent, RoomObjectSoundMachineEvent, SongDiskInventoryReceivedEvent, SongInfoReceivedEvent, SoundManagerEvent } from '#renderer/events';
 import { AdvancedMap } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { GetSoundManager } from '../GetSoundManager';
 import { SongDataEntry, SongStartRequestData } from '../common';
 import { TraxData } from '../trax/TraxData';
@@ -51,7 +50,7 @@ export class MusicController implements IMusicController
         GetCommunication().registerMessageEvent(new UserSongDisksInventoryMessageEvent(this.onSongDiskInventoryMessage.bind(this)));
 
         this._timerInstance = window.setInterval(this.onTick.bind(this), 1000);
-        this._musicPlayer = new MusicPlayer(GetConfiguration().getValue<string>('external.samples.url'));
+        this._musicPlayer = new MusicPlayer(GetConfigValue<string>('asset.urls.soundSamples'));
 
         this._subscriptions.push(
             EventStore.getState().subscribe(RoomObjectSoundMachineEvent.JUKEBOX_INIT, this.onJukeboxInit),

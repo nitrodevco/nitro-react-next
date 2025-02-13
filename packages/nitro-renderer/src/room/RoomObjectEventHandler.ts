@@ -1,10 +1,9 @@
 import { IFurnitureStackingHeightMap, ILegacyWallGeometry, IObjectData, IRoomCanvasMouseListener, IRoomEngineServices, IRoomGeometry, IRoomObject, IRoomObjectController, IRoomObjectEventManager, ISelectedRoomObjectData, IVector3D, MouseEventType, RoomObjectCategory, RoomObjectOperationType, RoomObjectPlacementSource, RoomObjectType, RoomObjectUserType, RoomObjectVariable } from '#renderer/api';
 import { BotPlaceComposer, ClickFurniMessageComposer, FurnitureColorWheelComposer, FurnitureDiceActivateComposer, FurnitureDiceDeactivateComposer, FurnitureFloorUpdateComposer, FurnitureGroupInfoComposer, FurnitureMultiStateComposer, FurnitureOneWayDoorComposer, FurniturePickupComposer, FurniturePlaceComposer, FurniturePostItPlaceComposer, FurnitureRandomStateComposer, FurnitureWallMultiStateComposer, FurnitureWallUpdateComposer, GetCommunication, GetItemDataComposer, GetResolutionAchievementsMessageComposer, PetMoveComposer, PetPlaceComposer, RemoveWallItemComposer, RoomUnitLookComposer, RoomUnitWalkComposer, SetItemDataMessageComposer, SetObjectDataMessageComposer } from '#renderer/communication';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomEngineDimmerStateEvent, RoomEngineObjectEvent, RoomEngineObjectPlacedEvent, RoomEngineObjectPlacedOnUserEvent, RoomEngineObjectPlaySoundEvent, RoomEngineRoomAdEvent, RoomEngineSamplePlaybackEvent, RoomEngineTriggerWidgetEvent, RoomEngineUseProductEvent, RoomObjectBadgeAssetEvent, RoomObjectDataRequestEvent, RoomObjectDimmerStateUpdateEvent, RoomObjectEvent, RoomObjectFloorHoleEvent, RoomObjectFurnitureActionEvent, RoomObjectHSLColorEnableEvent, RoomObjectHSLColorEnabledEvent, RoomObjectMouseEvent, RoomObjectMoveEvent, RoomObjectPlaySoundIdEvent, RoomObjectRoomAdEvent, RoomObjectSamplePlaybackEvent, RoomObjectSoundMachineEvent, RoomObjectStateChangedEvent, RoomObjectTileMouseEvent, RoomObjectWallMouseEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '#renderer/events';
-import { GetCurrentUserId, GetRoomSessionManager, GetSessionDataManager } from '#renderer/session';
+import { GetRoomSessionManager, GetSessionDataManager } from '#renderer/session';
 import { CreateLinkEvent, NitroLogger, RoomId, Vector3d } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue, SessionStore } from '@nitrodevco/nitro-shared-storage';
 import { ObjectAvatarSelectedMessage, ObjectDataUpdateMessage, ObjectSelectedMessage, ObjectTileCursorUpdateMessage, ObjectVisibilityUpdateMessage, RoomObjectUpdateMessage } from './messages';
 import { RoomEnterEffect, SelectedRoomObjectData } from './utils';
 
@@ -1039,10 +1038,10 @@ export class RoomObjectEventHandler implements IRoomCanvasMouseListener, IRoomOb
         switch (event.type)
         {
             case RoomObjectDataRequestEvent.RODRE_CURRENT_USER_ID:
-                event.object.model.setValue(RoomObjectVariable.SESSION_CURRENT_USER_ID, GetCurrentUserId());
+                event.object.model.setValue(RoomObjectVariable.SESSION_CURRENT_USER_ID, SessionStore.getState().userId);
                 return;
             case RoomObjectDataRequestEvent.RODRE_URL_PREFIX:
-                event.object.model.setValue(RoomObjectVariable.SESSION_URL_PREFIX, GetConfiguration().getValue('url.prefix'));
+                event.object.model.setValue(RoomObjectVariable.SESSION_URL_PREFIX, GetConfigValue('url.prefix', ''));
                 return;
         }
     }

@@ -1,5 +1,5 @@
-import { LocalizeText, SendMessageComposer } from '#base/api';
-import { useEventListener } from '#base/hooks';
+import { SendMessageComposer } from '#base/api';
+import { useEventListener, useLocalization } from '#base/hooks';
 import { useNavigatorStore, useVisibilityStore } from '#base/stores';
 import { NitroCard } from '#themes/default';
 import { ConvertGlobalRoomIdMessageComposer, HabboWebTools, LegacyExternalInterface, NavigatorInitComposer, NavigatorSearchComposer, RoomSessionEvent } from '@nitrodevco/nitro-renderer';
@@ -31,6 +31,7 @@ export const NavigatorView: FC = () =>
             state.needsSearch,
             state.pendingResult,
         ]));
+    const translation = useLocalization();
 
     const pendingSearch = useRef<{ data: string, code: string }>(null);
     const elementRef = useRef<HTMLDivElement>(null);
@@ -106,7 +107,7 @@ export const NavigatorView: FC = () =>
                     className="h-navigator-h min-h-navigator-h w-navigator-w min-w-navigator-w"
                     uniqueKey="navigator">
                     <NitroCard.Header
-                        headerText={LocalizeText(isCreatorOpen ? 'navigator.createroom.title' : 'navigator.title')}
+                        headerText={translation(isCreatorOpen ? 'navigator.createroom.title' : 'navigator.title')}
                         onCloseClick={event => useVisibilityStore.setState({ navigationVisible: false })} />
                     <NitroCard.Tabs>
                         {topLevelContexts && (topLevelContexts.length > 0) && topLevelContexts.map((context, index) =>
@@ -116,7 +117,7 @@ export const NavigatorView: FC = () =>
                                     key={index}
                                     isActive={((topLevelContext === context) && !isCreatorOpen)}
                                     onClick={event => sendSearch('', context.code)}>
-                                    {LocalizeText(('navigator.toplevelview.' + context.code))}
+                                    {translation(('navigator.toplevelview.' + context.code))}
                                 </NitroCard.TabItem>
                             );
                         })}

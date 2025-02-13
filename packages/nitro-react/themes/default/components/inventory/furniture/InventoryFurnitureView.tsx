@@ -1,4 +1,5 @@
-import { AttemptItemPlacement, FurniCategoryEnum, IGroupItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { AttemptItemPlacement, FurniCategoryEnum, IGroupItem, SendMessageComposer } from '#base/api';
+import { useLocalization } from '#base/hooks/index.ts';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default';
 import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrodevco/nitro-renderer';
@@ -40,8 +41,28 @@ export const InventoryFurnitureView: FC<{
                 state.selectFurniItem,
                 state.setFurniNeedsUpdate
             ]));
-
+        const translation = useLocalization();
         const [filteredGroupItems, setFilteredGroupItems] = useState<IGroupItem[]>(null);
+
+        const getGroupItemName = (groupItem: IGroupItem) =>
+        {
+            if (!groupItem) return '';
+
+            let key = '';
+
+            switch (groupItem.category)
+            {
+                case FurniCategoryEnum.Poster:
+                    key = (`poster_${groupItem.stuffData.getLegacyString()}_name`);
+                    break;
+                case FurniCategoryEnum.TraxSong:
+                    return 'SONG_NAME';
+                default:
+                    key = groupItem.isWallItem ? `wallItem.name.${groupItem.type}` : `roomItem.name.${groupItem.type}`;
+            }
+
+            return translation(key);
+        }
 
         useEffect(() =>
         {
@@ -109,7 +130,7 @@ export const InventoryFurnitureView: FC<{
             setFurniNeedsUpdate(false);
         }, [furniNeedsUpdate]);
 
-        if (!furniItems || !furniItems.length) return <InventoryCategoryEmptyView desc={LocalizeText('inventory.empty.desc')} title={LocalizeText('inventory.empty.title')} />;
+        if (!furniItems || !furniItems.length) return <InventoryCategoryEmptyView desc={translation('inventory.empty.desc')} title={translation('inventory.empty.title')} />;
 
         return (
             <div className="grid h-full grid-cols-12 gap-2">
@@ -134,18 +155,18 @@ export const InventoryFurnitureView: FC<{
                     </div>
                     {selectedFurniItem &&
                         <div className="flex flex-col justify-between gap-2 grow">
-                            <span className="text-sm truncate grow">{selectedFurniItem.name}</span>
+                            <span className="text-sm truncate grow">{getGroupItemName(selectedFurniItem)}</span>
                             <div className="flex flex-col gap-1">
                                 {!!roomSession &&
                                     <NitroButton onClick={event =>
                                     {
                                         if (AttemptItemPlacement(selectedFurniItem)) useVisibilityStore.setState({ inventoryVisible: false });
                                     }}>
-                                        {LocalizeText('inventory.furni.placetoroom')}
+                                        {translation('inventory.furni.placetoroom')}
                                     </NitroButton>}
                                 {(selectedFurniItem && selectedFurniItem.isSellable) &&
                                     <NitroButton onClick={event => attemptPlaceMarketplaceOffer(selectedFurniItem)}>
-                                        {LocalizeText('inventory.marketplace.sell')}
+                                        {translation('inventory.marketplace.sell')}
                                     </NitroButton>}
                             </div>
                         </div>}

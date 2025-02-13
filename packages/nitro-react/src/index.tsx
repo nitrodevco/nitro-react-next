@@ -1,12 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import { App } from './App';
 import './index.css';
-import { NitroConfig } from './utils';
+import { Nitro } from './Nitro';
 
-const root = createRoot(document.getElementById('root'));
-
-root.render(
-    <NitroConfig>
-        <App />
-    </NitroConfig>
-);
+createRoot(document.getElementById('root'))?.render(<Nitro />);

@@ -1,10 +1,9 @@
 import { CreateRoomSession, DoorStateType, SendMessageComposer, TryVisitRoom, VisitDesktop } from '#base/api';
-import { useNavigatorStore } from '#base/stores';
+import { useNavigatorStore, useSessionStore } from '#base/stores';
 import { CanCreateRoomEventEvent, CantConnectMessageParser, CreateLinkEvent, DoorbellMessageEvent, FlatAccessDeniedMessageEvent, FlatCreatedEvent, FollowFriendMessageComposer, GenericErrorEvent, GetGuestRoomMessageComposer, GetGuestRoomResultEvent, GetUserEventCatsMessageComposer, GetUserFlatCatsMessageComposer, NavigatorHomeRoomEvent, NavigatorMetadataEvent, NavigatorOpenRoomCreatorEvent, NavigatorSearchEvent, NoobnessLevelEnum, RoomDataParser, RoomDoorbellAcceptedEvent, RoomEnterErrorEvent, RoomEntryInfoMessageEvent, RoomForwardEvent, RoomScoreEvent, RoomSettingsUpdatedEvent, SecurityLevel, UserEventCatsEvent, UserFlatCatsEvent, UserInfoEvent, UserPermissionsEvent } from '@nitrodevco/nitro-renderer';
-import { useSessionStore } from '@nitrodevco/nitro-shared-storage';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
-import { useConfigValue } from '../utils/useConfigValue';
+import { useConfig } from '../utils';
 
 let HOMEROOM_RECEIVED = false;
 
@@ -33,9 +32,7 @@ export const useNavigatorMessages = () =>
     const isAmbassador = useSessionStore(state => state.isAmbassador);
     const isRealNoob = useSessionStore(state => state.noobnessLevel === NoobnessLevelEnum.REAL_NOOB);
     const isModerator = useSessionStore(state => state.securityLevel) >= SecurityLevel.MODERATOR;
-    const friendId = useConfigValue<string>('friend.id')
-    const forwardId = useConfigValue<string>('forward.id');
-    const forwardType = useConfigValue<string>('forward.type');
+    const config = useConfig();
 
     useMessageEvent<RoomSettingsUpdatedEvent>(RoomSettingsUpdatedEvent, event =>
     {
@@ -272,6 +269,10 @@ export const useNavigatorMessages = () =>
         }
 
         HOMEROOM_RECEIVED = true;
+
+        let friendId = config<string>('friend.id');
+        let forwardId = config<string>('forward.id');
+        let forwardType = config<string>('forward.type');
 
         let newForwardType = -1;
         let newForwardId = -1;

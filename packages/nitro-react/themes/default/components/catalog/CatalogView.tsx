@@ -1,5 +1,4 @@
-import { LocalizeText } from '#base/api';
-import { useCatalogLogic, useRoomPreviewer } from '#base/hooks';
+import { useCatalogLogic, useLocalization, useRoomPreviewer } from '#base/hooks';
 import { useCatalogStore, useVisibilityStore } from '#base/stores';
 import { classNames } from '#base/utils';
 import { NitroCard, NitroCatalogIcon } from '#themes/default';
@@ -30,6 +29,7 @@ export const CatalogView: FC<{
                 state.navigationVisible,
                 state.selectNode,
             ]));
+        const translation = useLocalization();
 
         useCatalogLogic();
 
@@ -56,7 +56,7 @@ export const CatalogView: FC<{
                 className="w-catalog-w h-catalog-h min-w-catalog-w min-h-catalog-h"
                 uniqueKey="catalog">
                 <NitroCard.Header
-                    headerText={LocalizeText('catalog.title')}
+                    headerText={translation('catalog.title')}
                     onCloseClick={hideCatalog} />
                 <NitroCard.Tabs>
                     {rootNode && (rootNode.children.length > 0) && rootNode.children.map(child =>

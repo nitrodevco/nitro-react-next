@@ -1,7 +1,7 @@
 import { IRoomGeometry, IRoomObjectModel, MouseEventType, RoomObjectVariable } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { RoomObjectEvent, RoomObjectMouseEvent, RoomObjectTileMouseEvent, RoomObjectWallMouseEvent, RoomSpriteMouseEvent } from '#renderer/events';
 import { ColorConverter, Vector3d } from '#renderer/utils';
+import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { Point } from 'pixi.js';
 import { ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMapUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, RoomObjectUpdateMessage } from '../../messages';
 import { RoomMapData } from '../RoomMapData';
@@ -86,7 +86,7 @@ export class RoomLogic extends RoomObjectLogicBase
         this.object.model.setValue(RoomObjectVariable.ROOM_WALL_VISIBILITY, 1);
         this.object.model.setValue(RoomObjectVariable.ROOM_LANDSCAPE_VISIBILITY, 1);
 
-        this._skipColorTransition = (GetConfiguration().getValue<boolean>('room.color.skip.transition') === true);
+        this._skipColorTransition = (GetConfigValue<boolean>('renderer.skipColorTransition') === true);
     }
 
     public update(time: number): void

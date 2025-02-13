@@ -1,13 +1,15 @@
 import { DefaultTheme, LoadingView } from '#themes/default';
-import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetConfiguration, GetLocalizationManager, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrodevco/nitro-renderer';
+import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrodevco/nitro-renderer';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
-import { useConfigValue } from './hooks/index';
+import { useConfigValue, useLocalizationLoader } from './hooks';
 
 export const App: FC = () =>
 {
     const [isReady, setIsReady] = useState(false);
     const preloadAssetUrls = useConfigValue<string[]>('asset.urls.preload') || [];
+
+    useLocalizationLoader();
 
     useEffect(() =>
     {
@@ -24,12 +26,9 @@ export const App: FC = () =>
                     roundPixels: true
                 });
 
-                await GetConfiguration().init();
-
                 await Promise.all(
                     [
                         GetAssetManager().downloadAssets(preloadAssetUrls),
-                        GetLocalizationManager().init(),
                         GetAvatarRenderManager().init(),
                         GetSoundManager().init(),
                         GetSessionDataManager().init(),

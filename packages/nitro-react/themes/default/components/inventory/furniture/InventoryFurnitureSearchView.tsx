@@ -1,4 +1,5 @@
-import { IGroupItem, LocalizeText } from '#base/api';
+import { FurniCategoryEnum, IGroupItem } from '#base/api';
+import { useLocalization } from '#base/hooks';
 import { useInventoryStore } from '#base/stores';
 import { NitroButton, NitroInput } from '#themes/default';
 import { Dispatch, FC, SetStateAction, useEffect } from 'react';
@@ -8,45 +9,66 @@ export const InventoryFurnitureSearchView: FC<{
     groupItems: IGroupItem[];
     setGroupItems: Dispatch<SetStateAction<IGroupItem[]>>;
 }> = props =>
-{
-    const { groupItems = [], setGroupItems = null } = props;
-    const searchValue = useInventoryStore(state => state.furniSearchValue);
-    const setSearchValue = useInventoryStore(state => state.setFurniSearchValue);
-
-    useEffect(() =>
     {
-        if(!groupItems) return;
+        const { groupItems = [], setGroupItems = null } = props;
+        const searchValue = useInventoryStore(state => state.furniSearchValue);
+        const setSearchValue = useInventoryStore(state => state.setFurniSearchValue);
+        const translation = useLocalization();
 
-        let filteredGroupItems = [ ...groupItems ];
-
-        if(searchValue && searchValue.length)
+        const getGroupItemName = (groupItem: IGroupItem) =>
         {
-            const comparison = searchValue.toLocaleLowerCase();
+            if (!groupItem) return '';
 
-            filteredGroupItems = groupItems.filter(item =>
+            let key = '';
+
+            switch (groupItem.category)
             {
-                if(comparison && comparison.length)
-                {
-                    if(item.name.toLocaleLowerCase().includes(comparison)) return item;
-                }
+                case FurniCategoryEnum.Poster:
+                    key = (`poster_${groupItem.stuffData.getLegacyString()}_name`);
+                    break;
+                case FurniCategoryEnum.TraxSong:
+                    return 'SONG_NAME';
+                default:
+                    key = groupItem.isWallItem ? `wallItem.name.${groupItem.type}` : `roomItem.name.${groupItem.type}`;
+            }
 
-                return null;
-            });
+            return translation(key);
         }
 
-        setGroupItems(filteredGroupItems);
-    }, [ groupItems, setGroupItems, searchValue ]);
+        useEffect(() =>
+        {
+            if (!groupItems) return;
 
-    return (
-        <div className="flex gap-1">
-            <NitroInput
-                inputSize="sm"
-                placeholder={ LocalizeText('generic.search') }
-                value={ searchValue }
-                onChange={ event => setSearchValue(event.target.value) } />
-            <NitroButton>
-                <FaSearch className="fa-icon" />
-            </NitroButton>
-        </div>
-    );
-};
+            let filteredGroupItems = [...groupItems];
+
+            if (searchValue && searchValue.length)
+            {
+                const comparison = searchValue.toLocaleLowerCase();
+
+                filteredGroupItems = groupItems.filter(item =>
+                {
+                    if (comparison && comparison.length)
+                    {
+                        if (getGroupItemName(item).toLocaleLowerCase().includes(comparison)) return item;
+                    }
+
+                    return null;
+                });
+            }
+
+            setGroupItems(filteredGroupItems);
+        }, [groupItems, setGroupItems, searchValue]);
+
+        return (
+            <div className="flex gap-1">
+                <NitroInput
+                    inputSize="sm"
+                    placeholder={translation('generic.search')}
+                    value={searchValue}
+                    onChange={event => setSearchValue(event.target.value)} />
+                <NitroButton>
+                    <FaSearch className="fa-icon" />
+                </NitroButton>
+            </div>
+        );
+    };

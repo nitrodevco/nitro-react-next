@@ -1,8 +1,7 @@
 import { CatalogPricingModelType, FurniCategoryEnum, ProductTypeEnum } from '#base/api';
-import { useCatalogStore } from '#base/stores';
+import { useCatalogStore, useSessionStore } from '#base/stores';
 import { NitroRoomPreviewer } from '#themes/default';
 import { GetAvatarRenderManager, GetSessionDataManager, RoomPreviewer, Vector3d } from '@nitrodevco/nitro-renderer';
-import { useSessionStore } from '@nitrodevco/nitro-shared-storage';
 import { FC, useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 

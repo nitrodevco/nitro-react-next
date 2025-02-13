@@ -1,7 +1,6 @@
 import { IAssetManager, IAvatarFigureContainer, IAvatarImageListener } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { AvatarRenderLibraryEvent, NitroEvent, NitroEventType } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { AvatarAssetDownloadLibrary } from './AvatarAssetDownloadLibrary';
 import { AvatarStructure } from './AvatarStructure';
 
@@ -25,9 +24,9 @@ export class AvatarAssetDownloadManager
 
     public async init(): Promise<void>
     {
-        this._missingMandatoryLibs = GetConfiguration().getValue<string[]>('avatar.mandatory.libraries');
+        this._missingMandatoryLibs = GetConfigValue<string[]>('renderer.mandatoryFigureLibraries');
 
-        const url = GetConfiguration().getValue<string>('avatar.figuremap.url');
+        const url = GetConfigValue<string>('gamedata.urls.figureMap');
 
         if (!url || !url.length) throw new Error('Invalid figure map url');
 
@@ -48,7 +47,7 @@ export class AvatarAssetDownloadManager
     {
         if (!data) return;
 
-        const downloadUrl = GetConfiguration().getValue<string>('avatar.asset.url');
+        const downloadUrl = GetConfigValue<string>('asset.urls.figure');
 
         for (const library of data)
         {

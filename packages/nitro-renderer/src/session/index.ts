@@ -1,6 +1,5 @@
 export * from './badge';
 export * from './furniture';
-export * from './GetCurrentUserId';
 export * from './GetRoomSessionManager';
 export * from './GetSessionDataManager';
 export * from './GroupInformationManager';

@@ -1,5 +1,5 @@
+import { ConfigurationStore } from '@nitrodevco/nitro-shared-storage';
 import { useStore as useZustandStore } from 'zustand';
-import { ConfigurationStore } from './ConfigurationStore';
 
 type StoreState = ReturnType<typeof ConfigurationStore.getState>;
 

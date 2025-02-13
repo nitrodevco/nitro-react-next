@@ -1,4 +1,5 @@
-import { AttemptPetPlacement, IPetItem, LocalizeText, SendMessageComposer } from '#base/api';
+import { AttemptPetPlacement, IPetItem, SendMessageComposer } from '#base/api';
+import { useLocalization } from '#base/hooks/index.ts';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default';
 import { GetRoomEngine, RequestPetsComposer, RoomObjectVariable, RoomPreviewer } from '@nitrodevco/nitro-renderer';
@@ -28,6 +29,7 @@ export const InventoryPetView: FC<{
                 state.selectPetItem,
                 state.setPetNeedsUpdate
             ]));
+        const translation = useLocalization();
 
         useEffect(() =>
         {
@@ -66,7 +68,7 @@ export const InventoryPetView: FC<{
 
         const attemptPlacement = () => AttemptPetPlacement(selectedPetItem) && useVisibilityStore.setState({ inventoryVisible: false });
 
-        if (!petItems || !petItems.length) return <InventoryCategoryEmptyView desc={LocalizeText('inventory.empty.desc')} title={LocalizeText('inventory.empty.title')} />;
+        if (!petItems || !petItems.length) return <InventoryCategoryEmptyView desc={translation('inventory.empty.desc')} title={translation('inventory.empty.title')} />;
 
         return (
             <div className="grid h-full grid-cols-12 gap-2">
@@ -90,7 +92,7 @@ export const InventoryPetView: FC<{
                             <div className="flex flex-col gap-1">
                                 {!!roomSession &&
                                     <NitroButton onClick={attemptPlacement}>
-                                        {LocalizeText('inventory.furni.placetoroom')}
+                                        {translation('inventory.furni.placetoroom')}
                                     </NitroButton>}
                             </div>
                         </div>}

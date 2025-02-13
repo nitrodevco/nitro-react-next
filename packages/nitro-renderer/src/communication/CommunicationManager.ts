@@ -1,8 +1,7 @@
 import { ICommunicationManager, IConnection, IMessageConfiguration, IMessageEvent } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { NitroEventType } from '#renderer/events';
 import { GetTickerTime } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { NitroMessages } from './NitroMessages';
 import { SocketConnection } from './SocketConnection';
 import { AuthenticatedEvent, ClientHelloMessageComposer, ClientPingEvent, InfoRetrieveMessageComposer, PongMessageComposer, SSOTicketMessageComposer } from './messages';
@@ -30,10 +29,10 @@ export class CommunicationManager implements ICommunicationManager
         {
             EventStore.getState().subscribe(NitroEventType.SOCKET_OPENED, () =>
             {
-                if (GetConfiguration().getValue<boolean>('system.pong.manually', false)) this.startPong();
+                if (GetConfigValue<boolean>('socket.pongManually', false)) this.startPong();
 
                 this._connection.send(new ClientHelloMessageComposer(null, null, null, null));
-                this._connection.send(new SSOTicketMessageComposer(GetConfiguration().getValue('sso.ticket', null), GetTickerTime()));
+                this._connection.send(new SSOTicketMessageComposer(GetConfigValue('socket.ticket', ''), GetTickerTime()));
             });
 
             EventStore.getState().subscribe(NitroEventType.SOCKET_ERROR, () =>
@@ -52,7 +51,7 @@ export class CommunicationManager implements ICommunicationManager
                 event.connection.send(new InfoRetrieveMessageComposer());
             }));
 
-            this._connection.init(GetConfiguration().getValue<string>('socket.url'));
+            this._connection.init(GetConfigValue<string>('socket.url'));
         });
     }
 
@@ -60,7 +59,7 @@ export class CommunicationManager implements ICommunicationManager
     {
         if (this._pongInterval) this.stopPong();
 
-        this._pongInterval = setInterval(() => this.sendPong(), GetConfiguration().getValue<number>('system.pong.interval.ms', 20000));
+        this._pongInterval = setInterval(() => this.sendPong(), GetConfigValue<number>('socket.pongInterval', 20000));
     }
 
     protected stopPong(): void

@@ -1,10 +1,9 @@
 import { IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWallGeometry, IObjectData, IPetColorResult, IPetCustomPart, IRoomAreaSelectionManager, IRoomContentListener, IRoomContentLoader, IRoomCreator, IRoomEngine, IRoomEngineServices, IRoomGeometry, IRoomInstance, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomRenderer, IRoomRenderingCanvas, IRoomSessionManager, ISelectedRoomObjectData, ISessionDataManager, ITileObjectMap, IUpdateReceiver, IVector3D, LegacyDataType, MouseEventType, ObjectDataFactory, PetFigureData, RoomControllerLevel, RoomObjectCategory, RoomObjectUserType, RoomObjectVariable, ToolbarIconEnum } from '#renderer/api';
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '#renderer/communication';
-import { GetConfiguration } from '#renderer/configuration';
 import { BadgeImageReadyEvent, NitroToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '#renderer/events';
-import { GetCurrentUserId, GetRoomSessionManager, GetSessionDataManager } from '#renderer/session';
+import { GetRoomSessionManager, GetSessionDataManager } from '#renderer/session';
 import { FurniId, GetTickerTime, NitroLogger, NumberBank, TextureUtils, Vector3d } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue, SessionStore } from '@nitrodevco/nitro-shared-storage';
 import { Container, Matrix, Point, Rectangle, RenderTexture, Sprite, Texture, Ticker } from 'pixi.js';
 import { GetRoomContentLoader } from './GetRoomContentLoader';
 import { GetRoomManager } from './GetRoomManager';
@@ -287,7 +286,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         instance.createRoomObjectAndInitalize(RoomEngine.CURSOR_OBJECT_ID, RoomEngine.CURSOR_OBJECT_TYPE, RoomObjectCategory.CURSOR);
 
-        if (GetConfiguration().getValue('enable.avatar.arrow', false)) instance.createRoomObjectAndInitalize(RoomEngine.ARROW_OBJECT_ID, RoomEngine.ARROW_OBJECT_TYPE, RoomObjectCategory.CURSOR);
+        if (GetConfigValue('renderer.avatarArrowEnabled', false)) instance.createRoomObjectAndInitalize(RoomEngine.ARROW_OBJECT_ID, RoomEngine.ARROW_OBJECT_TYPE, RoomObjectCategory.CURSOR);
 
         return instance;
     }
@@ -359,7 +358,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public setRoomInstanceRenderingCanvasScale(roomId: number, canvasId: number, level: number, point: Point = null, offsetPoint: Point = null, isFlipForced: boolean = false, flag: boolean = false): void
     {
-        if (!GetConfiguration().getValue('room.zoom.enabled', true)) return;
+        if (!GetConfigValue<boolean>('renderer.roomZoomEnabled', true)) return;
 
         if (!flag) level = ((isFlipForced) ? -1 : ((level) < 1) ? 0.5 : Math.floor(level));
 
@@ -1534,7 +1533,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
         if (roomInstanceData) roomInstanceData.removePendingFunitureFloor(objectId);
 
-        if ((GetCurrentUserId() === userId) && !FurniId.isBuilderClubId(objectId))
+        if ((SessionStore.getState().userId === userId) && !FurniId.isBuilderClubId(objectId))
         {
             const roomObject = this.getRoomObject(roomId, objectId, RoomObjectCategory.FLOOR);
 
@@ -1584,7 +1583,7 @@ export class RoomEngine implements IRoomEngine, IRoomCreator, IRoomEngineService
 
     public removeRoomObjectWall(roomId: number, objectId: number, userId: number = -1): void
     {
-        if ((GetCurrentUserId() === userId) && !FurniId.isBuilderClubId(objectId))
+        if ((SessionStore.getState().userId === userId) && !FurniId.isBuilderClubId(objectId))
         {
             const roomObject = this.getRoomObject(roomId, objectId, RoomObjectCategory.WALL);
 

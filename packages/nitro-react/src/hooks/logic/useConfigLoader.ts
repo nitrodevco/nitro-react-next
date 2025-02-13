@@ -1,9 +1,10 @@
-import { useConfigSync } from '#base/hooks';
-import { useConfigurationStore } from '@nitrodevco/nitro-shared-storage';
-import { FC, PropsWithChildren, useEffect } from 'react';
+import { useConfigurationStore } from '#base/stores';
+import { useEffect, useState } from 'react';
+import { useConfigSync } from '../utils';
 
-export const NitroConfig: FC<PropsWithChildren> = props =>
+export const useConfigLoader = () =>
 {
+    const [isConfigReady, setConfigReady] = useState(false);
     const setConfig = useConfigurationStore(state => state.setConfig);
     const configNeedsUpdate = useConfigurationStore(state => state.configNeedsUpdate);
 
@@ -83,46 +84,54 @@ export const NitroConfig: FC<PropsWithChildren> = props =>
         return unflatten;
     }
 
-    const loadUrl = async (url: string) =>
-    {
-        try
-        {
-            if (!url || !url.length) throw new Error('invalid_url');
-
-            const response = await fetch(url);
-
-            let data = await response.json() as Record<string, any>;
-
-            return data;
-        }
-
-        catch (error)
-        {
-            console.error(`Trouble loading the configuration using: ${url}`, error.message);
-        }
-    };
-
     useEffect(() =>
     {
         if (!window.NitroConfig) throw new Error('NitroConfig is not defined!');
 
-        let url = window.NitroConfig['nitro.config.url'];
+        let urls: string[] = [];
 
-        if (!url || !url.length) url = './nitro-config.json';
-
-        const load = async () =>
+        if (Array.isArray(window.NitroConfig['nitro.config.url']))
         {
-            let config = await loadUrl(url);
-
-            if (!config) return;
-
-            setConfig(processJson({ ...config, ...window.NitroConfig }));
+            window.NitroConfig['nitro.config.url'].forEach((url: string) => urls.push(url));
+        }
+        else
+        {
+            urls.push(window.NitroConfig['nitro.config.url']);
         }
 
-        load();
+        const load = async (urls: string[]) =>
+        {
+            let data: Record<string, any> = {};
+
+            for (const url of urls)
+            {
+                try
+                {
+                    const response = await fetch(url);
+                    const responseData = await response.json() as Record<string, any>;
+
+                    data = { ...data, ...responseData };
+                }
+
+                catch (err)
+                {
+                    console.error(`Trouble loading the configuration using: ${url}`, err.message);
+                }
+            }
+
+            const dataToProcess = { ...data, ...window.NitroConfig };
+            const urlParams = new URLSearchParams(window.location.search);
+
+            if (urlParams.size > 0) urlParams.forEach((value, key) => dataToProcess[key] = value);
+
+            setConfig(processJson(dataToProcess));
+            setConfigReady(true);
+        }
+
+        load(urls);
     }, [configNeedsUpdate]);
 
     useConfigSync();
 
-    return props.children;
+    return { isConfigReady };
 }

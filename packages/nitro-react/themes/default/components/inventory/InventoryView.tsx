@@ -1,5 +1,5 @@
-import { LocalizeText, TradeStateEnum, UnseenItemCategoryEnum } from '#base/api';
-import { useRoomPreviewer } from '#base/hooks';
+import { TradeStateEnum, UnseenItemCategoryEnum } from '#base/api';
+import { useLocalization, useRoomPreviewer } from '#base/hooks';
 import { useInventoryStore, useVisibilityStore } from '#base/stores';
 import { NitroCard } from '#themes/default';
 import { FC, useEffect } from 'react';
@@ -50,6 +50,7 @@ export const InventoryView: FC = props =>
             state.resetUnseenCategory
         ]));
     const { roomPreviewer = null } = useRoomPreviewer();
+    const translation = useLocalization();
 
     useEffect(() =>
     {
@@ -64,36 +65,36 @@ export const InventoryView: FC = props =>
             className="w-inventory-w h-inventory-h min-w-inventory-w min-h-inventory-h"
             uniqueKey="inventory">
             <NitroCard.Header
-                headerText={ LocalizeText('inventory.title') }
-                onCloseClick={ event =>
-                    {
-                        // if(isTrading) stopTrading();
-                
-                        useVisibilityStore.setState({ inventoryVisible: false });
-                    } } />
-            { (tradeState === TradeStateEnum.Ready) &&
+                headerText={translation('inventory.title')}
+                onCloseClick={event =>
+                {
+                    // if(isTrading) stopTrading();
+
+                    useVisibilityStore.setState({ inventoryVisible: false });
+                }} />
+            {(tradeState === TradeStateEnum.Ready) &&
                 <>
                     <NitroCard.Tabs>
-                        { TABS.map((component, index) =>
+                        {TABS.map((component, index) =>
                         {
                             return (
                                 <NitroCard.TabItem
-                                    key={ index }
-                                    count={ unseenItems.get(TABS[index]?.unseenCategory)?.length ?? 0 }
-                                    isActive={ (currentTabIndex === index) }
-                                    onClick={ event => setCurrentTabIndex(index) }>
-                                    { LocalizeText(TABS[index]?.name ?? '') }
+                                    key={index}
+                                    count={unseenItems.get(TABS[index]?.unseenCategory)?.length ?? 0}
+                                    isActive={(currentTabIndex === index)}
+                                    onClick={event => setCurrentTabIndex(index)}>
+                                    {translation(TABS[index]?.name ?? '')}
                                 </NitroCard.TabItem>
                             );
-                        }) }
+                        })}
                     </NitroCard.Tabs>
                     <NitroCard.Content>
                         <InventoryCurrentTabComponent
-                            currentTabIndex={ currentTabIndex }
-                            tabs={ TABS }
-                            roomPreviewer={ roomPreviewer } />
+                            currentTabIndex={currentTabIndex}
+                            tabs={TABS}
+                            roomPreviewer={roomPreviewer} />
                     </NitroCard.Content>
-                </> }
+                </>}
             {/* { isTrading &&
                 <NitroCard.Content>
                     <InventoryTradeView cancelTrade={ onClose } />

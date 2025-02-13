@@ -1,6 +1,5 @@
 import { FurnitureType, IFurnitureData } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
-import { GetLocalizationManager } from '#renderer/localization';
+import { GetConfigValue, LocalizationStore } from '@nitrodevco/nitro-shared-storage';
 import { FurnitureData } from './FurnitureData';
 
 export class FurnitureDataLoader
@@ -16,7 +15,7 @@ export class FurnitureDataLoader
 
     public async init(): Promise<void>
     {
-        const url = GetConfiguration().getValue<string>('furnidata.url');
+        const url = GetConfigValue<string>('gamedata.urls.furniData', '');
 
         if (!url || !url.length) throw new Error('invalid furni data url');
 
@@ -29,6 +28,8 @@ export class FurnitureDataLoader
         if (responseData.roomitemtypes) this.parseFloorItems(responseData.roomitemtypes);
 
         if (responseData.wallitemtypes) this.parseWallItems(responseData.wallitemtypes);
+
+        this.updateLocalizations([...this._floorItems.values(), ...this._wallItems.values()]);
     }
 
     private parseFloorItems(data: any): void
@@ -68,8 +69,6 @@ export class FurnitureDataLoader
             const furnitureData = new FurnitureData(FurnitureType.FLOOR, furniture.id, furniture.classname, className, furniture.category, furniture.name, furniture.description, furniture.revision, furniture.xdim, furniture.ydim, 0, colors, hasColorIndex, colorIndex, furniture.adurl, furniture.offerid, furniture.buyout, furniture.rentofferid, furniture.rentbuyout, furniture.bc, furniture.customparams, furniture.specialtype, furniture.canstandon, furniture.cansiton, furniture.canlayon, furniture.excludeddynamic, furniture.furniline, furniture.environment, furniture.rare);
 
             this._floorItems.set(furnitureData.id, furnitureData);
-
-            this.updateLocalizations(furnitureData);
         }
     }
 
@@ -84,23 +83,31 @@ export class FurnitureDataLoader
             const furnitureData = new FurnitureData(FurnitureType.WALL, furniture.id, furniture.classname, furniture.classname, furniture.category, furniture.name, furniture.description, furniture.revision, 0, 0, 0, null, false, 0, furniture.adurl, furniture.offerid, furniture.buyout, furniture.rentofferid, furniture.rentbuyout, furniture.bc, null, furniture.specialtype, false, false, false, furniture.excludeddynamic, furniture.furniline, furniture.environment, furniture.rare);
 
             this._wallItems.set(furnitureData.id, furnitureData);
-
-            this.updateLocalizations(furnitureData);
         }
     }
 
-    private updateLocalizations(furniture: FurnitureData): void
+    private updateLocalizations(furnitureDatas: IFurnitureData[]): void
     {
-        switch (furniture.type)
+        const localizations: { [key: string]: string } = {};
+
+        furnitureDatas.forEach(furnitureData =>
         {
-            case FurnitureType.FLOOR:
-                GetLocalizationManager().setValue(('roomItem.name.' + furniture.id), furniture.name);
-                GetLocalizationManager().setValue(('roomItem.desc.' + furniture.id), furniture.description);
-                return;
-            case FurnitureType.WALL:
-                GetLocalizationManager().setValue(('wallItem.name.' + furniture.id), furniture.name);
-                GetLocalizationManager().setValue(('wallItem.desc.' + furniture.id), furniture.description);
-                return;
-        }
+            if (furnitureData.type === FurnitureType.FLOOR)
+            {
+                localizations['roomItem.name.' + furnitureData.id] = furnitureData.name;
+                localizations['roomItem.desc.' + furnitureData.id] = furnitureData.description;
+            }
+
+            else if (furnitureData.type === FurnitureType.WALL)
+            {
+                localizations['wallItem.name.' + furnitureData.id] = furnitureData.name;
+                localizations['wallItem.desc.' + furnitureData.id] = furnitureData.description;
+            }
+        });
+
+        LocalizationStore.setState(state =>
+        {
+            return { localization: { ...state.localization, ...localizations } };
+        });
     }
 }

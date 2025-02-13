@@ -1,7 +1,6 @@
 import { IAssetManager, IAvatarEffectListener } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { AvatarRenderEffectLibraryEvent, NitroEvent, NitroEventType } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { AvatarStructure } from './AvatarStructure';
 import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
 
@@ -25,9 +24,9 @@ export class EffectAssetDownloadManager
 
     public async init(): Promise<void>
     {
-        this._missingMandatoryLibs = GetConfiguration().getValue<string[]>('avatar.mandatory.effect.libraries');
+        this._missingMandatoryLibs = GetConfigValue<string[]>('renderer.mandatoryEffectLibraries');
 
-        const url = GetConfiguration().getValue<string>('avatar.effectmap.url');
+        const url = GetConfigValue<string>('gamedata.urls.effectMap', '');
 
         if (!url || !url.length) throw new Error('Invalid effect map url');
 
@@ -48,7 +47,7 @@ export class EffectAssetDownloadManager
     {
         if (!data) return;
 
-        const downloadUrl = GetConfiguration().getValue<string>('avatar.asset.effect.url');
+        const downloadUrl = GetConfigValue<string>('asset.urls.effect');
 
         for (const effect of data)
         {

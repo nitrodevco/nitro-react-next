@@ -1,8 +1,7 @@
 import { IAdvancedMap, IMusicController, INitroEvent, ISoundManager } from '#renderer/api';
-import { GetConfiguration } from '#renderer/configuration';
 import { NitroSettingsEvent, NitroSoundEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomEngineSamplePlaybackEvent } from '#renderer/events';
 import { AdvancedMap, NitroLogger } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { MusicController } from './music/MusicController';
 
 export class SoundManager implements ISoundManager
@@ -97,7 +96,7 @@ export class SoundManager implements ISoundManager
 
         if (!sample)
         {
-            const sampleUrl = GetConfiguration().getValue<string>('sounds.url');
+            const sampleUrl = GetConfigValue<string>('asset.urls.sound');
 
             sample = new Audio(sampleUrl.replace('%sample%', code));
             this._internalSamples.add(code, sample);
@@ -112,7 +111,7 @@ export class SoundManager implements ISoundManager
 
         if (!sample)
         {
-            const sampleUrl = GetConfiguration().getValue<string>('external.samples.url');
+            const sampleUrl = GetConfigValue<string>('asset.urls.soundSamples');
 
             sample = new Audio(sampleUrl.replace('%sample%', code.toString()));
             this._furniSamples.add(code, sample);

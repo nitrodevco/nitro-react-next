@@ -1,5 +1,5 @@
+import { EventStore } from '@nitrodevco/nitro-shared-storage';
 import { useStore as useZustandStore } from 'zustand';
-import { EventStore } from './EventStore';
 
 type StoreState = ReturnType<typeof EventStore.getState>;
 

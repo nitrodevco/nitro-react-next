@@ -1,5 +1,5 @@
+import { useConfigurationStore, useSessionStore } from '#base/stores';
 import { AccountSafetyLockStatusChangeMessageEvent, AccountSafetyLockStatusChangeParser, ChangeUserNameResultMessageEvent, EmailStatusResultEvent, FigureUpdateEvent, NoobnessLevelEnum, NoobnessLevelMessageEvent, PetScratchFailedMessageEvent, UserInfoEvent, UserNameChangeMessageEvent, UserPermissionsEvent, UserTagsMessageEvent } from '@nitrodevco/nitro-renderer';
-import { useConfigurationStore, useSessionStore } from '@nitrodevco/nitro-shared-storage';
 import { useShallow } from 'zustand/shallow';
 import { useMessageEvent } from '../events';
 
