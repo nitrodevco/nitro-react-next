@@ -1,0 +1,15 @@
+{
+    "name": "@nitrodevco/nitro-packets",
+    "main": "./src",
+    "devDependencies": {
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "@nitrodevco/nitro-shared": "workspace:*"
+    },
+    "imports": {
+        "#packets/*": [
+            "./src/*"
+        ]
+    }
+}
