@@ -1,7 +1,7 @@
 import { IConnection, IRoomHandlerListener } from '#renderer/api';
 import { PollContentsEvent, PollErrorEvent, PollOfferEvent, RoomPollResultEvent, StartRoomPollEvent } from '#renderer/communication';
 import { RoomSessionPollEvent, RoomSessionVoteEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class PollHandler extends BaseHandler

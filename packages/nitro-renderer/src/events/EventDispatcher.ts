@@ -1,5 +1,5 @@
 import { IEventDispatcher, INitroEvent } from '#renderer/api';
-import { NitroLogger } from '#renderer/utils';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 
 export class EventDispatcher implements IEventDispatcher
 {

@@ -1,5 +1,5 @@
 import { useConfigValue } from '#base/hooks';
-import { NitroLogger } from '@nitrodevco/nitro-renderer';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 import { DetailedHTMLProps, FC, HTMLAttributes } from 'react';
 import { NitroImage } from './NitroImage';
 

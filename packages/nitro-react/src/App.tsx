@@ -1,5 +1,6 @@
 import { DefaultTheme, LoadingView } from '#themes/default';
-import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, NitroLogger, PrepareRenderer } from '@nitrodevco/nitro-renderer';
+import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, PrepareRenderer } from '@nitrodevco/nitro-renderer';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
 import { useConfigValue, useLocalizationLoader } from './hooks';

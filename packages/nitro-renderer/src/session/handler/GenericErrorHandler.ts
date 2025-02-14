@@ -1,7 +1,7 @@
 import { GenericErrorEnum, IConnection, IRoomHandlerListener } from '#renderer/api';
 import { GenericErrorEvent } from '#renderer/communication';
 import { RoomSessionErrorMessageEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class GenericErrorHandler extends BaseHandler

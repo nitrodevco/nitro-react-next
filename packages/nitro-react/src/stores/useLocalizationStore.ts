@@ -1,4 +1,4 @@
-import { LocalizationStore } from '@nitrodevco/nitro-shared-storage';
+import { LocalizationStore } from '@nitrodevco/nitro-shared';
 import { useStore as useZustandStore } from 'zustand';
 
 type StoreState = ReturnType<typeof LocalizationStore.getState>;

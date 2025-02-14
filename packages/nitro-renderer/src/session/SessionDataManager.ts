@@ -2,7 +2,7 @@ import { IFurnitureData, IGroupInformationManager, IMessageComposer, ISessionDat
 import { AvailabilityStatusMessageEvent, GetCommunication, GetUserTagsComposer, InClientLinkEvent, MysteryBoxKeysEvent, RoomReadyMessageEvent, RoomUnitChatComposer } from '#renderer/communication';
 import { MysteryBoxKeysUpdateEvent, NitroSettingsEvent, SessionDataPreferencesEvent } from '#renderer/events';
 import { CreateLinkEvent, HabboWebTools } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { Texture } from 'pixi.js';
 import { GroupInformationManager } from './GroupInformationManager';
 import { IgnoredUsersManager } from './IgnoredUsersManager';

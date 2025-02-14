@@ -1,7 +1,7 @@
 import { IConnection, IRoomHandlerListener } from '#renderer/api';
 import { GetGuestRoomResultEvent } from '#renderer/communication';
 import { RoomSessionEvent, RoomSessionPropertyUpdateEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class RoomDataHandler extends BaseHandler

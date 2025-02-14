@@ -1,7 +1,6 @@
 import { ICodec, IConnection, IMessageComposer, IMessageConfiguration, IMessageDataWrapper, IMessageEvent, WebSocketEventEnum } from '#renderer/api';
 import { NitroEvent, NitroEventType } from '#renderer/events';
-import { NitroLogger } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, NitroLogger } from '@nitrodevco/nitro-shared';
 import { EvaWireFormat } from './codec';
 import { MessageClassManager } from './messages';
 

@@ -1,0 +1,15 @@
+{
+    "name": "@nitrodevco/nitro-shared",
+    "main": "./src",
+    "devDependencies": {
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "zustand": "^5.0.3"
+    },
+    "imports": {
+        "#shared/*": [
+            "./src/*"
+        ]
+    }
+}

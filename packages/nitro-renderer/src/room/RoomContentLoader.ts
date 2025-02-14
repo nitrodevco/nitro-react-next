@@ -2,8 +2,7 @@ import { FurnitureType, IEventDispatcher, IFurnitureData, IGraphicAssetCollectio
 import { GetAssetManager } from '#renderer/assets';
 import { RoomContentLoadedEvent } from '#renderer/events';
 import { GetSessionDataManager } from '#renderer/session';
-import { NitroLogger } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue, NitroLogger } from '@nitrodevco/nitro-shared';
 import { Texture } from 'pixi.js';
 import { PetColorResult } from './PetColorResult';
 

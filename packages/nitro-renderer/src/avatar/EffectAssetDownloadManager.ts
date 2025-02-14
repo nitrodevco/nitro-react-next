@@ -1,6 +1,6 @@
 import { IAssetManager, IAvatarEffectListener } from '#renderer/api';
 import { AvatarRenderEffectLibraryEvent, NitroEvent, NitroEventType } from '#renderer/events';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared';
 import { AvatarStructure } from './AvatarStructure';
 import { EffectAssetDownloadLibrary } from './EffectAssetDownloadLibrary';
 

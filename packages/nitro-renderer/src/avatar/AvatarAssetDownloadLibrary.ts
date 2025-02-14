@@ -1,6 +1,6 @@
 import { IAssetManager, IAvatarAssetDownloadLibrary } from '#renderer/api';
 import { AvatarRenderLibraryEvent, NitroEventType } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 
 export class AvatarAssetDownloadLibrary implements IAvatarAssetDownloadLibrary
 {

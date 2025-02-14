@@ -1,7 +1,7 @@
 import { IAdvancedMap, IMusicController, INitroEvent, ISoundManager } from '#renderer/api';
 import { NitroSettingsEvent, NitroSoundEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomEngineSamplePlaybackEvent } from '#renderer/events';
-import { AdvancedMap, NitroLogger } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { AdvancedMap } from '#renderer/utils';
+import { EventStore, GetConfigValue, NitroLogger } from '@nitrodevco/nitro-shared';
 import { MusicController } from './music/MusicController';
 
 export class SoundManager implements ISoundManager

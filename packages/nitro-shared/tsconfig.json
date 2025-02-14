@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "target": "ES2022",
         "lib": [
             "ES2022",
@@ -20,6 +20,15 @@
         "strict": false,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": false,
+        "paths": {
+            "#shared/*": [
+                "src/*"
+            ]
+        },
+        "rootDirs": [
+            "src",
+            "themes"
+        ]
     },
     "exclude": [
         "node_modules",

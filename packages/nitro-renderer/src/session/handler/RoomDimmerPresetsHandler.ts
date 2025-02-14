@@ -1,7 +1,7 @@
 ﻿import { IConnection, IRoomHandlerListener } from '#renderer/api';
 import { RoomDimmerPresetsEvent } from '#renderer/communication';
 import { RoomSessionDimmerPresetsEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class RoomDimmerPresetsHandler extends BaseHandler

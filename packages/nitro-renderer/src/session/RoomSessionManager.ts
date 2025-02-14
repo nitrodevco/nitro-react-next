@@ -1,7 +1,7 @@
 import { IRoomHandlerListener, IRoomSession, IRoomSessionManager } from '#renderer/api';
 import { GetCommunication } from '#renderer/communication';
 import { RoomSessionEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { RoomSession } from './RoomSession';
 import { BaseHandler, GenericErrorHandler, PetPackageHandler, PollHandler, RoomChatHandler, RoomDataHandler, RoomDimmerPresetsHandler, RoomPermissionsHandler, RoomPresentHandler, RoomSessionHandler, RoomUsersHandler, WordQuizHandler } from './handler';
 

@@ -2,8 +2,8 @@ import { IFurnitureStackingHeightMap, IGetImageListener, IImageResult, ILegacyWa
 import { GetCommunication, RenderRoomMessageComposer, RenderRoomThumbnailMessageComposer } from '#renderer/communication';
 import { BadgeImageReadyEvent, NitroToolbarAnimateIconEvent, RoomBackgroundColorEvent, RoomDragEvent, RoomEngineAreaHideStateEvent, RoomEngineEvent, RoomEngineObjectEvent, RoomObjectEvent, RoomObjectFurnitureActionEvent, RoomObjectMouseEvent, RoomSessionEvent, RoomToObjectOwnAvatarMoveEvent } from '#renderer/events';
 import { GetRoomSessionManager, GetSessionDataManager } from '#renderer/session';
-import { FurniId, GetTickerTime, NitroLogger, NumberBank, TextureUtils, Vector3d } from '#renderer/utils';
-import { EventStore, GetConfigValue, SessionStore } from '@nitrodevco/nitro-shared-storage';
+import { FurniId, GetTickerTime, NumberBank, TextureUtils, Vector3d } from '#renderer/utils';
+import { EventStore, GetConfigValue, NitroLogger, SessionStore } from '@nitrodevco/nitro-shared';
 import { Container, Matrix, Point, Rectangle, RenderTexture, Sprite, Texture, Ticker } from 'pixi.js';
 import { GetRoomContentLoader } from './GetRoomContentLoader';
 import { GetRoomManager } from './GetRoomManager';

@@ -1,5 +1,5 @@
 ﻿import { IRoomObject, ITileObjectMap, RoomObjectVariable } from '#renderer/api';
-import { NitroLogger } from '#renderer/utils';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 
 export class TileObjectMap implements ITileObjectMap
 {

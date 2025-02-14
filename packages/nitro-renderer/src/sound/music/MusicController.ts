@@ -2,7 +2,7 @@ import { IAdvancedMap, IMusicController, IPlaylistController, ISongInfo } from '
 import { GetCommunication, GetNowPlayingMessageComposer, GetSongInfoMessageComposer, GetUserSongDisksMessageComposer, TraxSongInfoMessageEvent, UserSongDisksInventoryMessageEvent } from '#renderer/communication';
 import { NotifyPlayedSongEvent, NowPlayingEvent, RoomObjectSoundMachineEvent, SongDiskInventoryReceivedEvent, SongInfoReceivedEvent, SoundManagerEvent } from '#renderer/events';
 import { AdvancedMap } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared';
 import { GetSoundManager } from '../GetSoundManager';
 import { SongDataEntry, SongStartRequestData } from '../common';
 import { TraxData } from '../trax/TraxData';

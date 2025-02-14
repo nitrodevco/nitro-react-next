@@ -1,6 +1,6 @@
 import { IRoomAreaSelectionManager, IRoomEngine, IRoomObject } from '#renderer/api';
 import { RoomEngineObjectEvent, RoomObjectMouseEvent, RoomObjectTileMouseEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { ColorMatrixFilter } from 'pixi.js';
 import { FurnitureVisualization, RoomVisualization } from '../object';
 

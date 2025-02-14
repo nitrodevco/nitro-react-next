@@ -1,7 +1,6 @@
 import { IGraphicAssetCollection, IRoomInstance, IRoomInstanceContainer, IRoomManager, IRoomManagerListener, IRoomObject, IRoomObjectController, IRoomObjectManager } from '#renderer/api';
 import { RoomContentLoadedEvent } from '#renderer/events';
-import { NitroLogger } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, NitroLogger } from '@nitrodevco/nitro-shared';
 import { GetRoomContentLoader } from './GetRoomContentLoader';
 import { GetRoomObjectLogicFactory } from './GetRoomObjectLogicFactory';
 import { GetRoomObjectVisualizationFactory } from './GetRoomObjectVisualizationFactory';

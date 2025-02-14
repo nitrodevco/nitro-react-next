@@ -1,7 +1,7 @@
 import { IConnection, IRoomHandlerListener } from '#renderer/api';
 import { GetCommunication, OpenPetPackageRequestedMessageEvent, OpenPetPackageResultMessageEvent } from '#renderer/communication';
 import { RoomSessionPetPackageEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class PetPackageHandler extends BaseHandler

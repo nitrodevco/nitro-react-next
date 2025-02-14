@@ -1,7 +1,7 @@
 import { AvatarSetType, IAssetManager, IAvatarEffectListener, IAvatarFigureContainer, IAvatarImage, IAvatarImageListener, IAvatarRenderManager, IFigureData, IFigurePartSet, IGraphicAsset, IStructureData } from '#renderer/api';
 import { GetAssetManager } from '#renderer/assets';
 import { NitroEventType } from '#renderer/events';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared';
 import { AvatarAssetDownloadManager } from './AvatarAssetDownloadManager';
 import { AvatarFigureContainer } from './AvatarFigureContainer';
 import { AvatarImage } from './AvatarImage';

@@ -1,5 +1,6 @@
 import { IAdvancedMap, IParticleSystem, RoomObjectVariable } from '#renderer/api';
-import { AdvancedMap, NitroLogger } from '#renderer/utils';
+import { AdvancedMap } from '#renderer/utils';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 import { FurnitureAnimatedVisualization } from './FurnitureAnimatedVisualization';
 import { FurnitureParticleSystem } from './FurnitureParticleSystem';
 

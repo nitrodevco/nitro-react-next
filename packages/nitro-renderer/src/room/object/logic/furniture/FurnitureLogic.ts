@@ -1,7 +1,7 @@
 import { IAssetData, IRoomGeometry, IRoomObjectController, IRoomObjectModel, IVector3D, MouseEventType, RoomObjectVariable } from '#renderer/api';
 import { RoomObjectMouseEvent, RoomObjectRoomAdEvent, RoomObjectStateChangedEvent, RoomObjectWidgetRequestEvent, RoomSpriteMouseEvent } from '#renderer/events';
 import { Vector3d } from '#renderer/utils';
-import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { GetConfigValue } from '../../../../../../nitro-shared/src';
 import { ObjectDataUpdateMessage, ObjectHeightUpdateMessage, ObjectItemDataUpdateMessage, ObjectMoveUpdateMessage, ObjectSelectedMessage, RoomObjectUpdateMessage } from '../../../messages';
 import { MovingObjectLogic } from '../MovingObjectLogic';
 

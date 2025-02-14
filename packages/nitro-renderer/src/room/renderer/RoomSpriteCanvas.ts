@@ -1,7 +1,7 @@
 import { IRoomCanvasMouseListener, IRoomGeometry, IRoomObject, IRoomObjectSprite, IRoomObjectSpriteVisualization, IRoomRenderingCanvas, IRoomSpriteCanvasContainer, IRoomSpriteMouseEvent, MouseEventType, RoomObjectSpriteData, RoomObjectSpriteType } from '#renderer/api';
 import { RoomSpriteMouseEvent } from '#renderer/events';
 import { GetTicker, TextureUtils, Vector3d } from '#renderer/utils';
-import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { GetConfigValue } from '@nitrodevco/nitro-shared';
 import { Container, Matrix, Point, Rectangle, Sprite, Texture } from 'pixi.js';
 import { RoomEnterEffect, RoomGeometry, RoomRotatingEffect, RoomShakingEffect } from '../utils';
 import { RoomObjectCache, RoomObjectCacheItem } from './cache';

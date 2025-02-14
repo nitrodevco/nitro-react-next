@@ -1,5 +1,5 @@
 import { FurnitureType, IFurnitureData } from '#renderer/api';
-import { GetConfigValue, LocalizationStore } from '@nitrodevco/nitro-shared-storage';
+import { GetConfigValue, LocalizationStore } from '@nitrodevco/nitro-shared';
 import { FurnitureData } from './FurnitureData';
 
 export class FurnitureDataLoader

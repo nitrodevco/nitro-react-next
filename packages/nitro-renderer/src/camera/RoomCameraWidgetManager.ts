@@ -2,7 +2,7 @@ import { IRoomCameraWidgetEffect, IRoomCameraWidgetManager, IRoomCameraWidgetSel
 import { GetAssetManager } from '#renderer/assets';
 import { RoomCameraWidgetManagerEvent } from '#renderer/events';
 import { TextureUtils } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared';
 import { BLEND_MODES, ColorMatrix, ColorMatrixFilter, Container, Filter, Sprite, Texture } from 'pixi.js';
 import { RoomCameraWidgetEffect } from './RoomCameraWidgetEffect';
 

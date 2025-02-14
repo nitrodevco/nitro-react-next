@@ -1,7 +1,7 @@
 import { IConnection, IRoomHandlerListener, IRoomUserData } from '#renderer/api';
 import { BotErrorEvent, ConfirmBreedingRequestEvent, ConfirmBreedingResultEvent, DoorbellMessageEvent, FavoriteMembershipUpdateMessageEvent, NestBreedingSuccessEvent, NewFriendRequestEvent, PetBreedingMessageEvent, PetBreedingResultEvent, PetFigureUpdateEvent, PetInfoEvent, PetLevelUpdateMessageEvent, PetPlacingErrorEvent, PetStatusUpdateEvent, RoomUnitDanceEvent, RoomUnitEvent, RoomUnitInfoEvent, RoomUnitRemoveEvent, UserCurrentBadgesEvent, UserNameChangeMessageEvent } from '#renderer/communication';
 import { RoomSessionConfirmPetBreedingEvent, RoomSessionConfirmPetBreedingResultEvent, RoomSessionDanceEvent, RoomSessionDoorbellEvent, RoomSessionErrorMessageEvent, RoomSessionFavoriteGroupUpdateEvent, RoomSessionFriendRequestEvent, RoomSessionNestBreedingSuccessEvent, RoomSessionPetBreedingEvent, RoomSessionPetBreedingResultEvent, RoomSessionPetFigureUpdateEvent, RoomSessionPetInfoUpdateEvent, RoomSessionPetLevelUpdateEvent, RoomSessionPetStatusUpdateEvent, RoomSessionUserBadgesEvent, RoomSessionUserDataUpdateEvent, RoomSessionUserFigureUpdateEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { RoomPetData } from '../RoomPetData';
 import { RoomUserData } from '../RoomUserData';
 import { BaseHandler } from './BaseHandler';

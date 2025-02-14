@@ -1,8 +1,8 @@
 import { GetAssetManager } from '#renderer/assets';
 import { GetCommunication, GroupBadgePartsEvent } from '#renderer/communication';
 import { BadgeImageReadyEvent } from '#renderer/events';
-import { NitroLogger, TextureUtils } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { TextureUtils } from '#renderer/utils';
+import { EventStore, GetConfigValue, NitroLogger } from '@nitrodevco/nitro-shared';
 import { Container, Sprite, Texture } from 'pixi.js';
 import { BadgeInfo } from './BadgeInfo';
 import { GroupBadge } from './GroupBadge';

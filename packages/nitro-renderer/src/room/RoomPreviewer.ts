@@ -2,7 +2,7 @@ import { IGetImageListener, IImageResult, IObjectData, IRoomEngine, IRoomObjectC
 import { FloorHeightMapMessageParser, RoomEntryTileMessageParser } from '#renderer/communication';
 import { RoomEngineEvent, RoomEngineObjectEvent } from '#renderer/events';
 import { GetTickerTime, RoomId, Vector3d } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { Container, Point, Rectangle, Sprite, Texture } from 'pixi.js';
 import { RoomEngine } from './RoomEngine';
 import { ObjectRoomMapUpdateMessage } from './messages';

@@ -1,7 +1,7 @@
 import { ICommunicationManager, IConnection, IMessageConfiguration, IMessageEvent } from '#renderer/api';
 import { NitroEventType } from '#renderer/events';
 import { GetTickerTime } from '#renderer/utils';
-import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, GetConfigValue } from '@nitrodevco/nitro-shared';
 import { NitroMessages } from './NitroMessages';
 import { SocketConnection } from './SocketConnection';
 import { AuthenticatedEvent, ClientHelloMessageComposer, ClientPingEvent, InfoRetrieveMessageComposer, PongMessageComposer, SSOTicketMessageComposer } from './messages';

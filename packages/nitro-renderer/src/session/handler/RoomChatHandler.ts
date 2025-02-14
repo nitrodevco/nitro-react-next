@@ -1,7 +1,7 @@
 import { IConnection, IRoomHandlerListener, SystemChatStyleEnum } from '#renderer/api';
 import { FloodControlEvent, PetRespectNoficationEvent, PetSupplementTypeEnum, PetSupplementedNotificationEvent, RemainingMuteEvent, RespectReceivedEvent, RoomUnitChatEvent, RoomUnitChatShoutEvent, RoomUnitChatWhisperEvent, RoomUnitHandItemReceivedEvent } from '#renderer/communication';
 import { RoomSessionChatEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { BaseHandler } from './BaseHandler';
 
 export class RoomChatHandler extends BaseHandler

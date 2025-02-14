@@ -1,6 +1,5 @@
 import { SoundManagerEvent } from '#renderer/events';
-import { NitroLogger } from '#renderer/utils';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore, NitroLogger } from '@nitrodevco/nitro-shared';
 import { Howl, Howler } from 'howler';
 import { TraxData } from '../trax/TraxData';
 

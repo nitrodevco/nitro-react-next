@@ -1,7 +1,7 @@
 import { IMessageEvent, IPlaylistController, ISongInfo } from '#renderer/api';
 import { GetCommunication, GetJukeboxPlayListMessageComposer, JukeboxPlayListFullMessageEvent, JukeboxSongDisksMessageEvent, NowPlayingMessageEvent } from '#renderer/communication';
 import { NowPlayingEvent, PlayListStatusEvent, SongInfoReceivedEvent } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 import { GetSoundManager } from '../GetSoundManager';
 import { SongDataEntry } from '../common';
 import { MusicPriorities } from './MusicPriorities';

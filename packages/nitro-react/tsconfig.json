@@ -36,7 +36,6 @@
     "exclude": [
         "node_modules",
         "public",
-        "eslint.config.mjs",
         "postcss.config.mjs",
         "tailwind.config.mjs",
         "vite.config.mjs"

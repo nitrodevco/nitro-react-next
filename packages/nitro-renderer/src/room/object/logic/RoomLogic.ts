@@ -1,8 +1,8 @@
 import { IRoomGeometry, IRoomObjectModel, MouseEventType, RoomObjectVariable } from '#renderer/api';
 import { RoomObjectEvent, RoomObjectMouseEvent, RoomObjectTileMouseEvent, RoomObjectWallMouseEvent, RoomSpriteMouseEvent } from '#renderer/events';
 import { ColorConverter, Vector3d } from '#renderer/utils';
-import { GetConfigValue } from '@nitrodevco/nitro-shared-storage';
 import { Point } from 'pixi.js';
+import { GetConfigValue } from '../../../../../nitro-shared/src';
 import { ObjectRoomColorUpdateMessage, ObjectRoomFloorHoleUpdateMessage, ObjectRoomMapUpdateMessage, ObjectRoomMaskUpdateMessage, ObjectRoomPlanePropertyUpdateMessage, ObjectRoomPlaneVisibilityUpdateMessage, ObjectRoomUpdateMessage, RoomObjectUpdateMessage } from '../../messages';
 import { RoomMapData } from '../RoomMapData';
 import { RoomPlaneBitmapMaskData } from '../RoomPlaneBitmapMaskData';

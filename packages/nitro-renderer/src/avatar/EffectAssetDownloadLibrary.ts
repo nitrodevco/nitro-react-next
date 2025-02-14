@@ -1,6 +1,6 @@
 import { IAssetAnimation, IAssetManager, IEffectAssetDownloadLibrary } from '#renderer/api';
 import { AvatarRenderEffectLibraryEvent, NitroEventType } from '#renderer/events';
-import { EventStore } from '@nitrodevco/nitro-shared-storage';
+import { EventStore } from '@nitrodevco/nitro-shared';
 
 export class EffectAssetDownloadLibrary implements IEffectAssetDownloadLibrary
 {

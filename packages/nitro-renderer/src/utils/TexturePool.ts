@@ -1,4 +1,5 @@
-import { NitroLogger, TextureUtils } from '#renderer/utils';
+import { TextureUtils } from '#renderer/utils';
+import { NitroLogger } from '@nitrodevco/nitro-shared';
 import { Texture } from 'pixi.js';
 
 export class TexturePool
