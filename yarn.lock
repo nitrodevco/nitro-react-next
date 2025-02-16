@@ -621,7 +621,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nitrodevco/nitro-packets@workspace:packages/nitro-packets":
+"@nitrodevco/nitro-packets@workspace:*, @nitrodevco/nitro-packets@workspace:packages/nitro-packets":
   version: 0.0.0-use.local
   resolution: "@nitrodevco/nitro-packets@workspace:packages/nitro-packets"
   dependencies:
@@ -634,6 +634,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@nitrodevco/nitro-react@workspace:packages/nitro-react"
   dependencies:
+    "@nitrodevco/nitro-packets": "workspace:*"
     "@nitrodevco/nitro-renderer": "workspace:*"
     "@nitrodevco/nitro-shared": "workspace:*"
     "@tailwindcss/forms": "npm:^0.5.10"

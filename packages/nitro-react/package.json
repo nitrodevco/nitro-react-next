@@ -15,6 +15,7 @@
         "vite-tsconfig-paths": "^5.1.4"
     },
     "dependencies": {
+        "@nitrodevco/nitro-packets": "workspace:*",
         "@nitrodevco/nitro-renderer": "workspace:*",
         "@nitrodevco/nitro-shared": "workspace:*",
         "@tanstack/react-virtual": "^3.12.0",

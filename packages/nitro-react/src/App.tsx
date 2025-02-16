@@ -1,5 +1,5 @@
 import { DefaultTheme, LoadingView } from '#themes/default';
-import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetRenderer, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, PrepareRenderer } from '@nitrodevco/nitro-renderer';
+import { GetAssetManager, GetAvatarRenderManager, GetCommunication, GetRoomEngine, GetRoomSessionManager, GetSessionDataManager, GetSoundManager, GetStage, GetTexturePool, GetTicker, PrepareRenderer } from '@nitrodevco/nitro-renderer';
 import { NitroLogger } from '@nitrodevco/nitro-shared';
 import { AnimatePresence, motion } from 'motion/react';
 import { FC, useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ export const App: FC = () =>
     const preloadAssetUrls = useConfigValue<string[]>('asset.urls.preload') || [];
 
     useLocalizationLoader();
+    //useWebsocket();
 
     useEffect(() =>
     {
@@ -43,7 +44,7 @@ export const App: FC = () =>
                 GetTicker().add(ticker =>
                 {
                     GetRoomEngine().update(ticker);
-                    GetRenderer().render(GetStage());
+                    renderer.render(GetStage());
                     GetTexturePool().run();
                 });
 
