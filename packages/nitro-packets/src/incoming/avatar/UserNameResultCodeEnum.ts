@@ -1,0 +1,11 @@
+export enum UserNameResultCodeEnum
+{
+    NAME_OK = 0,
+    ERROR_NAME_REQUIRED = 1,
+    ERROR_NAME_TOO_SHORT = 2,
+    ERROR_NAME_TOO_LONG = 3,
+    ERROR_NAME_NOT_VALID = 4,
+    ERROR_NAME_IN_USE = 5,
+    ERROR_NAME_CHANGE_NOT_ALLOWED = 6,
+    ERROR_MERGE_HOTEL_DOWN = 7
+}

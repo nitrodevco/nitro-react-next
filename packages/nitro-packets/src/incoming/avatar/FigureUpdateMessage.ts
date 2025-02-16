@@ -1,13 +1,13 @@
 import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
 
-type FigureUpdateParserType = {
+type FigureUpdateMessageType = {
     figure: string;
     gender: string;
 };
 
-export const FigureUpdateParser: IIncomingPacket<FigureUpdateParserType> = (wrapper: IMessageDataWrapper) =>
+export const FigureUpdateMessage: IIncomingPacket<FigureUpdateMessageType> = (wrapper: IMessageDataWrapper) =>
 {
-    const packet: FigureUpdateParserType = {
+    const packet: FigureUpdateMessageType = {
         figure: '',
         gender: ''
     };
