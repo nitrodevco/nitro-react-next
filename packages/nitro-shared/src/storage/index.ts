@@ -1,3 +1,4 @@
+export * from './CommunicationStore';
 export * from './ConfigurationStore';
 export * from './EventStore';
 export * from './GetConfigValue';

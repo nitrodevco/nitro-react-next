@@ -1,5 +1,6 @@
 export * from './inventory';
 export * from './useCatalogStore';
+export * from './useCommunicationStore';
 export * from './useConfigurationStore';
 export * from './useEventStore';
 export * from './useLocalizationStore';
