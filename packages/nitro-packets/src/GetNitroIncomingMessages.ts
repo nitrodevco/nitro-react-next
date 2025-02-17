@@ -1,5 +1,5 @@
 import { INitroIncomingPacket } from './api';
-import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CurrentTimingCodeMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsUserPartOfCompetitionMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, RoomAdErrorMessage, SanctionStatusMessage, SecondsUntilMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
+import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CraftableProductsMessage, CraftingRecipeMessage, CraftingRecipesAvailableMessage, CraftingResultMessage, CurrentTimingCodeMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsUserPartOfCompetitionMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, RoomAdErrorMessage, SanctionStatusMessage, SecondsUntilMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
 import { IncomingHeader } from './IncomingHeader';
 
 export const GetNitroIncomingMessages = () =>
@@ -39,6 +39,10 @@ export const GetNitroIncomingMessages = () =>
         [IncomingHeader.COMPETITION_TIMING_CODE]: CurrentTimingCodeMessage,
         [IncomingHeader.COMPETITION_USER_PART_OF]: IsUserPartOfCompetitionMessage,
         [IncomingHeader.COMPETITION_NO_OWNED_ROOMS]: NoOwnedRoomsAlertMessage,
-        [IncomingHeader.COMPETITION_SECONDS_UNTIL]: SecondsUntilMessage
+        [IncomingHeader.COMPETITION_SECONDS_UNTIL]: SecondsUntilMessage,
+        [IncomingHeader.CRAFTABLE_PRODUCTS]: CraftableProductsMessage,
+        [IncomingHeader.CRAFTING_RECIPE]: CraftingRecipeMessage,
+        [IncomingHeader.CRAFTING_RECIPES_AVAILABLE]: CraftingRecipesAvailableMessage,
+        [IncomingHeader.CRAFTING_RESULT]: CraftingResultMessage
     } as Record<number, INitroIncomingPacket>;
 }

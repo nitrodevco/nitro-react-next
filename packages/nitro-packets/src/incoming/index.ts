@@ -53,3 +53,4 @@ export * from './catalog/VoucherRedeemErrorMessage';
 export * from './catalog/VoucherRedeemOkMessage';
 export * from './client';
 export * from './competition';
+export * from './crafting';
