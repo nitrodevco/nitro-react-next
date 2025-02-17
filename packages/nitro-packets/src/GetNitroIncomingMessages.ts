@@ -1,5 +1,5 @@
 import { INitroIncomingPacket } from './api';
-import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CraftableProductsMessage, CraftingRecipeMessage, CraftingRecipesAvailableMessage, CraftingResultMessage, CurrentTimingCodeMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsUserPartOfCompetitionMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, RoomAdErrorMessage, SanctionStatusMessage, SecondsUntilMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
+import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CraftableProductsMessage, CraftingRecipeMessage, CraftingRecipesAvailableMessage, CraftingResultMessage, CurrentTimingCodeMessage, DesktopViewMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsUserPartOfCompetitionMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, RoomAdErrorMessage, SanctionStatusMessage, SecondsUntilMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
 import { IncomingHeader } from './IncomingHeader';
 
 export const GetNitroIncomingMessages = () =>
@@ -43,6 +43,7 @@ export const GetNitroIncomingMessages = () =>
         [IncomingHeader.CRAFTABLE_PRODUCTS]: CraftableProductsMessage,
         [IncomingHeader.CRAFTING_RECIPE]: CraftingRecipeMessage,
         [IncomingHeader.CRAFTING_RECIPES_AVAILABLE]: CraftingRecipesAvailableMessage,
-        [IncomingHeader.CRAFTING_RESULT]: CraftingResultMessage
+        [IncomingHeader.CRAFTING_RESULT]: CraftingResultMessage,
+        [IncomingHeader.DESKTOP_VIEW]: DesktopViewMessage
     } as Record<number, INitroIncomingPacket>;
 }

@@ -54,3 +54,4 @@ export * from './catalog/VoucherRedeemOkMessage';
 export * from './client';
 export * from './competition';
 export * from './crafting';
+export * from './desktop';
