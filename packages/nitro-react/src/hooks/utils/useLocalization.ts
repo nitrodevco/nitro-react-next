@@ -1,18 +1,16 @@
 import { useLocalizationStore } from '#base/stores';
+import { useConfig } from './useConfig';
 
 export const useLocalization = () =>
 {
     const localization = useLocalizationStore(state => state.localization);
+    const config = useConfig();
 
     return (key: string, parameters: string | string[] = null, replacements: string | string[] = null) =>
     {
-        let value = key.split('.').reduce((acc, k) => acc?.[k], localization) as string;
+        let value = localization[key];
 
-        if (!value)
-        {
-            // TODO determine if we ever even use this value
-            //value = GetConfigValue(key);
-        }
+        if (!value) value = config(value);
 
         if (!value) value = key;
         else value = value.toString();

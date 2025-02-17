@@ -88,7 +88,7 @@ export class FurnitureDataLoader
 
     private updateLocalizations(furnitureDatas: IFurnitureData[]): void
     {
-        const localizations: { [key: string]: string } = {};
+        const localizations: Record<string, string> = {};
 
         furnitureDatas.forEach(furnitureData =>
         {
@@ -105,9 +105,6 @@ export class FurnitureDataLoader
             }
         });
 
-        LocalizationStore.setState(state =>
-        {
-            return { localization: { ...state.localization, ...localizations } };
-        });
+        LocalizationStore.getState().setLocalization(localizations);
     }
 }

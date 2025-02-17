@@ -1,13 +1,13 @@
 import { createStore } from 'zustand';
 
 type State = {
-    localization: {};
+    localization: Record<string, string>;
     badgePointLimits: Record<string, number>;
     localizationNeedsUpdate: boolean;
 }
 
 type Actions = {
-    setLocalization: (localization: {}) => void;
+    setLocalization: (localization: Record<string, string>) => void;
     setLocalizationValue: (key: string, value: string) => void;
     setBadgePointLimits: (badgePointLimits: Record<string, number>) => void;
     setLocalizationNeedsUpdate: (localizationNeedsUpdate: boolean) => void;
@@ -21,7 +21,10 @@ const initialState: State = {
 
 export const LocalizationStore = createStore<State & Actions>(set => ({
     ...initialState,
-    setLocalization: (localization: {}) => set({ localization, localizationNeedsUpdate: false }),
+    setLocalization: (localizations: Record<string, string>) => set(state =>
+    {
+        return { localization: { ...state.localization, ...localizations }, localizationNeedsUpdate: false };
+    }),
     setLocalizationValue: (key: string, value: string) => set(state =>
     {
         return { localization: { ...state.localization, [key]: value } };

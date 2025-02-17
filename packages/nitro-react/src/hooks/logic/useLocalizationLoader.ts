@@ -13,78 +13,28 @@ export const useLocalizationLoader = () =>
 
     const processJson = (data: Record<string, string>) =>
     {
-        const flattenObject = (obj: {}, parentKey = '', result: Record<string, any> = {}) =>
+        const resolveReferences = (data: Record<string, string>) =>
         {
-            if (Array.isArray(obj))
-            {
-                obj.forEach((item, index) => flattenObject(item, `${parentKey}[${index}]`, result));
-            }
-
-            else if (typeof obj === "object" && obj !== null)
-            {
-                for (const key in obj)
-                {
-                    if (obj.hasOwnProperty(key))
-                    {
-                        const newKey = parentKey ? `${parentKey}.${key}` : key;
-
-                        flattenObject(obj[key], newKey, result);
-                    }
-                }
-            }
-
-            else result[parentKey] = obj;
-
-            return result;
-        }
-
-        const resolveReferences = (flatConfig: Record<string, any>) =>
-        {
-            const resolvedConfig = { ...flatConfig };
+            const resolvedConfig = { ...data };
 
             const getValue = (key: string) => resolvedConfig[key] ?? `\${${key}}`;
 
             for (const key in resolvedConfig)
             {
+                if (key === '')
+                {
+                    delete resolvedConfig[key];
+
+                    continue;
+                }
+
                 if (typeof resolvedConfig[key] === "string") resolvedConfig[key] = resolvedConfig[key].replace(/\$\{([^}]+)\}/g, (_, refKey) => getValue(refKey));
             }
 
             return resolvedConfig;
         }
 
-        const unflattenObject = (flatConfig: Record<string, any>) =>
-        {
-            const result = {};
-
-            for (const key in flatConfig)
-            {
-                const keys = key.split(/\.|\[|\]/).filter(Boolean);
-
-                let current = result;
-
-                for (let i = 0; i < keys.length - 1; i++)
-                {
-                    const isNextKeyNumeric = !isNaN(Number(keys[i + 1]));
-                    const currentKey = isNaN(Number(keys[i])) ? keys[i] : Number(keys[i]);
-
-                    if (!(currentKey in current)) current[currentKey] = isNextKeyNumeric ? [] : {};
-
-                    current = current[currentKey];
-                }
-
-                const lastKey = isNaN(Number(keys[keys.length - 1])) ? keys[keys.length - 1] : Number(keys[keys.length - 1]);
-
-                current[lastKey] = flatConfig[key];
-            }
-
-            return result;
-        }
-
-        const flatten = flattenObject(data);
-        const resolvedReferences = resolveReferences(flatten);
-        const unflatten = unflattenObject(resolvedReferences);
-
-        return unflatten;
+        return resolveReferences(data);
     }
 
     useMessageEvent<BadgePointLimitsEvent>(BadgePointLimitsEvent, event =>
