@@ -1,5 +1,5 @@
-import { IProductData, SendMessageComposer } from '#base/api/index.ts';
-import { useCatalogStore } from '#base/stores/useCatalogStore.ts';
+import { IProductData, SendMessageComposer } from '#base/api';
+import { useCatalogStore } from '#base/stores';
 import { BuildersClubQueryFurniCountMessageComposer, GetCatalogIndexComposer, GetClubGiftInfo, GetGiftWrappingConfigurationComposer } from '@nitrodevco/nitro-renderer';
 import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';

@@ -1,5 +1,5 @@
 import { AttemptBotPlacement, IBotItem, SendMessageComposer } from '#base/api';
-import { useLocalization } from '#base/hooks/index.ts';
+import { useLocalization } from '#base/hooks';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRoomPreviewer } from '#themes/default';
 import { GetBotInventoryComposer, GetRoomEngine, RoomObjectVariable, RoomPreviewer } from '@nitrodevco/nitro-renderer';

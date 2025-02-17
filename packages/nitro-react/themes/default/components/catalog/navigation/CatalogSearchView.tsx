@@ -1,5 +1,5 @@
 import { ProcessSearchWithFurnitureData } from '#base/api';
-import { useLocalization } from '#base/hooks/index.ts';
+import { useLocalization } from '#base/hooks';
 import { useCatalogStore } from '#base/stores';
 import { NitroButton, NitroInput } from '#themes/default';
 import { GetSessionDataManager, IFurnitureData } from '@nitrodevco/nitro-renderer';

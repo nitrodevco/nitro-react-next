@@ -1,5 +1,5 @@
 import { ProductTypeEnum } from '#base/api';
-import { useOfferLocalization } from '#base/hooks/index.ts';
+import { useOfferLocalization } from '#base/hooks';
 import { FC } from 'react';
 import { CatalogPageImageView, CatalogPageTextView } from '../common';
 import { CatalogAddOnBadgeWidgetView, CatalogOfferGridWidgetView, CatalogPriceDisplayWidget, CatalogPurchaseWidgetView, CatalogViewOfferWidgetView } from '../widgets';

@@ -1,5 +1,5 @@
 import { AttemptItemPlacement, FurniCategoryEnum, IGroupItem, SendMessageComposer } from '#base/api';
-import { useLocalization } from '#base/hooks/index.ts';
+import { useLocalization } from '#base/hooks';
 import { useInventoryStore, useRoomStore, useVisibilityStore } from '#base/stores';
 import { NitroButton, NitroInfiniteGrid, NitroRarityLevel, NitroRoomPreviewer } from '#themes/default';
 import { FurnitureListComposer, GetRoomEngine, GetSessionDataManager, RoomObjectVariable, RoomPreviewer, Vector3d } from '@nitrodevco/nitro-renderer';
