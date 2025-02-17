@@ -1,5 +1,5 @@
 import { INitroIncomingPacket } from './api';
-import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, CompetitionStatusMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, MaintenanceStatusMessage, RoomAdErrorMessage, SanctionStatusMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
+import { AvailabilityStatusMessage, AvailabilityTimeMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CurrentTimingCodeMessage, FigureUpdateMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsUserPartOfCompetitionMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, RoomAdErrorMessage, SanctionStatusMessage, SecondsUntilMessage, ThumbnailStatusMessage, WardrobeMessage } from './incoming';
 import { IncomingHeader } from './IncomingHeader';
 
 export const GetNitroIncomingMessages = () =>
@@ -30,6 +30,15 @@ export const GetNitroIncomingMessages = () =>
         [IncomingHeader.COMPETITION_STATUS]: CompetitionStatusMessage,
         [IncomingHeader.INIT_CAMERA]: InitCameraMessage,
         [IncomingHeader.THUMBNAIL_STATUS]: ThumbnailStatusMessage,
-        [IncomingHeader.CAMERA_SNAPSHOT]: CameraSnapshotMessage
+        [IncomingHeader.CAMERA_SNAPSHOT]: CameraSnapshotMessage,
+        [IncomingHeader.CAMPAIGN_CALENDAR_DATA]: CampaignCalendarDataMessage,
+        [IncomingHeader.CAMPAIGN_CALENDAR_DOOR_OPENED]: CampaignCalendarDoorOpenedMessage,
+        [IncomingHeader.CLIENT_PING]: ClientPingMessage,
+        [IncomingHeader.COMPETITION_ENTRY_SUBMIT]: CompetitionEntrySubmitResultMessage,
+        [IncomingHeader.COMPETITION_VOTING_INFO]: CompetitionVotingInfoMessage,
+        [IncomingHeader.COMPETITION_TIMING_CODE]: CurrentTimingCodeMessage,
+        [IncomingHeader.COMPETITION_USER_PART_OF]: IsUserPartOfCompetitionMessage,
+        [IncomingHeader.COMPETITION_NO_OWNED_ROOMS]: NoOwnedRoomsAlertMessage,
+        [IncomingHeader.COMPETITION_SECONDS_UNTIL]: SecondsUntilMessage
     } as Record<number, INitroIncomingPacket>;
 }

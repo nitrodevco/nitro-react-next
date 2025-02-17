@@ -1,7 +1,8 @@
 import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
+import { UserNameResultCodeEnum } from './UserNameResultCodeEnum';
 
 type CheckUserNameResultMessageType = {
-    resultCode: number;
+    resultCode: UserNameResultCodeEnum;
     name: string;
     nameSuggestions: string[];
 };
@@ -9,13 +10,10 @@ type CheckUserNameResultMessageType = {
 export const CheckUserNameResultMessage: IIncomingPacket<CheckUserNameResultMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CheckUserNameResultMessageType = {
-        resultCode: -1,
-        name: '',
+        resultCode: wrapper.readInt(),
+        name: wrapper.readString(),
         nameSuggestions: []
     };
-
-    packet.resultCode = wrapper.readInt();
-    packet.name = wrapper.readString();
 
     let totalSuggestions = wrapper.readInt();
 
