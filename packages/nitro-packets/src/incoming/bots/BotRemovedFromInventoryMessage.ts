@@ -7,10 +7,8 @@ type BotRemovedFromInventoryMessageType = {
 export const BotRemovedFromInventoryMessage: IIncomingPacket<BotRemovedFromInventoryMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: BotRemovedFromInventoryMessageType = {
-        itemId: 0
+        itemId: wrapper.readInt()
     };
-
-    packet.itemId = wrapper.readInt();
 
     return packet;
 };

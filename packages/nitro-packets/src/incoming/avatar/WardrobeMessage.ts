@@ -10,11 +10,9 @@ type WardrobeMessageType = {
 export const WardrobeMessage: IIncomingPacket<WardrobeMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: WardrobeMessageType = {
-        state: 0,
+        state: wrapper.readInt(),
         outfits: []
     };
-
-    packet.state = wrapper.readInt();
 
     let count = wrapper.readInt();
 

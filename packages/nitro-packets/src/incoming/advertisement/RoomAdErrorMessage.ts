@@ -8,12 +8,9 @@ type RoomAdErrorMessageType = {
 export const RoomAdErrorMessage: IIncomingPacket<RoomAdErrorMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: RoomAdErrorMessageType = {
-        errorCode: 0,
-        filteredText: null
+        errorCode: wrapper.readInt(),
+        filteredText: wrapper.readString()
     };
-
-    packet.errorCode = wrapper.readInt();
-    packet.filteredText = wrapper.readString();
 
     return packet;
 };

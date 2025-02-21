@@ -8,12 +8,9 @@ type AvailabilityTimeMessageType = {
 export const AvailabilityTimeMessage: IIncomingPacket<AvailabilityTimeMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: AvailabilityTimeMessageType = {
-        isOpen: false,
-        minutesUntilChange: 0
+        isOpen: (wrapper.readInt() > 0),
+        minutesUntilChange: wrapper.readInt()
     };
-
-    packet.isOpen = (wrapper.readInt() > 0);
-    packet.minutesUntilChange = wrapper.readInt();
 
     return packet;
 };

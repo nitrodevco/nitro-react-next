@@ -10,16 +10,11 @@ type CampaignCalendarDoorOpenedMessageType = {
 export const CampaignCalendarDoorOpenedMessage: IIncomingPacket<CampaignCalendarDoorOpenedMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CampaignCalendarDoorOpenedMessageType = {
-        doorOpened: false,
-        productName: null,
-        customImage: null,
-        furnitureClassName: null
+        doorOpened: wrapper.readBoolean(),
+        productName: wrapper.readString(),
+        customImage: wrapper.readString(),
+        furnitureClassName: wrapper.readString()
     };
-
-    packet.doorOpened = wrapper.readBoolean();
-    packet.productName = wrapper.readString();
-    packet.customImage = wrapper.readString();
-    packet.furnitureClassName = wrapper.readString();
 
     return packet;
 };

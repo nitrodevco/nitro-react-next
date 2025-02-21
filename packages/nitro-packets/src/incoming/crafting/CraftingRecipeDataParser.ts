@@ -3,10 +3,10 @@ import { ICraftingRecipeData } from './ICraftingRecipeData';
 
 export const CraftingRecipeDataParser = (wrapper: IMessageDataWrapper): ICraftingRecipeData =>
 {
-    const packet = {
+    const packet: ICraftingRecipeData = {
         recipeName: wrapper.readString(),
         itemName: wrapper.readString()
-    } as ICraftingRecipeData;
+    };
 
     return packet;
 }

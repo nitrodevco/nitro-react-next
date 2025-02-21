@@ -10,12 +10,9 @@ type BotReceivedMessageType = {
 export const BotReceivedMessage: IIncomingPacket<BotReceivedMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: BotReceivedMessageType = {
-        boughtAsGift: false,
-        item: null
+        boughtAsGift: wrapper.readBoolean(),
+        item: BotDataParser(wrapper)
     };
-
-    packet.boughtAsGift = wrapper.readBoolean();
-    packet.item = BotDataParser(wrapper);
 
     return packet;
 };

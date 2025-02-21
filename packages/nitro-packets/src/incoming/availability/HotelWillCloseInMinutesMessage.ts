@@ -7,10 +7,8 @@ type HotelWillCloseInMinutesMessageType = {
 export const HotelWillCloseInMinutesMessage: IIncomingPacket<HotelWillCloseInMinutesMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: HotelWillCloseInMinutesMessageType = {
-        minutes: 0
+        minutes: wrapper.readInt()
     };
-
-    packet.minutes = wrapper.readInt();
 
     return packet;
 };

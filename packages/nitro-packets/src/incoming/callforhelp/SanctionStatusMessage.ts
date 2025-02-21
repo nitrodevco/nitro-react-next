@@ -17,10 +17,10 @@ type SanctionStatusMessageType = {
 export const SanctionStatusMessage: IIncomingPacket<SanctionStatusMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: SanctionStatusMessageType = {
-        isSanctionNew: false,
-        isSanctionActive: false,
-        sanctionName: null,
-        sanctionLengthHours: 0,
+        isSanctionNew: wrapper.readBoolean(),
+        isSanctionActive: wrapper.readBoolean(),
+        sanctionName: wrapper.readString(),
+        sanctionLengthHours: wrapper.readInt(),
         sanctionReason: null,
         sanctionCreationTime: null,
         probationHoursLeft: 0,
@@ -29,11 +29,6 @@ export const SanctionStatusMessage: IIncomingPacket<SanctionStatusMessageType> =
         hasCustomMute: false,
         tradeLockExpiryTime: null,
     };
-
-    packet.isSanctionNew = wrapper.readBoolean();
-    packet.isSanctionActive = wrapper.readBoolean();
-    packet.sanctionName = wrapper.readString();
-    packet.sanctionLengthHours = wrapper.readInt();
 
     wrapper.readInt();
 

@@ -8,12 +8,9 @@ type FigureUpdateMessageType = {
 export const FigureUpdateMessage: IIncomingPacket<FigureUpdateMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: FigureUpdateMessageType = {
-        figure: '',
-        gender: ''
+        figure: wrapper.readString(),
+        gender: wrapper.readString()
     };
-
-    packet.figure = wrapper.readString();
-    packet.gender = wrapper.readString();
 
     return packet;
 };

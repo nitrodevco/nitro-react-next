@@ -9,14 +9,10 @@ type HotelClosesAndWillOpenAtMessageType = {
 export const HotelClosesAndWillOpenAtMessage: IIncomingPacket<HotelClosesAndWillOpenAtMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: HotelClosesAndWillOpenAtMessageType = {
-        openHour: 0,
-        openMinute: 0,
-        userThrownOutAtClose: false
+        openHour: wrapper.readInt(),
+        openMinute: wrapper.readInt(),
+        userThrownOutAtClose: wrapper.readBoolean()
     };
-
-    packet.openHour = wrapper.readInt();
-    packet.openMinute = wrapper.readInt();
-    packet.userThrownOutAtClose = wrapper.readBoolean();
 
     return packet;
 };

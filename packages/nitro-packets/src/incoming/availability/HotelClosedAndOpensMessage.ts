@@ -8,12 +8,9 @@ type HotelClosedAndOpensMessageType = {
 export const HotelClosedAndOpensMessage: IIncomingPacket<HotelClosedAndOpensMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: HotelClosedAndOpensMessageType = {
-        openHour: 0,
-        openMinute: 0
+        openHour: wrapper.readInt(),
+        openMinute: wrapper.readInt()
     };
-
-    packet.openHour = wrapper.readInt();
-    packet.openMinute = wrapper.readInt();
 
     return packet;
 };

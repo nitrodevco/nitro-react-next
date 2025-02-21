@@ -11,14 +11,10 @@ type CfhSanctionMessageType = {
 export const CfhSanctionMessage: IIncomingPacket<CfhSanctionMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CfhSanctionMessageType = {
-        issueId: -1,
-        accountId: 1,
-        sanctionType: null
+        issueId: wrapper.readInt(),
+        accountId: wrapper.readInt(),
+        sanctionType: CfhSanctionParser(wrapper)
     };
-
-    packet.issueId = wrapper.readInt();
-    packet.accountId = wrapper.readInt();
-    packet.sanctionType = CfhSanctionParser(wrapper);
 
     return packet;
 };

@@ -7,10 +7,8 @@ type CameraStorageUrlMessageType = {
 export const CameraStorageUrlMessage: IIncomingPacket<CameraStorageUrlMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CameraStorageUrlMessageType = {
-        url: ''
+        url: wrapper.readString()
     };
-
-    packet.url = wrapper.readString();
 
     return packet;
 };

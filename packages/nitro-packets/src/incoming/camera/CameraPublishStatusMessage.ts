@@ -9,14 +9,10 @@ type CameraPublishStatusMessageType = {
 export const CameraPublishStatusMessage: IIncomingPacket<CameraPublishStatusMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CameraPublishStatusMessageType = {
-        ok: false,
-        secondsToWait: 0,
+        ok: wrapper.readBoolean(),
+        secondsToWait: wrapper.readInt(),
         extraDataId: null
     };
-
-    packet.ok = wrapper.readBoolean();
-    packet.secondsToWait = wrapper.readInt();
-
     if (packet.ok && wrapper.bytesAvailable) packet.extraDataId = wrapper.readString();
 
     return packet;

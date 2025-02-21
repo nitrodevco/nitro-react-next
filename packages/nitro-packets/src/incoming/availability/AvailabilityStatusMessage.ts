@@ -9,13 +9,10 @@ type AvailabilityStatusMessageType = {
 export const AvailabilityStatusMessage: IIncomingPacket<AvailabilityStatusMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: AvailabilityStatusMessageType = {
-        isOpen: false,
-        onShutdown: false,
+        isOpen: wrapper.readBoolean(),
+        onShutdown: wrapper.readBoolean(),
         isAuthenticUser: false
     };
-
-    packet.isOpen = wrapper.readBoolean();
-    packet.onShutdown = wrapper.readBoolean();
 
     if (wrapper.bytesAvailable) packet.isAuthenticUser = wrapper.readBoolean();
 

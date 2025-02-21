@@ -9,13 +9,10 @@ type InitCameraMessageType = {
 export const InitCameraMessage: IIncomingPacket<InitCameraMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: InitCameraMessageType = {
-        creditPrice: 0,
-        ducketPrice: 0,
+        creditPrice: wrapper.readInt(),
+        ducketPrice: wrapper.readInt(),
         publishDucketPrice: 0
     };
-
-    packet.creditPrice = wrapper.readInt();
-    packet.ducketPrice = wrapper.readInt();
 
     if (wrapper.bytesAvailable) packet.publishDucketPrice = wrapper.readInt();
 

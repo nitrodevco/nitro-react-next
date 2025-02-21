@@ -10,12 +10,9 @@ type BotAddedToInventoryMessageType = {
 export const BotAddedToInventoryMessage: IIncomingPacket<BotAddedToInventoryMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: BotAddedToInventoryMessageType = {
-        item: null,
-        openInventory: false
+        item: BotDataParser(wrapper),
+        openInventory: wrapper.readBoolean()
     };
-
-    packet.item = BotDataParser(wrapper);
-    packet.openInventory = wrapper.readBoolean();
 
     return packet;
 };

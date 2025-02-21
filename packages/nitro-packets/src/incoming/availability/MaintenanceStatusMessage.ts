@@ -9,13 +9,10 @@ type MaintenanceStatusMessageType = {
 export const MaintenanceStatusMessage: IIncomingPacket<MaintenanceStatusMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: MaintenanceStatusMessageType = {
-        isInMaintenance: false,
-        minutesUntilMaintenance: 0,
+        isInMaintenance: wrapper.readBoolean(),
+        minutesUntilMaintenance: wrapper.readInt(),
         duration: 15
     };
-
-    packet.isInMaintenance = wrapper.readBoolean();
-    packet.minutesUntilMaintenance = wrapper.readInt();
 
     if (wrapper.bytesAvailable) packet.duration = wrapper.readInt();
 

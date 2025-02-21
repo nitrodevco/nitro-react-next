@@ -3,12 +3,14 @@ import { ICfhSanctionData } from './ICfhSanctionData';
 
 export const CfhSanctionParser = (wrapper: IMessageDataWrapper): ICfhSanctionData =>
 {
-    const packet = {} as ICfhSanctionData;
-
-    packet.name = wrapper.readString();
-    packet.sanctionLengthInHours = wrapper.readInt();
-    packet.probationDays = wrapper.readInt();
-    packet.avatarOnly = wrapper.readBoolean();
+    const packet: ICfhSanctionData = {
+        name: wrapper.readString(),
+        sanctionLengthInHours: wrapper.readInt(),
+        probationDays: wrapper.readInt(),
+        avatarOnly: wrapper.readBoolean(),
+        tradeLockInfo: '',
+        machineBanInfo: ''
+    };
 
     if (wrapper.bytesAvailable) packet.tradeLockInfo = wrapper.readString();
 

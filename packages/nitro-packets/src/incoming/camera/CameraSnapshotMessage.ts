@@ -8,12 +8,9 @@ type CameraSnapshotMessageType = {
 export const CameraSnapshotMessage: IIncomingPacket<CameraSnapshotMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CameraSnapshotMessageType = {
-        roomType: null,
-        roomId: -1
+        roomType: wrapper.readString(),
+        roomId: wrapper.readInt()
     };
-
-    packet.roomType = wrapper.readString();
-    packet.roomId = wrapper.readInt();
 
     return packet;
 };

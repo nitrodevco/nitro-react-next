@@ -8,8 +8,8 @@ type CompetitionStatusMessageType = {
 export const CompetitionStatusMessage: IIncomingPacket<CompetitionStatusMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CompetitionStatusMessageType = {
-        ok: false,
-        errorReason: null
+        ok: wrapper.readBoolean(),
+        errorReason: wrapper.readString()
     };
 
     packet.ok = wrapper.readBoolean();

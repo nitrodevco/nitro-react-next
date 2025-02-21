@@ -7,10 +7,8 @@ type InterstitialMessageType = {
 export const InterstitialMessage: IIncomingPacket<InterstitialMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: InterstitialMessageType = {
-        canShowInterstitial: false
+        canShowInterstitial: wrapper.readBoolean()
     };
-
-    packet.canShowInterstitial = wrapper.readBoolean();
 
     return packet;
 };
