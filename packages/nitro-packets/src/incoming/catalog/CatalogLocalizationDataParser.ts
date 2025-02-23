@@ -3,10 +3,10 @@ import { ICatalogLocalizationData } from './ICatalogLocalizationData';
 
 export const CatalogLocalizationDataParser = (wrapper: IMessageDataWrapper): ICatalogLocalizationData =>
 {
-    const packet = {
+    const packet: ICatalogLocalizationData = {
         images: [],
         texts: []
-    } as ICatalogLocalizationData;
+    };
 
     let count = wrapper.readInt();
 

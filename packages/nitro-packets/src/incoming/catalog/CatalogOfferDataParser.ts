@@ -4,16 +4,16 @@ import { ICatalogOfferData } from './ICatalogOfferData';
 
 export const CatalogOfferDataParser = (wrapper: IMessageDataWrapper): ICatalogOfferData =>
 {
-    const packet = {} as ICatalogOfferData;
-
-    packet.offerId = wrapper.readInt();
-    packet.localizationId = wrapper.readString();
-    packet.rent = wrapper.readBoolean();
-    packet.priceCredits = wrapper.readInt();
-    packet.priceActivityPoints = wrapper.readInt();
-    packet.priceActivityPointsType = wrapper.readInt();
-    packet.giftable = wrapper.readBoolean();
-    packet.products = [];
+    const packet = {
+        offerId: wrapper.readInt(),
+        localizationId: wrapper.readString(),
+        rent: wrapper.readBoolean(),
+        priceCredits: wrapper.readInt(),
+        priceActivityPoints: wrapper.readInt(),
+        priceActivityPointsType: wrapper.readInt(),
+        giftable: wrapper.readBoolean(),
+        products: []
+    } as ICatalogOfferData;
 
     let count = wrapper.readInt();
 

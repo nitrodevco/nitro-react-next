@@ -2,6 +2,7 @@ import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
 
 type DirectSMSClubBuyAvailableMessageType = {
     pricePointUrl: string;
+    available: boolean;
     market: string;
     lengthInDays: number;
 };
@@ -9,15 +10,11 @@ type DirectSMSClubBuyAvailableMessageType = {
 export const DirectSMSClubBuyAvailableMessage: IIncomingPacket<DirectSMSClubBuyAvailableMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: DirectSMSClubBuyAvailableMessageType = {
+        pricePointUrl: wrapper.readString(),
         available: false,
-        pricePointUrl: null,
-        market: null,
-        lengthInDays: 0,
+        market: wrapper.readString(),
+        lengthInDays: wrapper.readInt()
     };
-
-    packet.pricePointUrl = wrapper.readString();
-    packet.market = wrapper.readString();
-    packet.lengthInDays = wrapper.readInt();
 
     return packet;
 };

@@ -4,12 +4,12 @@ import { ICatalogFrontpageItemData } from './ICatalogFrontpageItemData';
 
 export const CatalogFrontpageItemDataParser = (wrapper: IMessageDataWrapper): ICatalogFrontpageItemData =>
 {
-    const packet = {} as ICatalogFrontpageItemData;
-
-    packet.position = wrapper.readInt();
-    packet.itemName = wrapper.readString();
-    packet.itemPromoImage = wrapper.readString();
-    packet.type = wrapper.readInt();
+    const packet = {
+        position: wrapper.readInt(),
+        itemName: wrapper.readString(),
+        itemPromoImage: wrapper.readString(),
+        type: wrapper.readInt()
+    } as ICatalogFrontpageItemData;
 
     switch (packet.type)
     {

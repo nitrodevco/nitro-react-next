@@ -10,16 +10,11 @@ type BonusRareInfoMessageType = {
 export const BonusRareInfoMessage: IIncomingPacket<BonusRareInfoMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: BonusRareInfoMessageType = {
-        totalCoinsForBonus: -1,
-        coinsStillRequiredToBuy: -1,
-        productType: '',
-        productClassId: -1
+        productType: wrapper.readString(),
+        productClassId: wrapper.readInt(),
+        totalCoinsForBonus: wrapper.readInt(),
+        coinsStillRequiredToBuy: wrapper.readInt()
     };
-
-    packet.productType = wrapper.readString();
-    packet.productClassId = wrapper.readInt();
-    packet.totalCoinsForBonus = wrapper.readInt();
-    packet.coinsStillRequiredToBuy = wrapper.readInt();
 
     return packet;
 };

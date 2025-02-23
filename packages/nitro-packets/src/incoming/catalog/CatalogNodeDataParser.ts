@@ -3,7 +3,7 @@ import { ICatalogNodeData } from './ICatalogNodeData';
 
 export const CatalogNodeDataParser = (wrapper: IMessageDataWrapper): ICatalogNodeData =>
 {
-    const packet = {
+    const packet: ICatalogNodeData = {
         visible: wrapper.readBoolean(),
         icon: wrapper.readInt(),
         pageId: wrapper.readInt(),
@@ -11,7 +11,7 @@ export const CatalogNodeDataParser = (wrapper: IMessageDataWrapper): ICatalogNod
         localization: wrapper.readString(),
         children: [],
         offerIds: []
-    } as ICatalogNodeData;
+    };
 
     let count = wrapper.readInt();
 
