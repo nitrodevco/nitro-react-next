@@ -10,16 +10,11 @@ type LimitedOfferAppearingNextMessageType = {
 export const LimitedOfferAppearingNextMessage: IIncomingPacket<LimitedOfferAppearingNextMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: LimitedOfferAppearingNextMessageType = {
-        appearsInSeconds: -1,
-        pageId: -1,
-        offerId: -1,
-        productType: '',
+        appearsInSeconds: wrapper.readInt(),
+        pageId: wrapper.readInt(),
+        offerId: wrapper.readInt(),
+        productType: wrapper.readString()
     };
-
-    packet.appearsInSeconds = wrapper.readInt();
-    packet.pageId = wrapper.readInt();
-    packet.offerId = wrapper.readInt();
-    packet.productType = wrapper.readString();
 
     return packet;
 };

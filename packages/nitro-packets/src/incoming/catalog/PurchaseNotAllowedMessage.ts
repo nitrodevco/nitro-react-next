@@ -7,10 +7,8 @@ type PurchaseNotAllowedMessageType = {
 export const PurchaseNotAllowedMessage: IIncomingPacket<PurchaseNotAllowedMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: PurchaseNotAllowedMessageType = {
-        code: 0,
+        code: wrapper.readInt()
     };
-
-    packet.code = wrapper.readInt();
 
     return packet;
 };

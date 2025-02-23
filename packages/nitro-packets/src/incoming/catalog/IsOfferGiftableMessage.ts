@@ -8,12 +8,9 @@ type IsOfferGiftableMessageType = {
 export const IsOfferGiftableMessage: IIncomingPacket<IsOfferGiftableMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: IsOfferGiftableMessageType = {
-        offerId: 0,
-        isGiftable: false,
+        offerId: wrapper.readInt(),
+        isGiftable: wrapper.readBoolean()
     };
-
-    packet.offerId = wrapper.readInt();
-    packet.isGiftable = wrapper.readBoolean();
 
     return packet;
 };

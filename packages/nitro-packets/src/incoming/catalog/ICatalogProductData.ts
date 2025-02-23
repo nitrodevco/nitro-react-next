@@ -1,6 +1,6 @@
 import { CatalogProductTypeEnum } from './CatalogProductTypeEnum';
 
-export interface ICatalogOfferProductData
+export interface ICatalogProductData
 {
     productType: CatalogProductTypeEnum;
     furniClassId: number;

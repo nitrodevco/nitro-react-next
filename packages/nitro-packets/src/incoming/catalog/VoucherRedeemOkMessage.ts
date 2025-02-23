@@ -9,7 +9,7 @@ export const VoucherRedeemOkMessage: IIncomingPacket<VoucherRedeemOkMessageType>
 {
     const packet: VoucherRedeemOkMessageType = {
         productDescription: wrapper.readString(),
-        productName: wrapper.readString(),
+        productName: wrapper.readString()
     };
 
     return packet;

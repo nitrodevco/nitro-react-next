@@ -9,14 +9,12 @@ type NotEnoughBalanceMessageType = {
 export const NotEnoughBalanceMessage: IIncomingPacket<NotEnoughBalanceMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: NotEnoughBalanceMessageType = {
-        notEnoughCredits: false,
-        notEnoughActivityPoints: false,
-        activityPointType: 0,
+        notEnoughCredits: wrapper.readBoolean(),
+        notEnoughActivityPoints: wrapper.readBoolean(),
+        activityPointType: 0
     };
 
-    packet.notEnoughCredits = wrapper.readBoolean();
-    packet.notEnoughActivityPoints = wrapper.readBoolean();
-    packet.activityPointType = wrapper.readInt();
+    if (wrapper.bytesAvailable) packet.activityPointType = wrapper.readInt();
 
     return packet;
 };

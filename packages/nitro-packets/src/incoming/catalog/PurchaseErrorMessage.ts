@@ -7,10 +7,8 @@ type PurchaseErrorMessageType = {
 export const PurchaseErrorMessage: IIncomingPacket<PurchaseErrorMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: PurchaseErrorMessageType = {
-        code: 0,
+        code: wrapper.readInt()
     };
-
-    packet.code = wrapper.readInt();
 
     return packet;
 };

@@ -1,17 +1,18 @@
 import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
+import { CatalogOfferDataParser } from './CatalogOfferDataParser';
+import { ICatalogOfferData } from './ICatalogOfferData';
 
 type SeasonalCalendarDailyOfferMessageType = {
     pageId: number;
+    data: ICatalogOfferData;
 };
 
 export const SeasonalCalendarDailyOfferMessage: IIncomingPacket<SeasonalCalendarDailyOfferMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: SeasonalCalendarDailyOfferMessageType = {
-        pageId: -1,
-        data: null,
+        pageId: wrapper.readInt(),
+        data: CatalogOfferDataParser(wrapper)
     };
-
-    packet.pageId = wrapper.readInt();
 
     return packet;
 };

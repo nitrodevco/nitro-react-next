@@ -1,6 +1,6 @@
 import { ICatalogProductData } from './ICatalogProductData';
 
-export interface ICatalogOfferData
+export interface ICatalogPurchaseOkOfferData
 {
     offerId: number;
     localizationId: string;
@@ -11,7 +11,5 @@ export interface ICatalogOfferData
     clubLevel: number;
     giftable: boolean;
     bundlePurchaseAllowed: boolean;
-    isPet: boolean;
-    previewImage: string;
     products: ICatalogProductData[];
 }

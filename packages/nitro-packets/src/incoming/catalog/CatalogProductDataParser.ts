@@ -1,12 +1,12 @@
 import { IMessageDataWrapper } from '@nitrodevco/nitro-shared';
 import { CatalogProductTypeEnum } from './CatalogProductTypeEnum';
-import { ICatalogOfferProductData } from './ICatalogOfferProductData';
+import { ICatalogProductData } from './ICatalogProductData';
 
-export const CatalogProductDataParser = (wrapper: IMessageDataWrapper): ICatalogOfferProductData =>
+export const CatalogProductDataParser = (wrapper: IMessageDataWrapper) =>
 {
     const packet = {
         productType: wrapper.readString()
-    } as ICatalogOfferProductData;
+    } as ICatalogProductData;
 
     if (packet.productType === CatalogProductTypeEnum.Badge)
     {

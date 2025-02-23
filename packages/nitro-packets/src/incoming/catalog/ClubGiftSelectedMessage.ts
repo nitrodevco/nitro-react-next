@@ -1,10 +1,10 @@
 import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
 import { CatalogProductDataParser } from './CatalogProductDataParser';
-import { ICatalogOfferProductData } from './ICatalogOfferProductData';
+import { ICatalogProductData } from './ICatalogProductData';
 
 type ClubGiftSelectedMessageType = {
     productCode: string;
-    products: ICatalogOfferProductData[];
+    products: ICatalogProductData[];
 };
 
 export const ClubGiftSelectedMessage: IIncomingPacket<ClubGiftSelectedMessageType> = (wrapper: IMessageDataWrapper) =>

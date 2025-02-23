@@ -7,7 +7,7 @@ type VoucherRedeemErrorMessageType = {
 export const VoucherRedeemErrorMessage: IIncomingPacket<VoucherRedeemErrorMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: VoucherRedeemErrorMessageType = {
-        errorCode: wrapper.readString(),
+        errorCode: wrapper.readString()
     };
 
     return packet;
