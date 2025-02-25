@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { CatalogDefaultLayoutView, CatalogLayoutProps } from './layout';
+import { CatalogDefaultLayoutView, CatalogLayoutProps, CatalogTrophiesLayoutView } from './layout';
 
 export const CatalogPageView: FC<CatalogLayoutProps> = props =>
 {
@@ -9,6 +9,8 @@ export const CatalogPageView: FC<CatalogLayoutProps> = props =>
 
     switch(page.layoutCode)
     {
+        case 'trophies':
+            return <CatalogTrophiesLayoutView key={ `catalog-page-${ page.pageId }` } { ...props } />;
         case 'bots':
         case 'default_3x3':
         default:
