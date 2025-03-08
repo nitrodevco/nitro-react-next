@@ -1,5 +1,6 @@
 import { INitroIncomingPacket } from './api';
-import { AvailabilityStatusMessage, AvailabilityTimeMessage, BonusRareInfoMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, BuildersClubFurniCountMessage, BuildersClubSubscriptionStatusMessage, BundleDiscountRulesetMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CatalogIndexMessage, CatalogPageExpirationMessage, CatalogPageMessage, CatalogPageWithEarliestExpiryMessage, CatalogPublishedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, ClubGiftInfoMessage, ClubGiftSelectedMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CraftableProductsMessage, CraftingRecipeMessage, CraftingRecipesAvailableMessage, CraftingResultMessage, CurrentTimingCodeMessage, DesktopViewMessage, DirectSMSClubBuyAvailableMessage, FigureUpdateMessage, GiftReceiverNotFoundMessage, GiftWrappingConfigurationMessage, HabboClubExtendOfferMessage, HabboClubOffersMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InterstitialMessage, IsOfferGiftableMessage, IsUserPartOfCompetitionMessage, LimitedEditionSoldOutMessage, LimitedOfferAppearingNextMessage, MaintenanceStatusMessage, NoOwnedRoomsAlertMessage, NotEnoughBalanceMessage, ProductOfferMessage, PurchaseErrorMessage, PurchaseNotAllowedMessage, PurchaseOKMessage, RoomAdErrorMessage, RoomAdPurchaseInfoMessage, SanctionStatusMessage, SeasonalCalendarDailyOfferMessage, SecondsUntilMessage, SellablePetPalettesMessage, TargetedOfferMessage, TargetedOfferNotFoundMessage, ThumbnailStatusMessage, VoucherRedeemErrorMessage, VoucherRedeemOkMessage, WardrobeMessage } from './incoming';
+import { AvailabilityStatusMessage, AvailabilityTimeMessage, BonusRareInfoMessage, BotAddedToInventoryMessage, BotInventoryMessage, BotReceivedMessage, BotRemovedFromInventoryMessage, BuildersClubFurniCountMessage, BuildersClubSubscriptionStatusMessage, BundleDiscountRulesetMessage, CameraPublishStatusMessage, CameraPurchaseOKMessage, CameraSnapshotMessage, CameraStorageUrlMessage, CampaignCalendarDataMessage, CampaignCalendarDoorOpenedMessage, CatalogIndexMessage, CatalogPageExpirationMessage, CatalogPageMessage, CatalogPageWithEarliestExpiryMessage, CatalogPublishedMessage, CfhSanctionMessage, CfhTopicsInitMessage, ChangeUserNameResultMessage, ClientPingMessage, ClubGiftInfoMessage, ClubGiftSelectedMessage, CompetitionEntrySubmitResultMessage, CompetitionStatusMessage, CompetitionVotingInfoMessage, CraftableProductsMessage, CraftingRecipeMessage, CraftingRecipesAvailableMessage, CraftingResultMessage, CurrentTimingCodeMessage, DesktopViewMessage, DirectSMSClubBuyAvailableMessage, FigureUpdateMessage, FindFriendsProcessResultMessage, FollowFriendFailedMessage, FriendListFragmentMessage, FriendListUpdateMessage, FriendNotificationMessage, FriendRequestsMessage, GiftReceiverNotFoundMessage, GiftWrappingConfigurationMessage, HabboClubExtendOfferMessage, HabboClubOffersMessage, HabboSearchResultMessage, HotelClosedAndOpensMessage, HotelClosesAndWillOpenAtMessage, HotelWillCloseInMinutesMessage, InitCameraMessage, InstantMessageErrorMessage, InterstitialMessage, IsOfferGiftableMessage, IsUserPartOfCompetitionMessage, LimitedEditionSoldOutMessage, LimitedOfferAppearingNextMessage, MaintenanceStatusMessage, MessageErrorMessage, MessengerInitMessage, MiniMailNewMessage, MiniMailUnreadCountMessage, NewConsoleMessage, NewFriendRequestMessage, NoOwnedRoomsAlertMessage, NotEnoughBalanceMessage, ProductOfferMessage, PurchaseErrorMessage, PurchaseNotAllowedMessage, PurchaseOKMessage, RoomAdErrorMessage, RoomAdPurchaseInfoMessage, RoomInviteErrorMessage, RoomInviteMessage, SanctionStatusMessage, SeasonalCalendarDailyOfferMessage, SecondsUntilMessage, SellablePetPalettesMessage, TargetedOfferMessage, TargetedOfferNotFoundMessage, ThumbnailStatusMessage, VoucherRedeemErrorMessage, VoucherRedeemOkMessage, WardrobeMessage } from './incoming';
+import { AcceptFriendResultMessage } from './incoming/friendlist/AcceptFriendResultMessage';
 import { IncomingHeader } from './IncomingHeader';
 
 export const GetNitroIncomingMessages = () =>
@@ -75,6 +76,23 @@ export const GetNitroIncomingMessages = () =>
         [IncomingHeader.CRAFTING_RECIPE]: CraftingRecipeMessage,
         [IncomingHeader.CRAFTING_RECIPES_AVAILABLE]: CraftingRecipesAvailableMessage,
         [IncomingHeader.CRAFTING_RESULT]: CraftingResultMessage,
-        [IncomingHeader.DESKTOP_VIEW]: DesktopViewMessage
+        [IncomingHeader.DESKTOP_VIEW]: DesktopViewMessage,
+        [IncomingHeader.MESSENGER_ACCEPT_FRIENDS]: AcceptFriendResultMessage,
+        [IncomingHeader.MESSENGER_FIND_FRIENDS]: FindFriendsProcessResultMessage,
+        [IncomingHeader.MESSENGER_FOLLOW_FAILED]: FollowFriendFailedMessage,
+        [IncomingHeader.MESSENGER_FRIENDS]: FriendListFragmentMessage,
+        [IncomingHeader.MESSENGER_UPDATE]: FriendListUpdateMessage,
+        [IncomingHeader.MESSENGER_FRIEND_NOTIFICATION]: FriendNotificationMessage,
+        [IncomingHeader.MESSENGER_REQUESTS]: FriendRequestsMessage,
+        [IncomingHeader.MESSENGER_SEARCH]: HabboSearchResultMessage,
+        [IncomingHeader.MESSENGER_INSTANCE_MESSAGE_ERROR]: InstantMessageErrorMessage,
+        [IncomingHeader.MESSENGER_MESSAGE_ERROR]: MessageErrorMessage,
+        [IncomingHeader.MESSENGER_INIT]: MessengerInitMessage,
+        [IncomingHeader.MESSENGER_MINIMAIL_NEW]: MiniMailNewMessage,
+        [IncomingHeader.MESSENGER_MINIMAIL_COUNT]: MiniMailUnreadCountMessage,
+        [IncomingHeader.MESSENGER_CHAT]: NewConsoleMessage,
+        [IncomingHeader.MESSENGER_REQUEST]: NewFriendRequestMessage,
+        [IncomingHeader.MESSENGER_INVITE_ERROR]: RoomInviteErrorMessage,
+        [IncomingHeader.MESSENGER_INVITE]: RoomInviteMessage,
     } as Record<number, INitroIncomingPacket>;
 }
