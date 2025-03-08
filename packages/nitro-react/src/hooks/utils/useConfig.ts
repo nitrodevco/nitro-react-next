@@ -6,6 +6,8 @@ export const useConfig = () =>
 
     return <T>(key: string, defaultValue: T = undefined) =>
     {
+        if (!key?.length) key = '';
+
         return key.split('.').reduce((acc, k) => acc?.[k], config) as T ?? defaultValue;
     }
 }

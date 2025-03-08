@@ -5,6 +5,8 @@ export const GetLocalizationValue = (key: string, parameters: string | string[] 
 {
     if (!localization) localization = LocalizationStore.getState().localization;
 
+    if (!key?.length) key = '';
+
     let value = key.split('.').reduce((acc, k) => acc?.[k], localization) as string;
 
     if (!value) value = GetConfigValue(key);
