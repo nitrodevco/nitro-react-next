@@ -11,3 +11,5 @@ export * from './competition';
 export * from './crafting';
 export * from './desktop';
 export * from './friendlist';
+export * from './generic';
+export * from './gifts';
