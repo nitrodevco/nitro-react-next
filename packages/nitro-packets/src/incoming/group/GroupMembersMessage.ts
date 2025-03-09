@@ -1,4 +1,6 @@
 import { IIncomingPacket, IMessageDataWrapper } from '@nitrodevco/nitro-shared';
+import { GroupMemberDataParser } from './GroupMemberDataParser';
+import { IGroupMemberData } from './IGroupMemberData';
 
 type GroupMembersMessageType = {
     groupId: number;
@@ -6,29 +8,39 @@ type GroupMembersMessageType = {
     roomId: number;
     badge: string;
     totalMembersCount: number;
+    members: IGroupMemberData[];
+    admin: boolean;
+    pageSize: number;
+    pageIndex: number;
+    level: number;
+    query: string;
 };
 
 export const GroupMembersMessage: IIncomingPacket<GroupMembersMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: GroupMembersMessageType = {
-        groupId: 0,
-        groupTitle: null,
-        roomId: 0,
-        badge: null,
-        totalMembersCount: 0,
-        result: [],
-        admin: false,
-        pageSize: 0,
-        pageIndex: 0,
-        level: 0,
-        query: null,
-    };
+        groupId: wrapper.readInt(),
+        groupTitle: wrapper.readString(),
+        roomId: wrapper.readInt(),
+        badge: wrapper.readString(),
+        totalMembersCount: wrapper.readInt(),
+        members: [],
+    } as GroupMembersMessageType
 
-    packet.groupId = wrapper.readInt();
-    packet.groupTitle = wrapper.readString();
-    packet.roomId = wrapper.readInt();
-    packet.badge = wrapper.readString();
-    packet.totalMembersCount = wrapper.readInt();
+    let count = wrapper.readInt();
+
+    while (count > 0)
+    {
+        packet.members.push(GroupMemberDataParser(wrapper));
+
+        count--;
+    }
+
+    packet.admin = wrapper.readBoolean();
+    packet.pageSize = wrapper.readInt();
+    packet.pageIndex = wrapper.readInt();
+    packet.level = wrapper.readInt();
+    packet.query = wrapper.readString();
 
     return packet;
 };

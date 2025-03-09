@@ -7,10 +7,8 @@ type HabboGroupDeactivatedMessageType = {
 export const HabboGroupDeactivatedMessage: IIncomingPacket<HabboGroupDeactivatedMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: HabboGroupDeactivatedMessageType = {
-
+        groupId: wrapper.readInt()
     };
-
-    packet.groupId = wrapper.readInt();
 
     return packet;
 };

@@ -3,13 +3,13 @@ import { BotDataParser } from './BotDataParser';
 import { IBotData } from './IBotData';
 
 type BotInventoryMessageType = {
-    items: Map<number, IBotData>;
+    items: Record<number, IBotData>;
 };
 
 export const BotInventoryMessage: IIncomingPacket<BotInventoryMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: BotInventoryMessageType = {
-        items: new Map()
+        items: {}
     };
 
     let count = wrapper.readInt();
@@ -18,7 +18,7 @@ export const BotInventoryMessage: IIncomingPacket<BotInventoryMessageType> = (wr
     {
         const item = BotDataParser(wrapper);
 
-        packet.items.set(item.id, item);
+        packet.items[item.id] = item;
 
         count--;
     }
