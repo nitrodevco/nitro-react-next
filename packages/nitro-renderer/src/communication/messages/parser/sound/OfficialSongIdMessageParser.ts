@@ -5,14 +5,14 @@ export class OfficialSongIdMessageParser implements IMessageParser
     private _songId: number;
     private _officialSongId: string;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._songId = 0;
         this._officialSongId = '';
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._officialSongId = wrapper.readString();
         this._songId = wrapper.readInt();

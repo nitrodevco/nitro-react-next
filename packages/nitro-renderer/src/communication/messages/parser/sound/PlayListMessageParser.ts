@@ -6,14 +6,14 @@ export class PlayListMessageParser implements IMessageParser
     private _synchronizationCount: number;
     private _playlist: PlayListEntry[];
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._synchronizationCount = -1;
         this._playlist = [];
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._synchronizationCount = wrapper.readInt();
         const count = wrapper.readInt();

@@ -5,14 +5,14 @@ export class RoomPollDataParser implements IMessageParser
     private _question: string;
     private _choices: string[];
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._question = null;
         this._choices = [];
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._question = wrapper.readString();
         this._choices = [];

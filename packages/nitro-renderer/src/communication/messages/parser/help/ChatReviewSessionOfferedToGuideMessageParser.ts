@@ -4,13 +4,13 @@ export class ChatReviewSessionOfferedToGuideMessageParser implements IMessagePar
 {
     private _acceptanceTimeout: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._acceptanceTimeout = -1;
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._acceptanceTimeout = wrapper.readInt();
         return true;

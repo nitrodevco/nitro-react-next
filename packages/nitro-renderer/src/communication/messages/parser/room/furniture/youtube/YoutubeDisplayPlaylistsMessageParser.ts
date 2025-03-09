@@ -7,7 +7,7 @@ export class YoutubeDisplayPlaylistsMessageParser implements IMessageParser
     private _playlists: YoutubeDisplayPlaylist[];
     private _selectedPlaylistId: string;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._furniId = -1;
         this._playlists = null;
@@ -15,7 +15,7 @@ export class YoutubeDisplayPlaylistsMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._furniId = wrapper.readInt();
         const count = wrapper.readInt();

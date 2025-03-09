@@ -11,7 +11,7 @@ export class PollContentsParser implements IMessageParser
     private _questionArray: PollQuestion[] = [];
     private _npsPoll = false;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._id = -1;
         this._startMessage = '';
@@ -21,7 +21,7 @@ export class PollContentsParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._id = wrapper.readInt();
         this._startMessage = wrapper.readString();

@@ -4,14 +4,14 @@ export class HabboGroupBadgesMessageParser implements IMessageParser
 {
     private _badges: Map<number, string>;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._badges = new Map();
 
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         if (!wrapper) return false;
 

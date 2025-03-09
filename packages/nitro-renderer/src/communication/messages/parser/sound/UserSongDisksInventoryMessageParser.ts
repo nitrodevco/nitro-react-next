@@ -5,13 +5,13 @@ export class UserSongDisksInventoryMessageParser implements IMessageParser
 {
     private _songDiskInventory: IAdvancedMap<number, number> = new AdvancedMap();
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._songDiskInventory.reset();
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         const count = wrapper.readInt();
 

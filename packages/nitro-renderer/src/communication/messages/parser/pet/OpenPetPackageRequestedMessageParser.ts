@@ -5,7 +5,7 @@ export class OpenPetPackageRequestedMessageParser implements IMessageParser
     private _objectId: number;
     private _figureData: PetFigureData;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._objectId = -1;
         this._figureData = null;
@@ -13,7 +13,7 @@ export class OpenPetPackageRequestedMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._objectId = wrapper.readInt();
 

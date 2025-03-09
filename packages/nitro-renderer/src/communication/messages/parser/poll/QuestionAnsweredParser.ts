@@ -6,7 +6,7 @@ export class QuestionAnsweredParser implements IMessageParser
     private _value: string;
     private _answerCounts: Map<string, number>;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._userId = -1;
         this._value = '';
@@ -14,7 +14,7 @@ export class QuestionAnsweredParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._userId = wrapper.readInt();
         this._value = wrapper.readString();

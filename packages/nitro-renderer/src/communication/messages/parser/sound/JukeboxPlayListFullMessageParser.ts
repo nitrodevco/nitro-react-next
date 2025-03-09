@@ -2,12 +2,12 @@ import { IMessageDataWrapper, IMessageParser } from '#renderer/api';
 
 export class JukeboxPlayListFullMessageParser implements IMessageParser
 {
-    flush(): boolean
+    public flush(): boolean
     {
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         return true;
     }

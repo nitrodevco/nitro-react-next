@@ -2,12 +2,12 @@ import { IMessageDataWrapper, IMessageParser } from '#renderer/api';
 
 export class PollErrorParser implements IMessageParser
 {
-    flush(): boolean
+    public flush(): boolean
     {
         throw true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         return true;
     }

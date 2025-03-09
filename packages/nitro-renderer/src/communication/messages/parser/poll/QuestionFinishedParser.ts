@@ -5,14 +5,14 @@ export class QuestionFinishedParser implements IMessageParser
     private _questionId: number;
     private _answerCounts: Map<string, number>;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._questionId = -1;
         this._answerCounts = null;
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._questionId = wrapper.readInt();
         this._answerCounts = new Map();

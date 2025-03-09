@@ -6,7 +6,7 @@ export class OpenPetPackageResultMessageParser implements IMessageParser
     private _nameValidationStatus: number;
     private _nameValidationInfo: string;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._objectId = 0;
         this._nameValidationStatus = 0;
@@ -15,7 +15,7 @@ export class OpenPetPackageResultMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._objectId = wrapper.readInt();
         this._nameValidationStatus = wrapper.readInt();

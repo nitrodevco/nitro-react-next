@@ -3,7 +3,6 @@ export * from './furniture';
 export * from './GetRoomSessionManager';
 export * from './GetSessionDataManager';
 export * from './GroupInformationManager';
-export * from './HabboClubLevelEnum';
 export * from './handler';
 export * from './IgnoredUsersManager';
 export * from './RoomPetData';

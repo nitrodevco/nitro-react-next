@@ -6,7 +6,7 @@ export class PetLevelUpdateMessageParser implements IMessageParser
     private _petId: number;
     private _level: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._roomIndex = -1;
         this._petId = -1;
@@ -15,7 +15,7 @@ export class PetLevelUpdateMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._roomIndex = wrapper.readInt();
         this._petId = wrapper.readInt();

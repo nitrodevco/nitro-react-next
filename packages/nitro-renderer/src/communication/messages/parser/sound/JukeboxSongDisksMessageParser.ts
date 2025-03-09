@@ -6,14 +6,14 @@ export class JukeboxSongDisksMessageParser implements IMessageParser
     private _songDisks: IAdvancedMap<number, number> = new AdvancedMap();
     private _maxLength: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._songDisks.reset();
         this._maxLength = 0;
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._maxLength = wrapper.readInt();
         const count = wrapper.readInt();

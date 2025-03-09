@@ -4,13 +4,13 @@ export class CallForHelpPendingCallsMessageParser implements IMessageParser
 {
     private _calls: ICall[];
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._calls = [];
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._calls = [];
 

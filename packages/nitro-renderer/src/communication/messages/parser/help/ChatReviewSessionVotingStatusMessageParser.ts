@@ -11,13 +11,13 @@ export class ChatReviewSessionVotingStatusMessageParser implements IMessageParse
 
     private _status: number[];
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._status = null;
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._status = [];
 

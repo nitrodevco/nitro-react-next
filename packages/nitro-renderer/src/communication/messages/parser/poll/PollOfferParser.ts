@@ -7,7 +7,7 @@ export class PollOfferParser implements IMessageParser
     private _headline = '';
     private _summary = '';
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._id = -1;
         this._type = '';
@@ -15,7 +15,7 @@ export class PollOfferParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._id = wrapper.readInt();
         this._type = wrapper.readString();

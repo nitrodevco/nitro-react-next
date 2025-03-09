@@ -5,12 +5,12 @@ export class ChatReviewSessionStartedMessageParser implements IMessageParser
     private _votingTimeout: number;
     private _chatRecord: string;
 
-    flush(): boolean
+    public flush(): boolean
     {
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._votingTimeout = wrapper.readInt();
         this._chatRecord = wrapper.readString();

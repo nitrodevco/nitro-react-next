@@ -5,7 +5,7 @@ export class PetScratchFailedMessageParser implements IMessageParser
     private _currentAge: number;
     private _requiredAge: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._currentAge = -1;
         this._requiredAge = -1;
@@ -13,7 +13,7 @@ export class PetScratchFailedMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._currentAge = wrapper.readInt();
         this._requiredAge = wrapper.readInt();

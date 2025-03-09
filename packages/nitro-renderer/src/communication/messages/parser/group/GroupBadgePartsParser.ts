@@ -8,7 +8,7 @@ export class GroupBadgePartsParser implements IMessageParser
     private _colorsA: Map<number, string>;
     private _colorsB: Map<number, string>;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._bases = new Map();
         this._symbols = new Map();
@@ -19,7 +19,7 @@ export class GroupBadgePartsParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         if (!wrapper) return false;
 

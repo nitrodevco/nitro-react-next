@@ -7,7 +7,7 @@ export class RoomPollResultParser implements IMessageParser
     private _SafeStr_7651: any[];
     private _SafeStr_7654: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._question = null;
         this._choices = [];
@@ -16,7 +16,7 @@ export class RoomPollResultParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._question = wrapper.readString();
 

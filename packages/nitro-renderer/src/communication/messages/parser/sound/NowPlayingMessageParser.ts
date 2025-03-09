@@ -8,7 +8,7 @@ export class NowPlayingMessageParser implements IMessageParser
     private _nextPosition: number;
     private _syncCount: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._currentSongId = -1;
         this._currentPosition = -1;
@@ -18,7 +18,7 @@ export class NowPlayingMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._currentSongId = wrapper.readInt();
         this._currentPosition = wrapper.readInt();

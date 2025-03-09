@@ -5,7 +5,7 @@ export class GroupBuyDataParser implements IMessageParser
     private _groupCost: number;
     private _availableRooms: Map<number, string>;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._groupCost = 0;
         this._availableRooms = new Map();
@@ -13,7 +13,7 @@ export class GroupBuyDataParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         if (!wrapper) return false;
 

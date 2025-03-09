@@ -5,12 +5,12 @@ export class RoomEventMessageParser implements IMessageParser
 {
     private _data: RoomEventData;
 
-    flush(): boolean
+    public flush(): boolean
     {
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._data = new RoomEventData(wrapper);
         return true;

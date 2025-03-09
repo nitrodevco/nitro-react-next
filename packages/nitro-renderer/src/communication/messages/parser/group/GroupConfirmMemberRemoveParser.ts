@@ -5,7 +5,7 @@ export class GroupConfirmMemberRemoveParser implements IMessageParser
     private _userId: number;
     private _furnitureCount: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._userId = 0;
         this._furnitureCount = 0;
@@ -13,7 +13,7 @@ export class GroupConfirmMemberRemoveParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         if (!wrapper) return false;
 

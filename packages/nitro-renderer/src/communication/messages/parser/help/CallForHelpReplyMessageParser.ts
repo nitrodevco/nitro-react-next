@@ -4,13 +4,13 @@ export class CallForHelpReplyMessageParser implements IMessageParser
 {
     private _message: string;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._message = null;
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._message = wrapper.readString();
         return true;

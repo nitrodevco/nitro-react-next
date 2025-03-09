@@ -8,12 +8,12 @@ export class YoutubeDisplayVideoMessageParser implements IMessageParser
     private _endAtSeconds: number;
     private _state: number;
 
-    flush(): boolean
+    public flush(): boolean
     {
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._furniId = wrapper.readInt();
         this._videoId = wrapper.readString();

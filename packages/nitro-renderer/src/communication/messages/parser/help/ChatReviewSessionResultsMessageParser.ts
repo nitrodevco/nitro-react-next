@@ -6,7 +6,7 @@ export class ChatReviewSessionResultsMessageParser implements IMessageParser
     private _ownVoteCode: number;
     private _finalStatus: number[];
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._winningVoteCode = -1;
         this._ownVoteCode = -1;
@@ -14,7 +14,7 @@ export class ChatReviewSessionResultsMessageParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._finalStatus = [];
         this._winningVoteCode = wrapper.readInt();

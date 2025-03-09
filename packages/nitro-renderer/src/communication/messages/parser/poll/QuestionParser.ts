@@ -8,7 +8,7 @@ export class QuestionParser implements IMessageParser
     private _duration = -1;
     private _question: IQuestion = null;
 
-    flush(): boolean
+    public flush(): boolean
     {
         this._pollType = null;
         this._pollId = -1;
@@ -18,7 +18,7 @@ export class QuestionParser implements IMessageParser
         return true;
     }
 
-    parse(wrapper: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
         this._pollType = wrapper.readString();
         this._pollId = wrapper.readInt();
