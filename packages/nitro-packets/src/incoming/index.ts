@@ -16,3 +16,4 @@ export * from './gifts';
 export * from './group';
 export * from './groupforums';
 export * from './handshake';
+export * from './help';
