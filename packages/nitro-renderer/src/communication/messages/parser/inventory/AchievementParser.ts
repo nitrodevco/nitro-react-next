@@ -12,11 +12,11 @@ export class AchievementParser implements IMessageParser
         return true;
     }
 
-    public parse(k: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
-        if (!k) return false;
+        if (!wrapper) return false;
 
-        this._achievement = new AchievementData(k);
+        this._achievement = new AchievementData(wrapper);
 
         return true;
     }

@@ -14,22 +14,22 @@ export class AchievementsParser implements IMessageParser
         return true;
     }
 
-    public parse(k: IMessageDataWrapper): boolean
+    public parse(wrapper: IMessageDataWrapper): boolean
     {
-        if (!k) return false;
+        if (!wrapper) return false;
 
         this._achievements = [];
 
-        let totalCount = k.readInt();
+        let totalCount = wrapper.readInt();
 
         while (totalCount > 0)
         {
-            this._achievements.push(new AchievementData(k));
+            this._achievements.push(new AchievementData(wrapper));
 
             totalCount--;
         }
 
-        this._defaultCategory = k.readString();
+        this._defaultCategory = wrapper.readString();
 
         return true;
     }
