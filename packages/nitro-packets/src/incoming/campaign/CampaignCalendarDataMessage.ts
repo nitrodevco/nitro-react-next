@@ -9,7 +9,7 @@ type CampaignCalendarDataMessageType = {
 export const CampaignCalendarDataMessage: IIncomingPacket<CampaignCalendarDataMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: CampaignCalendarDataMessageType = {
-        calendarData: CampaignCalendarDataParser(wrapper),
+        calendarData: CampaignCalendarDataParser(wrapper)
     };
 
     return packet;

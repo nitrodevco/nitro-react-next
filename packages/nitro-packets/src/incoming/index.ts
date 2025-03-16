@@ -20,3 +20,4 @@ export * from './help';
 export * from './inventory';
 export * from './inventory/achievements';
 export * from './inventory/avatareffect';
+export * from './inventory/badges';
