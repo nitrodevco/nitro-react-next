@@ -7,10 +7,8 @@ type AchievementsScoreMessageType = {
 export const AchievementsScoreMessage: IIncomingPacket<AchievementsScoreMessageType> = (wrapper: IMessageDataWrapper) =>
 {
     const packet: AchievementsScoreMessageType = {
-        score: 0,
+        score: wrapper.readInt()
     };
-
-    packet.score = wrapper.readInt();
 
     return packet;
 };
