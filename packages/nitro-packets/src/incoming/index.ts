@@ -25,3 +25,4 @@ export * from './inventory/clothing';
 export * from './inventory/furniture';
 export * from './inventory/pets';
 export * from './inventory/purse';
+export * from './inventory/trading';
