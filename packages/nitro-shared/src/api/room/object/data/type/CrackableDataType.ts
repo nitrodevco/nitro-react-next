@@ -3,7 +3,7 @@ import { IRoomObjectModel } from '../../IRoomObjectModel';
 import { RoomObjectVariableEnum } from '../../RoomObjectVariableEnum';
 import { IObjectData } from '../IObjectData';
 import { ObjectDataBase } from '../ObjectDataBase';
-import { ObjectDataTypeEnum } from '../ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from '../ObjectDataFlagsEnum';
 
 export class CrackableDataType extends ObjectDataBase implements IObjectData
 {
@@ -33,7 +33,7 @@ export class CrackableDataType extends ObjectDataBase implements IObjectData
     {
         super.writeRoomObjectModel(model);
 
-        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataTypeEnum.Crackable);
+        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataFlagsEnum.Crackable);
         model.setValue(RoomObjectVariableEnum.FurnitureCrackableState, this._state);
         model.setValue(RoomObjectVariableEnum.FurnitureCrackableHits, this._hits);
         model.setValue(RoomObjectVariableEnum.FurnitureCrackableTarget, this._target);

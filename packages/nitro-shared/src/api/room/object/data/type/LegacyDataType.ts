@@ -3,7 +3,7 @@ import { IRoomObjectModel } from '../../IRoomObjectModel';
 import { RoomObjectVariableEnum } from '../../RoomObjectVariableEnum';
 import { IObjectData } from '../IObjectData';
 import { ObjectDataBase } from '../ObjectDataBase';
-import { ObjectDataTypeEnum } from '../ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from '../ObjectDataFlagsEnum';
 
 export class LegacyDataType extends ObjectDataBase implements IObjectData
 {
@@ -27,7 +27,7 @@ export class LegacyDataType extends ObjectDataBase implements IObjectData
     {
         super.writeRoomObjectModel(model);
 
-        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataTypeEnum.Legacy);
+        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataFlagsEnum.Legacy);
         model.setValue(RoomObjectVariableEnum.FurnitureData, this._data);
     }
 

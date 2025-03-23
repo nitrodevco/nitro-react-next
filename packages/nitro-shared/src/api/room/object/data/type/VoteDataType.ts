@@ -3,7 +3,7 @@ import { IRoomObjectModel } from '../../IRoomObjectModel';
 import { RoomObjectVariableEnum } from '../../RoomObjectVariableEnum';
 import { IObjectData } from '../IObjectData';
 import { ObjectDataBase } from '../ObjectDataBase';
-import { ObjectDataTypeEnum } from '../ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from '../ObjectDataFlagsEnum';
 
 export class VoteDataType extends ObjectDataBase
 {
@@ -24,7 +24,7 @@ export class VoteDataType extends ObjectDataBase
     {
         super.writeRoomObjectModel(model);
 
-        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataTypeEnum.Vote);
+        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataFlagsEnum.Vote);
 
         const data: { [index: string]: string } = {};
 

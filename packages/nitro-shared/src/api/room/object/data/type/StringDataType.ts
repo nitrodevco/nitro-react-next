@@ -3,7 +3,7 @@ import { IRoomObjectModel } from '../../IRoomObjectModel';
 import { RoomObjectVariableEnum } from '../../RoomObjectVariableEnum';
 import { IObjectData } from '../IObjectData';
 import { ObjectDataBase } from '../ObjectDataBase';
-import { ObjectDataTypeEnum } from '../ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from '../ObjectDataFlagsEnum';
 
 export class StringDataType extends ObjectDataBase
 {
@@ -35,7 +35,7 @@ export class StringDataType extends ObjectDataBase
     {
         super.writeRoomObjectModel(model);
 
-        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataTypeEnum.String);
+        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataFlagsEnum.String);
         model.setValue(RoomObjectVariableEnum.FurnitureData, this._data);
     }
 

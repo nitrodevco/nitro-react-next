@@ -1,11 +1,10 @@
-import { IMessageDataWrapper, RoomObjectVariableEnum } from '#shared/api';
+import { IMessageDataWrapper, ObjectDataFlagsEnum, RoomObjectVariableEnum } from '#shared/api';
 import { IRoomObjectModel } from '../IRoomObjectModel';
 import { IObjectData } from './IObjectData';
-import { ObjectDataFlagsEnum } from './ObjectDataFlagsEnum';
 
 export class ObjectDataBase implements IObjectData
 {
-    private _flags: number;
+    private _flags: ObjectDataFlagsEnum;
     private _uniqueNumber: number;
     private _uniqueSeries: number;
 
@@ -86,12 +85,12 @@ export class ObjectDataBase implements IObjectData
         return -1;
     }
 
-    public get flags(): number
+    public get flags(): ObjectDataFlagsEnum
     {
         return this._flags;
     }
 
-    public set flags(flags: number)
+    public set flags(flags: ObjectDataFlagsEnum)
     {
         this._flags = flags;
     }

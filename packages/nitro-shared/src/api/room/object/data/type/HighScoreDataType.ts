@@ -3,7 +3,7 @@ import { IRoomObjectModel } from '../../IRoomObjectModel';
 import { RoomObjectVariableEnum } from '../../RoomObjectVariableEnum';
 import { IObjectData } from '../IObjectData';
 import { ObjectDataBase } from '../ObjectDataBase';
-import { ObjectDataTypeEnum } from '../ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from '../ObjectDataFlagsEnum';
 import { HighScoreData } from './HighScoreData';
 
 export class HighScoreDataType extends ObjectDataBase implements IObjectData
@@ -85,7 +85,7 @@ export class HighScoreDataType extends ObjectDataBase implements IObjectData
     {
         super.writeRoomObjectModel(model);
 
-        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataTypeEnum.Highscore);
+        model.setValue(RoomObjectVariableEnum.FurnitureDataFormat, ObjectDataFlagsEnum.Highscore);
         model.setValue(RoomObjectVariableEnum.FurnitureHighscoreScoreType, this._scoreType);
         model.setValue(RoomObjectVariableEnum.FurnitureHighscoreClearType, this._clearType);
 

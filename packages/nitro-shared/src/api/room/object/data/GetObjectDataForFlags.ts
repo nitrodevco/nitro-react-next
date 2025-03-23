@@ -1,35 +1,35 @@
 import { IObjectData } from './IObjectData';
-import { ObjectDataTypeEnum } from './ObjectDataTypeEnum';
+import { ObjectDataFlagsEnum } from './ObjectDataFlagsEnum';
 import { CrackableDataType, EmptyDataType, HighScoreDataType, LegacyDataType, MapDataType, NumberDataType, StringDataType, VoteDataType } from './type';
 
-export const GetObjectDataForFlags = (flags: number) =>
+export const GetObjectDataForFlags = (flags: ObjectDataFlagsEnum) =>
 {
     let objectData: IObjectData = null;
 
     switch (flags & 0xFF)
     {
-        case ObjectDataTypeEnum.Crackable:
+        case ObjectDataFlagsEnum.Crackable:
             objectData = new CrackableDataType();
             break;
-        case ObjectDataTypeEnum.Empty:
+        case ObjectDataFlagsEnum.Empty:
             objectData = new EmptyDataType();
             break;
-        case ObjectDataTypeEnum.Highscore:
+        case ObjectDataFlagsEnum.Highscore:
             objectData = new HighScoreDataType();
             break;
-        case ObjectDataTypeEnum.Legacy:
+        case ObjectDataFlagsEnum.Legacy:
             objectData = new LegacyDataType();
             break;
-        case ObjectDataTypeEnum.Map:
+        case ObjectDataFlagsEnum.Map:
             objectData = new MapDataType();
             break;
-        case ObjectDataTypeEnum.Number:
+        case ObjectDataFlagsEnum.Number:
             objectData = new NumberDataType();
             break;
-        case ObjectDataTypeEnum.String:
+        case ObjectDataFlagsEnum.String:
             objectData = new StringDataType();
             break;
-        case ObjectDataTypeEnum.Vote:
+        case ObjectDataFlagsEnum.Vote:
             objectData = new VoteDataType();
             break;
     }

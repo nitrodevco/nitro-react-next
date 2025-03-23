@@ -1,4 +1,4 @@
-import { IMessageDataWrapper } from '#shared/api';
+import { IMessageDataWrapper, ObjectDataFlagsEnum } from '#shared/api';
 import { IRoomObjectModel } from '../IRoomObjectModel';
 
 export interface IObjectData
@@ -8,7 +8,7 @@ export interface IObjectData
     uniqueNumber: number;
     uniqueSeries: number;
     rarityLevel: number;
-    flags: number;
+    flags: ObjectDataFlagsEnum;
     parseWrapper(wrapper: IMessageDataWrapper): void;
     initializeFromRoomObjectModel(model: IRoomObjectModel): void;
     writeRoomObjectModel(model: IRoomObjectModel): void;
