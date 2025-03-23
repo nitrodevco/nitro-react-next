@@ -1,6 +1,6 @@
 export * from './CfhCategoryDataParser';
+export * from './CfhSanctionDataParser';
 export * from './CfhSanctionMessage';
-export * from './CfhSanctionParser';
 export * from './CfhTopicDataParser';
 export * from './CfhTopicsInitMessage';
 export * from './ICfhCategoryData';

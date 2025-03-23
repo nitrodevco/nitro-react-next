@@ -1,7 +1,7 @@
 import { IMessageDataWrapper } from '@nitrodevco/nitro-shared';
 import { ICfhSanctionData } from './ICfhSanctionData';
 
-export const CfhSanctionParser = (wrapper: IMessageDataWrapper): ICfhSanctionData =>
+export const CfhSanctionDataParser = (wrapper: IMessageDataWrapper): ICfhSanctionData =>
 {
     const packet: ICfhSanctionData = {
         name: wrapper.readString(),
