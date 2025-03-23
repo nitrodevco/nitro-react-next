@@ -26,3 +26,4 @@ export * from './inventory/furniture';
 export * from './inventory/pets';
 export * from './inventory/purse';
 export * from './inventory/trading';
+export * from './landingview';
