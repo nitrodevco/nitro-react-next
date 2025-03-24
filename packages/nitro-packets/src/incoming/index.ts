@@ -29,3 +29,4 @@ export * from './inventory/trading';
 export * from './landingview';
 export * from './marketplace';
 export * from './moderation';
+export * from './mysterybox';

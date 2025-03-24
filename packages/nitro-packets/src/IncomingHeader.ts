@@ -194,9 +194,9 @@ export class IncomingHeader
     public static INFO_FEED_ENABLE = 3284;
     public static SECURITY_MACHINE = 1488;
     public static MYSTERY_BOX_KEYS = 2833;
-    public static GOTMYSTERYBOXPRIZEMESSAGE = 3712;
-    public static CANCELMYSTERYBOXWAITMESSAGE = 596;
-    public static SHOWMYSTERYBOXWAITMESSAGE = 3201;
+    public static GOT_MYSTERY_BOX_PRIZE_MESSAGE = 3712;
+    public static CANCEL_MYSTERY_BOX_WAIT_MESSAGE = 596;
+    public static SHOW_MYSTERY_BOX_WAIT_MESSAGE = 3201;
     public static TRADE_ACCEPTED = 2568;
     public static TRADE_CLOSED = 1373;
     public static TRADE_COMPLETED = 1001;
