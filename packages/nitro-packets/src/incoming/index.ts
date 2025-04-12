@@ -32,3 +32,4 @@ export * from './moderation';
 export * from './mysterybox';
 export * from './navigator';
 export * from './newnavigator';
+export * from './notifications';
