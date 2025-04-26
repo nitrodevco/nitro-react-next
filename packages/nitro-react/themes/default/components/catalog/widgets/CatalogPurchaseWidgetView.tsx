@@ -3,7 +3,8 @@ import { CatalogPurchasedEvent, CatalogPurchaseFailureEvent, CatalogPurchaseNotA
 import { useConfigValue, useEventListener, useLocalization } from '#base/hooks';
 import { useCatalogStore, useSessionStore, useWalletStore } from '#base/stores';
 import { NitroButton } from '#themes/default';
-import { HabboClubLevelEnum, PurchaseFromCatalogComposer } from '@nitrodevco/nitro-renderer';
+import { HabboClubLevelEnum } from '@nitrodevco/nitro-packets';
+import { PurchaseFromCatalogComposer } from '@nitrodevco/nitro-renderer';
 import { FC, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
 
@@ -20,7 +21,7 @@ export const CatalogPurchaseWidgetView: FC<{
             ]));
         const currencies = useWalletStore(state => state.currencies);
         const clubLevel = useSessionStore(state => state.clubLevel);
-        const clubMemberLevel = useConfigValue<boolean>('settings.hcDisabled', false) ? HabboClubLevelEnum.VIP : clubLevel;
+        const clubMemberLevel = useConfigValue<boolean>('settings.hcDisabled', false) ? HabboClubLevelEnum.Vip : clubLevel;
         const translation = useLocalization();
         const [purchaseState, setPurchaseState] = useState(CatalogPurchaseState.NONE);
 

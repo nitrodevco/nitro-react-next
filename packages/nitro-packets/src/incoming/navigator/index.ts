@@ -47,7 +47,6 @@ export * from './RoomDataParser';
 export * from './RoomEventCancelMessage';
 export * from './RoomEventDataParser';
 export * from './RoomEventMessage';
-export * from './RoomFilterSettingsMessage';
 export * from './RoomModerationSettingsDataParser';
 export * from './RoomModerationTypeEnum';
 export * from './RoomSettingsUpdatedMessage';

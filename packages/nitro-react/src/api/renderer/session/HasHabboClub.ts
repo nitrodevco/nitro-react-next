@@ -1,6 +1,7 @@
-import { GetSessionDataManager, HabboClubLevelEnum } from '@nitrodevco/nitro-renderer';
+import { HabboClubLevelEnum } from '@nitrodevco/nitro-packets';
+import { SessionStore } from '@nitrodevco/nitro-shared';
 
 export function HasHabboClub(): boolean
 {
-    return (GetSessionDataManager().clubLevel >= HabboClubLevelEnum.CLUB);
+    return (SessionStore.getState().clubLevel >= HabboClubLevelEnum.Club);
 }
